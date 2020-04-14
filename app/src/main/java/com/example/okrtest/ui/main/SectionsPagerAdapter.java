@@ -21,6 +21,10 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
     private final Context mContext;
 
+    private Tab1Fragment tab1Fragment = new Tab1Fragment();
+    private Tab2Fragment tab2Fragment = new Tab2Fragment();
+    private Fragment[] fragments = {tab1Fragment, tab2Fragment};
+
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
@@ -29,9 +33,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
-        return PlaceholderFragment.newInstance(position + 1);
+        return fragments[position];
     }
 
     @Nullable
