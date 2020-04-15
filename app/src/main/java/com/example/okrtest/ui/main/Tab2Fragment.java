@@ -22,9 +22,6 @@ public class Tab2Fragment extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_main, container, false);
-        final TextView textView = root.findViewById(R.id.section_label);
-        textView.setText(R.string.tab_text_2);
-        return root;
+        return inflater.inflate(R.layout.fragment_tab2, container, false);
     }
 }
