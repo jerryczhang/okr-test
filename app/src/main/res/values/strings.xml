@@ -3,4 +3,9 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="tab_text_1">Me</string>
     <string name="tab_text_2">Friends</string>
+    <string-array name="goal_names">
+        <item>Goal 1</item>
+        <item>Goal 2</item>
+        <item>Goal 3</item>
+    </string-array>
 </resources>
