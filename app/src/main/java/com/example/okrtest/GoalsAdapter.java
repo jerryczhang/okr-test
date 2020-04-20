@@ -20,7 +20,9 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         private TextView goalNameTextView;
 
         private final Context context;
+
         public static final String EXTRA_GOAL_NAME = "com.example.okrtest.GOAL_NAME";
+        private String goalName;
 
         public ViewHolder(View view) {
             super(view);
@@ -31,9 +33,14 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, GoalDetailActivity.class);
+                    intent.putExtra(EXTRA_GOAL_NAME, goalName);
                     context.startActivity(intent);
                 }
             });
+        }
+
+        public void setGoalName(String name) {
+            goalName = name;
         }
 
         public void setGoalNameTextView(String text) {
@@ -54,7 +61,9 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.setGoalNameTextView(mGoalNames[position]);
+        String goalName = mGoalNames[position];
+        holder.setGoalName(goalName);
+        holder.setGoalNameTextView(goalName);
     }
 
     @Override
