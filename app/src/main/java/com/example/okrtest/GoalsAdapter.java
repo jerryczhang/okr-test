@@ -12,9 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> {
 
-    private String[] mGoalNames;
+    private ArrayList<String> mGoalNames;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView goalNameTextView;
@@ -48,7 +50,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         }
     }
 
-    public GoalsAdapter(Context context, String[] goalNames) {
+    public GoalsAdapter(Context context, ArrayList<String> goalNames) {
         mGoalNames = goalNames;
     }
 
@@ -61,13 +63,13 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String goalName = mGoalNames[position];
+        String goalName = mGoalNames.get(position);
         holder.setGoalName(goalName);
         holder.setGoalNameTextView(goalName);
     }
 
     @Override
     public int getItemCount() {
-        return mGoalNames.length;
+        return mGoalNames.size();
     }
 }
