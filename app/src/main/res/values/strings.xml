@@ -3,6 +3,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="tab_text_1">Me</string>
     <string name="tab_text_2">Friends</string>
+    <string name="add_goal_dialog_title">Add New Goal</string>
     <string-array name="goal_names">
         <item>Goal 1</item>
         <item>Goal 2</item>
