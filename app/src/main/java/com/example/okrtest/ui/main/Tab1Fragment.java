@@ -21,10 +21,10 @@ import com.example.okrtest.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Tab1Fragment extends Fragment {
-    ArrayList<String> goalNames;
-    GoalsAdapter goalsAdapter;
-    ImageView addGoal;
+public class Tab1Fragment extends Fragment implements AddGoalDialogFragment.NoticeDialogListener {
+    private ArrayList<String> goalNames;
+    private GoalsAdapter goalsAdapter;
+    private ImageView addGoal;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,13 +52,17 @@ public class Tab1Fragment extends Fragment {
         addGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //goalNames.add("Goal " + (goalNames.size() + 1));
-                //goalsAdapter.notifyItemInserted(goalNames.size() - 1);
                 DialogFragment addGoalDialogFragment = new AddGoalDialogFragment();
                 addGoalDialogFragment.show(getParentFragmentManager(), "add_goal");
             }
         });
 
         return root;
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        goalNames.add("Goal " + (goalNames.size() + 1));
+        goalsAdapter.notifyItemInserted(goalNames.size() - 1);
     }
 }
