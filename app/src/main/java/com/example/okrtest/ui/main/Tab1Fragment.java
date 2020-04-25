@@ -21,7 +21,7 @@ import com.example.okrtest.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Tab1Fragment extends Fragment implements AddGoalDialogFragment.NoticeDialogListener {
+public class Tab1Fragment extends Fragment {
     private ArrayList<String> goalNames;
     private GoalsAdapter goalsAdapter;
     private ImageView addGoal;
@@ -52,7 +52,7 @@ public class Tab1Fragment extends Fragment implements AddGoalDialogFragment.Noti
         addGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment addGoalDialogFragment = new AddGoalDialogFragment();
+                DialogFragment addGoalDialogFragment = new AddGoalDialogFragment(Tab1Fragment.this);
                 addGoalDialogFragment.show(getParentFragmentManager(), "add_goal");
             }
         });
@@ -60,9 +60,8 @@ public class Tab1Fragment extends Fragment implements AddGoalDialogFragment.Noti
         return root;
     }
 
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
-        goalNames.add("Goal " + (goalNames.size() + 1));
+    public void addGoal(String name) {
+        goalNames.add(name);
         goalsAdapter.notifyItemInserted(goalNames.size() - 1);
     }
 }
