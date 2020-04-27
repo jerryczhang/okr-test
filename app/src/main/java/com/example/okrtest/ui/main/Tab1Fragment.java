@@ -1,6 +1,8 @@
 package com.example.okrtest.ui.main;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,17 +20,21 @@ import com.example.okrtest.AddGoalDialogFragment;
 import com.example.okrtest.GoalsAdapter;
 import com.example.okrtest.R;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Tab1Fragment extends Fragment {
-    private ArrayList<String> goalNames;
+    private int numGoals;
+    private ArrayList<String> goalNames = new ArrayList<String>();
     private GoalsAdapter goalsAdapter;
     private ImageView addGoal;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
     }
 
     @Override
@@ -37,9 +43,7 @@ public class Tab1Fragment extends Fragment {
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_tab1, container, false);
 
-        Resources res = getResources();
-        goalNames = new ArrayList<String>(Arrays.asList(res.getStringArray(R.array.goal_names)));
-
+        loadGoals();
         RecyclerView goalsRecyclerView = (RecyclerView) root.findViewById(R.id.goalsRecyclerView);
 
         goalsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -63,5 +67,26 @@ public class Tab1Fragment extends Fragment {
     public void addGoal(String name) {
         goalNames.add(name);
         goalsAdapter.notifyItemInserted(goalNames.size() - 1);
+        saveGoals();
+    }
+
+    private void saveGoals() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(getString(R.string.num_goals), numGoals);
+        for (int i = 0; i < numGoals; ++i) {
+            editor.putString(getString(R.string.goal) + i, goalNames.get(i));
+        }
+        editor.apply();
+    }
+
+    private void loadGoals() {
+        int defaultNumGoals = 0;
+        String defaultGoalName = "";
+        numGoals = sharedPreferences.getInt(getString(R.string.num_goals), defaultNumGoals);
+        for (int i = 0; i < numGoals; ++i) {
+            String goalName = sharedPreferences.getString(getString(R.string.goal) + i, defaultGoalName);
+            goalNames.add(goalName);
+            goalsAdapter.notifyItemInserted(goalNames.size() - 1);
+        }
     }
 }

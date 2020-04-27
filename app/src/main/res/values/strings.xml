@@ -9,9 +9,6 @@
     <string name="add_goal_dialog_positive">Add</string>
     <string name="add_goal_dialog_negative">Cancel</string>
 
-    <string-array name="goal_names">
-        <item>Goal 1</item>
-        <item>Goal 2</item>
-        <item>Goal 3</item>
-    </string-array>
+    <string name="num_goals">com.example.okrtest.num_goals</string>
+    <string name="goal">com.example.orktest.goal</string>
 </resources>
