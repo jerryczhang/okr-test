@@ -58,7 +58,12 @@ public class Tab1Fragment extends Fragment {
         goalsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         goalsRecyclerView.scrollToPosition(0);
 
-        goalsAdapter = new GoalsAdapter(this.getContext(), goalNames);
+        goalsAdapter = new GoalsAdapter(this.getContext(), goalNames, new GoalsAdapter.ClickListener() {
+            @Override
+            public void onPositionClicked(int position) {
+                Log.println(Log.ASSERT, "position_clicked", "Position " + position + " clicked");
+            }
+        });
         goalsRecyclerView.setAdapter(goalsAdapter);
 
         addGoal = (ImageView) root.findViewById(R.id.addGoalImageView);

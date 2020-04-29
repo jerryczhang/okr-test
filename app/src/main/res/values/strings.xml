@@ -4,6 +4,8 @@
     <string name="tab_text_1">Me</string>
     <string name="tab_text_2">Friends</string>
 
+    <string name="delete_goal_button">Delete</string>
+
     <string name="add_goal_dialog_title">Add New Goal</string>
     <string name="add_goal_dialog_hint">Enter new goal name</string>
     <string name="add_goal_dialog_positive">Add</string>
