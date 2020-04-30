@@ -29,7 +29,8 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     }
 
     public interface ClickListener {
-        void onPositionClicked(int position);
+        void onViewClicked(int position);
+        void onItemClicked(int position, int id);
     }
 
 
@@ -40,7 +41,6 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
 
         private final Context context;
 
-        public static final String EXTRA_GOAL_NAME = "com.example.okrtest.GOAL_NAME";
         private String goalName;
 
 
@@ -51,14 +51,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             deleteGoalButton = (Button) view.findViewById(R.id.deleteGoalButton);
 
             context = view.getContext();
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, GoalDetailActivity.class);
-                    intent.putExtra(EXTRA_GOAL_NAME, goalName);
-                    context.startActivity(intent);
-                }
-            });
+            view.setOnClickListener(this);
             deleteGoalButton.setOnClickListener(this);
         }
 
@@ -72,7 +65,11 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-           listenerRef.get().onPositionClicked(getAdapterPosition());
+            if (v.getId() == deleteGoalButton.getId()) {
+                listenerRef.get().onItemClicked(getAdapterPosition(), v.getId());
+            } else {
+                listenerRef.get().onViewClicked(getAdapterPosition());
+            }
         }
     }
 

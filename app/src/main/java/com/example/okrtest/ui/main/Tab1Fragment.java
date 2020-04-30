@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.okrtest.AddGoalDialogFragment;
+import com.example.okrtest.GoalDetailActivity;
 import com.example.okrtest.GoalsAdapter;
 import com.example.okrtest.R;
 
@@ -33,6 +34,8 @@ public class Tab1Fragment extends Fragment {
     private ImageView addGoal;
     private SharedPreferences sharedPreferences;
 
+    public static final String EXTRA_GOAL_NAME = "com.example.okrtest.GOAL_NAME";
+
     @Override
     public void onStart() {
         super.onStart();
@@ -46,13 +49,11 @@ public class Tab1Fragment extends Fragment {
         super.onCreate(savedInstanceState);
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
     }
-
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_tab1, container, false);
-
+        final View root = inflater.inflate(R.layout.fragment_tab1, container, false);
         RecyclerView goalsRecyclerView = (RecyclerView) root.findViewById(R.id.goalsRecyclerView);
 
         goalsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -60,8 +61,17 @@ public class Tab1Fragment extends Fragment {
 
         goalsAdapter = new GoalsAdapter(this.getContext(), goalNames, new GoalsAdapter.ClickListener() {
             @Override
-            public void onPositionClicked(int position) {
-                Log.println(Log.ASSERT, "position_clicked", "Position " + position + " clicked");
+            public void onViewClicked(int position) {
+                Intent intent = new Intent(getContext(), GoalDetailActivity.class);
+                intent.putExtra(EXTRA_GOAL_NAME, goalNames.get(position));
+                startActivity(intent);
+            }
+            @Override
+            public void onItemClicked(int position, int id) {
+                goalNames.remove(position);
+                goalsAdapter.notifyItemRemoved(position);
+                --numGoals;
+                saveGoals();
             }
         });
         goalsRecyclerView.setAdapter(goalsAdapter);
