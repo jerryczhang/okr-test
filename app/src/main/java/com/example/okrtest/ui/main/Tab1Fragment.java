@@ -26,12 +26,12 @@ import com.example.okrtest.R;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Tab1Fragment extends Fragment {
     private int numGoals;
     private ArrayList<String> goalNames = new ArrayList<String>();
     private GoalsAdapter goalsAdapter;
-    private ImageView addGoal;
     private SharedPreferences sharedPreferences;
 
     public static final String EXTRA_GOAL_NAME = "com.example.okrtest.GOAL_NAME";
@@ -40,21 +40,21 @@ public class Tab1Fragment extends Fragment {
     public void onStart() {
         super.onStart();
         loadGoals();
-        //clearSharedPreferences();
-        Log.println(Log.ASSERT, "goals_array", goalNames.toString());
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        sharedPreferences = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
     }
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        final View root = inflater.inflate(R.layout.fragment_tab1, container, false);
+        View root = inflater.inflate(R.layout.fragment_tab1, container, false);
+
         RecyclerView goalsRecyclerView = (RecyclerView) root.findViewById(R.id.goalsRecyclerView);
+        ImageView addGoal = (ImageView) root.findViewById(R.id.addGoalImageView);
 
         goalsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         goalsRecyclerView.scrollToPosition(0);
@@ -68,15 +68,13 @@ public class Tab1Fragment extends Fragment {
             }
             @Override
             public void onItemClicked(int position, int id) {
-                goalNames.remove(position);
-                goalsAdapter.notifyItemRemoved(position);
-                --numGoals;
-                saveGoals();
+                if (id == R.id.deleteGoalButton) {
+                    deleteGoal(position);
+                }
             }
         });
         goalsRecyclerView.setAdapter(goalsAdapter);
 
-        addGoal = (ImageView) root.findViewById(R.id.addGoalImageView);
         addGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,9 +96,15 @@ public class Tab1Fragment extends Fragment {
     public void addGoal(String name) {
         goalNames.add(name);
         goalsAdapter.notifyItemInserted(goalNames.size() - 1);
-        numGoals += 1;
+        ++numGoals;
         saveGoals();
-        Log.println(Log.ASSERT, "goals_array", goalNames.toString());
+    }
+
+    private void deleteGoal(int position) {
+        goalNames.remove(position);
+        goalsAdapter.notifyItemRemoved(position);
+        --numGoals;
+        saveGoals();
     }
 
     private void saveGoals() {

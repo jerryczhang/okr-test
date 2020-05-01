@@ -21,10 +21,10 @@ import java.util.ArrayList;
 public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> {
 
     private final ClickListener listener;
-    private ArrayList<String> mGoalNames;
+    private ArrayList<String> goalNames;
 
     public GoalsAdapter(Context context, ArrayList<String> goalNames, ClickListener listener) {
-        mGoalNames = goalNames;
+        this.goalNames = goalNames;
         this.listener = listener;
     }
 
@@ -82,13 +82,13 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String goalName = mGoalNames.get(position);
+        String goalName = goalNames.get(position);
         holder.setGoalName(goalName);
         holder.setGoalNameTextView(goalName);
     }
 
     @Override
     public int getItemCount() {
-        return mGoalNames.size();
+        return goalNames.size();
     }
 }
