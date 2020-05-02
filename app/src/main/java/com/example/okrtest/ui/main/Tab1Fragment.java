@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +17,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.okrtest.AddGoalDialogFragment;
+import com.example.okrtest.InputTextDialog;
 import com.example.okrtest.GoalDetailActivity;
 import com.example.okrtest.GoalsAdapter;
 import com.example.okrtest.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class Tab1Fragment extends Fragment {
@@ -54,7 +51,7 @@ public class Tab1Fragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_tab1, container, false);
 
         RecyclerView goalsRecyclerView = (RecyclerView) root.findViewById(R.id.goalsRecyclerView);
-        ImageView addGoal = (ImageView) root.findViewById(R.id.addGoalImageView);
+        final ImageView addGoal = (ImageView) root.findViewById(R.id.addGoalImageView);
 
         goalsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         goalsRecyclerView.scrollToPosition(0);
@@ -78,8 +75,17 @@ public class Tab1Fragment extends Fragment {
         addGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment addGoalDialogFragment = new AddGoalDialogFragment(Tab1Fragment.this);
-                addGoalDialogFragment.show(getParentFragmentManager(), "add_goal");
+                Resources res = getResources();
+                String title = res.getString(R.string.add_goal_dialog_title);
+                String positiveName = res.getString(R.string.add_goal_dialog_positive);
+                String negativeName = res.getString(R.string.add_goal_dialog_negative);
+                DialogFragment addGoalDialog = new InputTextDialog(title, positiveName, negativeName, new InputTextDialog.textDialogListener() {
+                    @Override
+                    public void onPositiveInput(String text) {
+                        addGoal(text);
+                    }
+                });
+                addGoalDialog.show(getParentFragmentManager(), "add_goal");
             }
         });
 
