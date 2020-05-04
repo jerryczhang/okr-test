@@ -11,6 +11,9 @@
     <string name="add_goal_dialog_positive">Add</string>
     <string name="add_goal_dialog_negative">Cancel</string>
 
+    <string name="default_goal_desc">Tap to edit description</string>
+
     <string name="num_goals">com.example.okrtest.num_goals</string>
     <string name="goal">com.example.orktest.goal</string>
+    <string name="goal_desc">com.example.okrtest.goal_desc</string>
 </resources>

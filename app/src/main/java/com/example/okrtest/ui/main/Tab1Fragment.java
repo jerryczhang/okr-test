@@ -79,7 +79,8 @@ public class Tab1Fragment extends Fragment {
                 String title = res.getString(R.string.add_goal_dialog_title);
                 String positiveName = res.getString(R.string.add_goal_dialog_positive);
                 String negativeName = res.getString(R.string.add_goal_dialog_negative);
-                DialogFragment addGoalDialog = new InputTextDialog(title, positiveName, negativeName, new InputTextDialog.textDialogListener() {
+                String hint = res.getString(R.string.add_goal_dialog_hint);
+                DialogFragment addGoalDialog = new InputTextDialog(title, positiveName, negativeName, hint, new InputTextDialog.textDialogListener() {
                     @Override
                     public void onPositiveInput(String text) {
                         addGoal(text);

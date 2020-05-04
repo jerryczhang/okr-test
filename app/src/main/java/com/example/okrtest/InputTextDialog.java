@@ -21,12 +21,18 @@ public class InputTextDialog extends DialogFragment {
     private String title;
     private String positiveName;
     private String negativeName;
+    private String hint;
     private WeakReference<textDialogListener> listenerRef;
 
-    public InputTextDialog(String title, String positiveName, String negativeName, textDialogListener listener) {
+    public InputTextDialog(String title,
+                           String positiveName,
+                           String negativeName,
+                           String hint,
+                           textDialogListener listener) {
         this.title = title;
         this.positiveName = positiveName;
         this.negativeName = negativeName;
+        this.hint = hint;
         listenerRef = new WeakReference<>(listener);
     }
 
@@ -42,6 +48,7 @@ public class InputTextDialog extends DialogFragment {
         TextView titleTextView = (TextView) view.findViewById(R.id.titleTextView);
         titleTextView.setText(title);
 
+        inputEditText.setHint(hint);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view);
         builder.setPositiveButton(positiveName, new DialogInterface.OnClickListener() {
