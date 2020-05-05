@@ -13,6 +13,11 @@
 
     <string name="default_goal_desc">Tap to edit description</string>
 
+    <string name="change_desc_dialog_title">Set New Goal Description</string>
+    <string name="change_desc_dialog_hint">Enter new goal description</string>
+    <string name="change_desc_dialog_positive">Confirm</string>
+    <string name="change_desc_dialog_negative">Cancel</string>
+
     <string name="num_goals">com.example.okrtest.num_goals</string>
     <string name="goal">com.example.orktest.goal</string>
     <string name="goal_desc">com.example.okrtest.goal_desc</string>
