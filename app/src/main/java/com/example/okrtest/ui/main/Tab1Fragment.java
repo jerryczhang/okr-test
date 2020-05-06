@@ -65,7 +65,7 @@ public class Tab1Fragment extends Fragment {
             }
             @Override
             public void onItemClicked(int position, int id) {
-                if (id == R.id.deleteGoalButton) {
+                if (id == R.id.deleteGoalImageView) {
                     deleteGoal(position);
                 }
             }

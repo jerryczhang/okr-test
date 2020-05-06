@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,7 +37,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView goalNameTextView;
-        private Button deleteGoalButton;
+        private ImageView deleteGoal;
         private WeakReference<ClickListener> listenerRef;
 
         private final Context context;
@@ -48,11 +49,11 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             super(view);
             listenerRef = new WeakReference<ClickListener>(listener);
             goalNameTextView = (TextView) view.findViewById(R.id.goalNameTextView);
-            deleteGoalButton = (Button) view.findViewById(R.id.deleteGoalButton);
+            deleteGoal = (ImageView) view.findViewById(R.id.deleteGoalImageView);
 
             context = view.getContext();
             view.setOnClickListener(this);
-            deleteGoalButton.setOnClickListener(this);
+            deleteGoal.setOnClickListener(this);
         }
 
         public void setGoalName(String name) {
@@ -65,7 +66,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == deleteGoalButton.getId()) {
+            if (v.getId() == deleteGoal.getId()) {
                 listenerRef.get().onItemClicked(getAdapterPosition(), v.getId());
             } else {
                 listenerRef.get().onViewClicked(getAdapterPosition());
