@@ -2,6 +2,7 @@ package com.example.okrtest;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -52,6 +53,9 @@ public class GoalDetailActivity extends AppCompatActivity {
                 changeDescDialog.show(getSupportFragmentManager(), "change_desc");
             }
         });
+
+        RecyclerView KRRecyclerView = (RecyclerView) findViewById(R.id.KRRecyclerView);
+
     }
 
     private void loadGoalDetails() {

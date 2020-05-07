@@ -21,6 +21,7 @@ import com.example.okrtest.InputTextDialog;
 import com.example.okrtest.GoalDetailActivity;
 import com.example.okrtest.GoalsAdapter;
 import com.example.okrtest.R;
+import com.example.okrtest.RecyclerClickListener;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -56,7 +57,7 @@ public class Tab1Fragment extends Fragment {
         goalsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         goalsRecyclerView.scrollToPosition(0);
 
-        goalsAdapter = new GoalsAdapter(this.getContext(), goalNames, new GoalsAdapter.ClickListener() {
+        goalsAdapter = new GoalsAdapter(this.getContext(), goalNames, new RecyclerClickListener() {
             @Override
             public void onViewClicked(int position) {
                 Intent intent = new Intent(getContext(), GoalDetailActivity.class);

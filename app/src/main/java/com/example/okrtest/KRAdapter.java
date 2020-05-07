@@ -1,31 +1,24 @@
 package com.example.okrtest;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.okrtest.ui.main.Tab1Fragment;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> {
-
+public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
     private final RecyclerClickListener listener;
-    private ArrayList<String> goalNames;
+    private ArrayList<String> KRNames;
 
-    public GoalsAdapter(Context context, ArrayList<String> goalNames, RecyclerClickListener listener) {
-        this.goalNames = goalNames;
+    public KRAdapter(Context context, ArrayList<String> KRNames, RecyclerClickListener listener) {
+        this.KRNames = KRNames;
         this.listener = listener;
     }
 
@@ -34,7 +27,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         private ImageView deleteGoal;
         private WeakReference<RecyclerClickListener> listenerRef;
 
-        private String goalName;
+        private String KRName;
 
 
         public ViewHolder(View view, RecyclerClickListener listener) {
@@ -48,7 +41,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         }
 
         public void setGoalName(String name) {
-            goalName = name;
+            KRName = name;
         }
 
         public void setGoalNameTextView(String text) {
@@ -74,13 +67,13 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String goalName = goalNames.get(position);
+        String goalName = KRNames.get(position);
         holder.setGoalName(goalName);
         holder.setGoalNameTextView(goalName);
     }
 
     @Override
     public int getItemCount() {
-        return goalNames.size();
+        return KRNames.size();
     }
 }
