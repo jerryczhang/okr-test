@@ -2,6 +2,7 @@ package com.example.okrtest;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
@@ -16,12 +17,17 @@ import android.widget.TextView;
 
 import com.example.okrtest.ui.main.Tab1Fragment;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class GoalDetailActivity extends AppCompatActivity {
     private String goalName;
     private String goalDesc;
     private SharedPreferences sharedPreferences;
+    private KRAdapter KRAdapter;
+
+    private ArrayList<String> KRNames = new ArrayList<>();
+    private int numKRs;
 
     private TextView goalDescTextView;
 
@@ -33,10 +39,7 @@ public class GoalDetailActivity extends AppCompatActivity {
         sharedPreferences = GoalDetailActivity.this.getPreferences(Context.MODE_PRIVATE);
 
         goalName = getIntent().getStringExtra(Tab1Fragment.EXTRA_GOAL_NAME);
-        loadGoalDetails();
 
-        setTitle(goalName);
-        goalDescTextView.setText(goalDesc);
         goalDescTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +58,24 @@ public class GoalDetailActivity extends AppCompatActivity {
         });
 
         RecyclerView KRRecyclerView = (RecyclerView) findViewById(R.id.KRRecyclerView);
+        KRRecyclerView.setLayoutManager(new LinearLayoutManager(GoalDetailActivity.this));
+        KRRecyclerView.scrollToPosition(0);
 
+        KRAdapter = new KRAdapter(GoalDetailActivity.this, KRNames, new RecyclerClickListener() {
+            @Override
+            public void onViewClicked(int position) {
+            }
+
+            @Override
+            public void onItemClicked(int position, int id) {
+            }
+        });
+        KRRecyclerView.setAdapter(KRAdapter);
+
+        loadGoalDetails();
+        loadKRs();
+        setTitle(goalName);
+        goalDescTextView.setText(goalDesc);
     }
 
     private void loadGoalDetails() {
@@ -68,5 +88,39 @@ public class GoalDetailActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(getString(R.string.goal_desc) + goalName, desc);
         editor.apply();
+    }
+    public void addKR(String name) {
+        KRNames.add(name);
+        KRAdapter.notifyItemInserted(KRNames.size() - 1);
+        ++numKRs;
+        saveKRs();
+    }
+
+    private void deleteKR(int position) {
+        KRNames.remove(position);
+        KRAdapter.notifyItemRemoved(position);
+        --numKRs;
+        saveKRs();
+    }
+
+    private void saveKRs() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(getString(R.string.num_krs), numKRs);
+        for (int i = 0; i < numKRs; ++i) {
+            editor.putString(getString(R.string.kr) + i, KRNames.get(i));
+        }
+        editor.apply();
+    }
+
+    private void loadKRs() {
+        int defaultNumGoals = 0;
+        String defaultGoalName = "";
+        numKRs = sharedPreferences.getInt(getString(R.string.num_krs), defaultNumGoals);
+        KRNames.clear();
+        for (int i = 0; i < numKRs; ++i) {
+            String goalName = sharedPreferences.getString(getString(R.string.kr) + i, defaultGoalName);
+            KRNames.add(goalName);
+            KRAdapter.notifyItemInserted(KRNames.size() - 1);
+        }
     }
 }

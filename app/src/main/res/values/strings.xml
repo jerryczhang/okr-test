@@ -21,4 +21,7 @@
     <string name="num_goals">com.example.okrtest.num_goals</string>
     <string name="goal">com.example.orktest.goal</string>
     <string name="goal_desc">com.example.okrtest.goal_desc</string>
+
+    <string name="num_krs">com.example.okrtest.num_krs</string>
+    <string name="kr">com.example.orktest.kr</string>
 </resources>

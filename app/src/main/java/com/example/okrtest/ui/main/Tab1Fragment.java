@@ -28,7 +28,7 @@ import java.util.Objects;
 
 public class Tab1Fragment extends Fragment {
     private int numGoals;
-    private ArrayList<String> goalNames = new ArrayList<String>();
+    private ArrayList<String> goalNames = new ArrayList<>();
     private GoalsAdapter goalsAdapter;
     private SharedPreferences sharedPreferences;
 
@@ -52,7 +52,7 @@ public class Tab1Fragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_tab1, container, false);
 
         RecyclerView goalsRecyclerView = (RecyclerView) root.findViewById(R.id.goalsRecyclerView);
-        final ImageView addGoal = (ImageView) root.findViewById(R.id.addGoalImageView);
+        ImageView addGoal = (ImageView) root.findViewById(R.id.addGoalImageView);
 
         goalsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         goalsRecyclerView.scrollToPosition(0);
