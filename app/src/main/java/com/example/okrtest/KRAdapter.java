@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,8 +24,9 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView goalNameTextView;
-        private ImageView deleteGoal;
+        private TextView KRNameTextView;
+        private ImageView deleteKR;
+        private ProgressBar KRProgressBar;
         private WeakReference<RecyclerClickListener> listenerRef;
 
         private String KRName;
@@ -33,11 +35,13 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
         public ViewHolder(View view, RecyclerClickListener listener) {
             super(view);
             listenerRef = new WeakReference<RecyclerClickListener>(listener);
-            goalNameTextView = (TextView) view.findViewById(R.id.goalNameTextView);
-            deleteGoal = (ImageView) view.findViewById(R.id.deleteGoalImageView);
+            KRNameTextView = (TextView) view.findViewById(R.id.KRNameTextView);
+            //deleteKR = (ImageView) view.findViewById(R.id.deleteKRImageView);
+            KRProgressBar = (ProgressBar) view.findViewById(R.id.KRProgressBar);
 
             view.setOnClickListener(this);
-            deleteGoal.setOnClickListener(this);
+            //deleteKR.setOnClickListener(this);
+            KRProgressBar.setProgress(20, true);
         }
 
         public void setGoalName(String name) {
@@ -45,12 +49,12 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
         }
 
         public void setGoalNameTextView(String text) {
-            goalNameTextView.setText(text);
+            KRNameTextView.setText(text);
         }
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == deleteGoal.getId()) {
+            if (v.getId() == deleteKR.getId()) {
                 listenerRef.get().onItemClicked(getAdapterPosition(), v.getId());
             } else {
                 listenerRef.get().onViewClicked(getAdapterPosition());
@@ -61,7 +65,7 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.goal_preview, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.kr_preview, parent, false);
         return new ViewHolder(view, listener);
     }
 

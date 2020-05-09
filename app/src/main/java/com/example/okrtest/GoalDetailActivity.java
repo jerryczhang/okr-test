@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.renderscript.ScriptGroup;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.okrtest.ui.main.Tab1Fragment;
@@ -76,6 +77,25 @@ public class GoalDetailActivity extends AppCompatActivity {
         loadKRs();
         setTitle(goalName);
         goalDescTextView.setText(goalDesc);
+
+        ImageView addKR = (ImageView) findViewById(R.id.addKRImageView);
+        addKR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Resources res = getResources();
+                String title = res.getString(R.string.add_kr_dialog_title);
+                String positiveName = res.getString(R.string.add_kr_dialog_positive);
+                String negativeName = res.getString(R.string.add_kr_dialog_negative);
+                String hint = res.getString(R.string.add_kr_dialog_hint);
+                DialogFragment addGoalDialog = new InputTextDialog(title, positiveName, negativeName, hint, new InputTextDialog.textDialogListener() {
+                    @Override
+                    public void onPositiveInput(String text) {
+                        addKR(text);
+                    }
+                });
+                addGoalDialog.show(getSupportFragmentManager(), "add_goal");
+            }
+        });
     }
 
     private void loadGoalDetails() {

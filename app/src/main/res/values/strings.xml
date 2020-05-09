@@ -11,6 +11,11 @@
     <string name="add_goal_dialog_positive">Add</string>
     <string name="add_goal_dialog_negative">Cancel</string>
 
+    <string name="add_kr_dialog_title">Add New Key Result</string>
+    <string name="add_kr_dialog_hint">Enter new key result name</string>
+    <string name="add_kr_dialog_positive">Add</string>
+    <string name="add_kr_dialog_negative">Cancel</string>
+
     <string name="default_goal_desc">Tap to edit description</string>
 
     <string name="change_desc_dialog_title">Set New Goal Description</string>
