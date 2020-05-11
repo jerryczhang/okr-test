@@ -69,6 +69,9 @@ public class GoalDetailActivity extends AppCompatActivity {
 
             @Override
             public void onItemClicked(int position, int id) {
+                if (id == R.id.deleteKRImageView) {
+                    deleteKR(position);
+                }
             }
         });
         KRRecyclerView.setAdapter(KRAdapter);
