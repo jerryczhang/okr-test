@@ -71,6 +71,8 @@ public class GoalDetailActivity extends AppCompatActivity {
             public void onItemClicked(int position, int id) {
                 if (id == R.id.deleteKRImageView) {
                     deleteKR(position);
+                } else if (id == R.id.KRProgressBar) {
+                    KRAdapter.getItemId(0);
                 }
             }
         });
@@ -128,21 +130,21 @@ public class GoalDetailActivity extends AppCompatActivity {
 
     private void saveKRs() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(getString(R.string.num_krs), numKRs);
+        editor.putInt(getString(R.string.num_krs) + goalName, numKRs);
         for (int i = 0; i < numKRs; ++i) {
-            editor.putString(getString(R.string.kr) + i, KRNames.get(i));
+            editor.putString(getString(R.string.kr) + goalName + i, KRNames.get(i));
         }
         editor.apply();
     }
 
     private void loadKRs() {
-        int defaultNumGoals = 0;
-        String defaultGoalName = "";
-        numKRs = sharedPreferences.getInt(getString(R.string.num_krs), defaultNumGoals);
+        int defaultNumKRs = 0;
+        String defaultKRName = "";
+        numKRs = sharedPreferences.getInt(getString(R.string.num_krs) + goalName, defaultNumKRs);
         KRNames.clear();
         for (int i = 0; i < numKRs; ++i) {
-            String goalName = sharedPreferences.getString(getString(R.string.kr) + i, defaultGoalName);
-            KRNames.add(goalName);
+            String KRName = sharedPreferences.getString(getString(R.string.kr) + goalName + i, defaultKRName);
+            KRNames.add(KRName);
             KRAdapter.notifyItemInserted(KRNames.size() - 1);
         }
     }
