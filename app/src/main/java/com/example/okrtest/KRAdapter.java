@@ -1,6 +1,7 @@
 package com.example.okrtest;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
@@ -30,7 +33,6 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
         private WeakReference<RecyclerClickListener> listenerRef;
 
         private String KRName;
-
 
         public ViewHolder(View view, RecyclerClickListener listener) {
             super(view);
@@ -55,7 +57,7 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == deleteKR.getId() || v.getId() == KRProgressBar.getId()) {
+            if (v.getId() == deleteKR.getId()) {
                 listenerRef.get().onItemClicked(getAdapterPosition(), v.getId());
             } else {
                 listenerRef.get().onViewClicked(getAdapterPosition());

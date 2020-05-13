@@ -72,7 +72,6 @@ public class GoalDetailActivity extends AppCompatActivity {
                 if (id == R.id.deleteKRImageView) {
                     deleteKR(position);
                 } else if (id == R.id.KRProgressBar) {
-                    KRAdapter.getItemId(0);
                 }
             }
         });
