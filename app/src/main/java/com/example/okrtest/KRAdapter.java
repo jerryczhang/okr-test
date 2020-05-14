@@ -5,6 +5,8 @@ import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,7 +23,7 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
     private final RecyclerClickListener listener;
     private ArrayList<String> KRNames;
 
-    public KRAdapter(Context context, ArrayList<String> KRNames, RecyclerClickListener listener) {
+    KRAdapter(Context context, ArrayList<String> KRNames, RecyclerClickListener listener) {
         this.KRNames = KRNames;
         this.listener = listener;
     }
@@ -32,9 +34,7 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
         private ProgressBar KRProgressBar;
         private WeakReference<RecyclerClickListener> listenerRef;
 
-        private String KRName;
-
-        public ViewHolder(View view, RecyclerClickListener listener) {
+        ViewHolder(View view, RecyclerClickListener listener) {
             super(view);
             listenerRef = new WeakReference<RecyclerClickListener>(listener);
             KRNameTextView = (TextView) view.findViewById(R.id.KRNameTextView);
@@ -43,16 +43,26 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
 
             view.setOnClickListener(this);
             deleteKR.setOnClickListener(this);
-            KRProgressBar.setOnClickListener(this);
-            KRProgressBar.setProgress(20, true);
+
+            final EditText progressNumEditText = (EditText) view.findViewById(R.id.progressNumEditText);
+            final EditText progressDenEditText = (EditText) view.findViewById(R.id.progressDenEditText);
+            Button saveProgButton = (Button) view.findViewById(R.id.saveProgButton);
+            saveProgButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int num = Integer.parseInt(progressNumEditText.getText().toString());
+                    int den = Integer.parseInt(progressDenEditText.getText().toString());
+                    setKRProgressBar(num, den);
+                }
+            });
         }
 
-        public void setGoalName(String name) {
-            KRName = name;
-        }
-
-        public void setGoalNameTextView(String text) {
+        void setKRNameTextView(String text) {
             KRNameTextView.setText(text);
+        }
+
+        void setKRProgressBar(int num, int den) {
+            KRProgressBar.setProgress(num * 100 / den, true);
         }
 
         @Override
@@ -74,9 +84,8 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String goalName = KRNames.get(position);
-        holder.setGoalName(goalName);
-        holder.setGoalNameTextView(goalName);
+        String KRName = KRNames.get(position);
+        holder.setKRNameTextView(KRName);
     }
 
     @Override
