@@ -30,6 +30,9 @@
     <string name="num_krs">com.example.okrtest.num_krs</string>
     <string name="kr">com.example.orktest.kr</string>
 
+    <string name="kr_prog_num">com.example.okrtest.kr_prog_num</string>
+    <string name="kr_prog_den">com.example.okrtest.kr_prog_den</string>
+
     <string name="prog_divider">/</string>
     <string name="prog_save">Save</string>
 </resources>
