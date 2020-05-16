@@ -58,7 +58,7 @@ public class GoalDetailActivity extends AppCompatActivity {
             }
         });
 
-        RecyclerView KRRecyclerView = (RecyclerView) findViewById(R.id.KRRecyclerView);
+        final RecyclerView KRRecyclerView = (RecyclerView) findViewById(R.id.KRRecyclerView);
         KRRecyclerView.setLayoutManager(new LinearLayoutManager(GoalDetailActivity.this));
         KRRecyclerView.scrollToPosition(0);
 
@@ -72,6 +72,8 @@ public class GoalDetailActivity extends AppCompatActivity {
                 if (id == R.id.deleteKRImageView) {
                     deleteKR(position);
                 } else if (id == R.id.KRProgressBar) {
+                    KRAdapter.ViewHolder v = (KRAdapter.ViewHolder)KRRecyclerView.findViewHolderForAdapterPosition(position);
+                    v.setKRProgressBar();
                 }
             }
         });
@@ -113,6 +115,7 @@ public class GoalDetailActivity extends AppCompatActivity {
         editor.putString(getString(R.string.goal_desc) + goalName, desc);
         editor.apply();
     }
+
     public void addKR(String name) {
         KRNames.add(name);
         KRAdapter.notifyItemInserted(KRNames.size() - 1);

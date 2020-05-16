@@ -52,6 +52,7 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
 
             view.setOnClickListener(this);
             deleteKR.setOnClickListener(this);
+            KRProgressBar.setOnClickListener(this);
 
             progressNumEditText = (EditText) view.findViewById(R.id.progressNumEditText);
             progressDenEditText = (EditText) view.findViewById(R.id.progressDenEditText);
@@ -59,8 +60,6 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
             saveProgButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    num = Integer.parseInt(progressNumEditText.getText().toString());
-                    den = Integer.parseInt(progressDenEditText.getText().toString());
                     setKRProgressBar();
                     saveProgress();
                 }
@@ -72,6 +71,8 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
         }
 
         void setKRProgressBar() {
+            num = Integer.parseInt(progressNumEditText.getText().toString());
+            den = Integer.parseInt(progressDenEditText.getText().toString());
             KRProgressBar.setProgress(num * 100 / den, true);
         }
 
@@ -98,7 +99,7 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == deleteKR.getId()) {
+            if (v.getId() == deleteKR.getId() || v.getId() == KRProgressBar.getId()) {
                 listenerRef.get().onItemClicked(getAdapterPosition(), v.getId());
             } else {
                 listenerRef.get().onViewClicked(getAdapterPosition());
