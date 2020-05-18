@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="128dp">
+    android:layout_height="96dp">
 
     <ProgressBar
         android:id="@+id/KRProgressBar"
@@ -30,67 +30,21 @@
         android:id="@+id/deleteKRImageView"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/round_remove_circle_outline_black_48dp" />
 
-    <EditText
-        android:id="@+id/progressNumEditText"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:ems="10"
-        android:inputType="number"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/KRProgressBar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/KRNameTextView"
-        app:layout_constraintVertical_bias="0.481" />
-
-    <EditText
-        android:id="@+id/progressDenEditText"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:ems="10"
-        android:inputType="number"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/KRProgressBar"
-        app:layout_constraintStart_toEndOf="@+id/progressNumEditText"
-        app:layout_constraintTop_toBottomOf="@+id/KRNameTextView"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/progDivTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/prog_divider"
-        app:layout_constraintBottom_toTopOf="@+id/KRProgressBar"
-        app:layout_constraintEnd_toStartOf="@+id/progressDenEditText"
-        app:layout_constraintStart_toEndOf="@+id/progressNumEditText"
-        app:layout_constraintTop_toBottomOf="@+id/KRNameTextView" />
-
     <Button
-        android:id="@+id/saveProgButton"
+        android:id="@+id/editProgButton"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/prog_save"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/KRProgressBar"
-        app:layout_constraintStart_toEndOf="@+id/progressDenEditText"
-        app:layout_constraintTop_toBottomOf="@+id/KRNameTextView" />
+        app:layout_constraintEnd_toStartOf="@+id/deleteKRImageView"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

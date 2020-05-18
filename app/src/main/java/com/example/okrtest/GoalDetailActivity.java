@@ -71,9 +71,22 @@ public class GoalDetailActivity extends AppCompatActivity {
             public void onItemClicked(int position, int id) {
                 if (id == R.id.deleteKRImageView) {
                     deleteKR(position);
-                } else if (id == R.id.KRProgressBar) {
-                    KRAdapter.ViewHolder v = (KRAdapter.ViewHolder)KRRecyclerView.findViewHolderForAdapterPosition(position);
-                    v.setKRProgressBar();
+                } else if (id == R.id.editProgButton) {
+                    final KRAdapter.ViewHolder v = (KRAdapter.ViewHolder)KRRecyclerView.findViewHolderForAdapterPosition(position);
+                    String title = getString(R.string.edit_prog_dialog_title);
+                    String positiveName = getString(R.string.edit_prog_dialog_positive);
+                    String negativeName = getString(R.string.edit_prog_dialog_negative);
+                    String hintNum = getString(R.string.edit_prog_dialog_hint_num);
+                    String hintDen = getString(R.string.edit_prog_dialog_hint_den);
+                    DialogFragment editProgDialog = new InputProgDialog(title, positiveName, negativeName, hintNum, hintDen, new InputProgDialog.progDialogListener() {
+                        @Override
+                        public void onPositiveInput(int num, int den) {
+                            assert v != null;
+                            v.setProgress(num, den);
+                            v.setKRProgressBar();
+                        }
+                    });
+                    editProgDialog.show(getSupportFragmentManager(), "add_goal");
                 }
             }
         });
