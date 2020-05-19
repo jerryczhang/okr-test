@@ -26,6 +26,7 @@ public class GoalDetailActivity extends AppCompatActivity {
     private String goalDesc;
     private SharedPreferences sharedPreferences;
     private KRAdapter KRAdapter;
+    private RecyclerView KRRecyclerView;
 
     private ArrayList<String> KRNames = new ArrayList<>();
     private int numKRs;
@@ -58,7 +59,7 @@ public class GoalDetailActivity extends AppCompatActivity {
             }
         });
 
-        final RecyclerView KRRecyclerView = (RecyclerView) findViewById(R.id.KRRecyclerView);
+        KRRecyclerView = (RecyclerView) findViewById(R.id.KRRecyclerView);
         KRRecyclerView.setLayoutManager(new LinearLayoutManager(GoalDetailActivity.this));
         KRRecyclerView.scrollToPosition(0);
 
@@ -68,7 +69,7 @@ public class GoalDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onItemClicked(int position, int id) {
+            public void onItemClicked(final int position, int id) {
                 if (id == R.id.deleteKRImageView) {
                     deleteKR(position);
                 } else if (id == R.id.editProgButton) {
@@ -84,6 +85,7 @@ public class GoalDetailActivity extends AppCompatActivity {
                             assert v != null;
                             v.setProgress(num, den);
                             v.setKRProgressBar();
+                            saveKRProg(position);
                         }
                     });
                     editProgDialog.show(getSupportFragmentManager(), "add_goal");
@@ -94,6 +96,7 @@ public class GoalDetailActivity extends AppCompatActivity {
 
         loadGoalDetails();
         loadKRs();
+        loadKRProg();
         setTitle(goalName);
         goalDescTextView.setText(goalDesc);
 
@@ -161,6 +164,28 @@ public class GoalDetailActivity extends AppCompatActivity {
             String KRName = sharedPreferences.getString(getString(R.string.kr) + goalName + i, defaultKRName);
             KRNames.add(KRName);
             KRAdapter.notifyItemInserted(KRNames.size() - 1);
+        }
+    }
+
+    private void saveKRProg(int position) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        KRAdapter.ViewHolder v = (KRAdapter.ViewHolder)KRRecyclerView.findViewHolderForAdapterPosition(position);
+        String KRName = KRNames.get(position);
+        assert v != null;
+        editor.putInt(getString(R.string.kr_prog_num) + KRName, v.getProgNum());
+        editor.putInt(getString(R.string.kr_prog_den) + KRName, v.getProgDen());
+        editor.apply();
+    }
+
+    private void loadKRProg() {
+        for (int position = 0; position < KRNames.size(); ++position) {
+            KRAdapter.ViewHolder v = (KRAdapter.ViewHolder) KRRecyclerView.findViewHolderForAdapterPosition(position);
+            int defaultNum = 0;
+            int defaultDen = 100;
+            String KRName = KRNames.get(position);
+            int num = sharedPreferences.getInt(getString(R.string.kr_prog_num) + KRName, defaultNum);
+            int den = sharedPreferences.getInt(getString(R.string.kr_prog_den) + KRName, defaultDen);
+            assert v != null;
         }
     }
 }

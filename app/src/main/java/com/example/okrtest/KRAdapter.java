@@ -21,12 +21,10 @@ import java.util.ArrayList;
 public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
     private final RecyclerClickListener listener;
     private ArrayList<String> KRNames;
-    private SharedPreferences sharedPreferences;
 
     KRAdapter(@NonNull Context context, ArrayList<String> KRNames, RecyclerClickListener listener) {
         this.KRNames = KRNames;
         this.listener = listener;
-        sharedPreferences = context.getSharedPreferences("KRPref", Context.MODE_PRIVATE);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -35,13 +33,11 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
         private ProgressBar KRProgressBar;
         private Button editProgButton;
         private WeakReference<RecyclerClickListener> listenerRef;
-        private SharedPreferences sharedPreferences;
         private int num;
         private int den;
 
-        ViewHolder(View view, RecyclerClickListener listener, SharedPreferences sharedPreferences) {
+        ViewHolder(View view, RecyclerClickListener listener) {
             super(view);
-            this.sharedPreferences = sharedPreferences;
             listenerRef = new WeakReference<RecyclerClickListener>(listener);
             KRNameTextView = (TextView) view.findViewById(R.id.KRNameTextView);
             deleteKR = (ImageView) view.findViewById(R.id.deleteKRImageView);
@@ -62,27 +58,16 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
             this.den = den;
         }
 
+        int getProgNum() {
+            return num;
+        }
+
+        int getProgDen() {
+            return den;
+        }
+
         void setKRProgressBar() {
             KRProgressBar.setProgress(num * 100 / den, true);
-        }
-
-        private void saveProgress() {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            Resources res = itemView.getResources();
-            String KRName = KRNameTextView.getText().toString();
-            editor.putInt(res.getString(R.string.kr_prog_num) + KRName, num);
-            editor.putInt(res.getString(R.string.kr_prog_den) + KRName, den);
-            editor.apply();
-        }
-
-        private void loadProgress() {
-            int defaultNum = 0;
-            int defaultDen = 100;
-            Resources res = itemView.getResources();
-            String KRName = KRNameTextView.getText().toString();
-            num = sharedPreferences.getInt(res.getString(R.string.kr_prog_num) + KRName, defaultNum);
-            den = sharedPreferences.getInt(res.getString(R.string.kr_prog_den) + KRName, defaultDen);
-            setKRProgressBar();
         }
 
         @Override
@@ -99,14 +84,13 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.kr_preview, parent, false);
-        return new ViewHolder(view, listener, sharedPreferences);
+        return new ViewHolder(view, listener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String KRName = KRNames.get(position);
         holder.setKRNameTextView(KRName);
-        holder.loadProgress();
     }
 
     @Override
