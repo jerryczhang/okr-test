@@ -29,6 +29,9 @@ public class GoalDetailActivity extends AppCompatActivity {
     private RecyclerView KRRecyclerView;
 
     private ArrayList<String> KRNames = new ArrayList<>();
+    private ArrayList<Integer> KRNums = new ArrayList<>();
+    private ArrayList<Integer> KRDens = new ArrayList<>();
+
     private int numKRs;
 
     private TextView goalDescTextView;
@@ -41,6 +44,25 @@ public class GoalDetailActivity extends AppCompatActivity {
         sharedPreferences = GoalDetailActivity.this.getPreferences(Context.MODE_PRIVATE);
 
         goalName = getIntent().getStringExtra(Tab1Fragment.EXTRA_GOAL_NAME);
+
+        ImageView addKR = (ImageView) findViewById(R.id.addKRImageView);
+        addKR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Resources res = getResources();
+                String title = res.getString(R.string.add_kr_dialog_title);
+                String positiveName = res.getString(R.string.add_kr_dialog_positive);
+                String negativeName = res.getString(R.string.add_kr_dialog_negative);
+                String hint = res.getString(R.string.add_kr_dialog_hint);
+                DialogFragment addGoalDialog = new InputTextDialog(title, positiveName, negativeName, hint, new InputTextDialog.textDialogListener() {
+                    @Override
+                    public void onPositiveInput(String text) {
+                        addKR(text);
+                    }
+                });
+                addGoalDialog.show(getSupportFragmentManager(), "add_goal");
+            }
+        });
 
         goalDescTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,31 +115,11 @@ public class GoalDetailActivity extends AppCompatActivity {
             }
         });
         KRRecyclerView.setAdapter(KRAdapter);
-
-        loadGoalDetails();
         loadKRs();
+        loadGoalDetails();
         loadKRProg();
         setTitle(goalName);
         goalDescTextView.setText(goalDesc);
-
-        ImageView addKR = (ImageView) findViewById(R.id.addKRImageView);
-        addKR.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Resources res = getResources();
-                String title = res.getString(R.string.add_kr_dialog_title);
-                String positiveName = res.getString(R.string.add_kr_dialog_positive);
-                String negativeName = res.getString(R.string.add_kr_dialog_negative);
-                String hint = res.getString(R.string.add_kr_dialog_hint);
-                DialogFragment addGoalDialog = new InputTextDialog(title, positiveName, negativeName, hint, new InputTextDialog.textDialogListener() {
-                    @Override
-                    public void onPositiveInput(String text) {
-                        addKR(text);
-                    }
-                });
-                addGoalDialog.show(getSupportFragmentManager(), "add_goal");
-            }
-        });
     }
 
     private void loadGoalDetails() {
@@ -179,13 +181,12 @@ public class GoalDetailActivity extends AppCompatActivity {
 
     private void loadKRProg() {
         for (int position = 0; position < KRNames.size(); ++position) {
-            KRAdapter.ViewHolder v = (KRAdapter.ViewHolder) KRRecyclerView.findViewHolderForAdapterPosition(position);
             int defaultNum = 0;
             int defaultDen = 100;
             String KRName = KRNames.get(position);
-            int num = sharedPreferences.getInt(getString(R.string.kr_prog_num) + KRName, defaultNum);
-            int den = sharedPreferences.getInt(getString(R.string.kr_prog_den) + KRName, defaultDen);
-            assert v != null;
+            KRNums.add(sharedPreferences.getInt(getString(R.string.kr_prog_num) + KRName, defaultNum));
+            KRDens.add(sharedPreferences.getInt(getString(R.string.kr_prog_den) + KRName, defaultDen));
+            KRAdapter.setKRProg(KRNums, KRDens);
         }
     }
 }

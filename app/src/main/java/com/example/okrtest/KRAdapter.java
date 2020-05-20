@@ -21,6 +21,8 @@ import java.util.ArrayList;
 public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
     private final RecyclerClickListener listener;
     private ArrayList<String> KRNames;
+    private ArrayList<Integer> KRNums;
+    private ArrayList<Integer> KRDens;
 
     KRAdapter(@NonNull Context context, ArrayList<String> KRNames, RecyclerClickListener listener) {
         this.KRNames = KRNames;
@@ -91,10 +93,19 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String KRName = KRNames.get(position);
         holder.setKRNameTextView(KRName);
+        int num = KRNums.get(position);
+        int den = KRDens.get(position);
+        holder.setProgress(num, den);
+        holder.setKRProgressBar();
     }
 
     @Override
     public int getItemCount() {
         return KRNames.size();
+    }
+
+    public void setKRProg(ArrayList<Integer> KRNums, ArrayList<Integer> KRDens) {
+        this.KRNums = KRNums;
+        this.KRDens = KRDens;
     }
 }
