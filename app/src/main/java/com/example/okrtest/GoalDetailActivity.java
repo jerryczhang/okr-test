@@ -99,12 +99,12 @@ public class GoalDetailActivity extends AppCompatActivity {
                     String title = getString(R.string.edit_prog_dialog_title);
                     String positiveName = getString(R.string.edit_prog_dialog_positive);
                     String negativeName = getString(R.string.edit_prog_dialog_negative);
-                    String hintNum = getString(R.string.edit_prog_dialog_hint_num);
-                    String hintDen = getString(R.string.edit_prog_dialog_hint_den);
+                    assert v != null;
+                    int hintNum = v.getProgNum();
+                    int hintDen = v.getProgDen();
                     DialogFragment editProgDialog = new InputProgDialog(title, positiveName, negativeName, hintNum, hintDen, new InputProgDialog.progDialogListener() {
                         @Override
                         public void onPositiveInput(int num, int den) {
-                            assert v != null;
                             v.setProgress(num, den);
                             v.setKRProgressBar();
                             saveKRProg(position);

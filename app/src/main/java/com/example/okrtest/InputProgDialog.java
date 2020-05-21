@@ -19,15 +19,15 @@ public class InputProgDialog extends DialogFragment {
     private String title;
     private String positiveName;
     private String negativeName;
-    private String hintNum;
-    private String hintDen;
+    private int hintNum;
+    private int hintDen;
     private WeakReference<progDialogListener> listenerRef;
 
     public InputProgDialog(String title,
                            String positiveName,
                            String negativeName,
-                           String hintNum,
-                           String hintDen,
+                           int hintNum,
+                           int hintDen,
                            progDialogListener listener) {
         this.title = title;
         this.positiveName = positiveName;
@@ -50,8 +50,8 @@ public class InputProgDialog extends DialogFragment {
         TextView titleTextView = (TextView) view.findViewById(R.id.titleTextView);
         titleTextView.setText(title);
 
-        numEditText.setHint(hintNum);
-        denEditText.setHint(hintDen);
+        numEditText.setText(String.valueOf(hintNum));
+        denEditText.setText(String.valueOf(hintDen));
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view);
         builder.setPositiveButton(positiveName, new DialogInterface.OnClickListener() {

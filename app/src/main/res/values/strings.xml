@@ -34,8 +34,6 @@
     <string name="kr_prog_den">com.example.okrtest.kr_prog_den</string>
 
     <string name="edit_prog_dialog_title">Edit Progress</string>
-    <string name="edit_prog_dialog_hint_num">Current progress</string>
-    <string name="edit_prog_dialog_hint_den">End goal</string>
     <string name="edit_prog_dialog_positive">Save</string>
     <string name="edit_prog_dialog_negative">Cancel</string>
 
