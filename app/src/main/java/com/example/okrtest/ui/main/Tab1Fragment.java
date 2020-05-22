@@ -23,6 +23,7 @@ import com.example.okrtest.GoalsAdapter;
 import com.example.okrtest.R;
 import com.example.okrtest.RecyclerClickListener;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -137,8 +138,10 @@ public class Tab1Fragment extends Fragment {
     }
 
     private void clearSharedPreferences() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.apply();
+        File sharedPreferenceFile = new File("/data/data/com.example.okrtest/shared_prefs/");
+        File[] listFiles = sharedPreferenceFile.listFiles();
+        for (File file : listFiles) {
+            file.delete();
+        }
     }
 }

@@ -117,7 +117,6 @@ public class GoalDetailActivity extends AppCompatActivity {
         KRRecyclerView.setAdapter(KRAdapter);
         loadKRs();
         loadGoalDetails();
-        loadKRProg();
         setTitle(goalName);
         goalDescTextView.setText(goalDesc);
     }
@@ -136,6 +135,8 @@ public class GoalDetailActivity extends AppCompatActivity {
 
     public void addKR(String name) {
         KRNames.add(name);
+        KRNums.add(0);
+        KRDens.add(100);
         KRAdapter.notifyItemInserted(KRNames.size() - 1);
         ++numKRs;
         saveKRs();
@@ -143,6 +144,8 @@ public class GoalDetailActivity extends AppCompatActivity {
 
     private void deleteKR(int position) {
         KRNames.remove(position);
+        KRNums.remove(position);
+        KRDens.remove(position);
         KRAdapter.notifyItemRemoved(position);
         --numKRs;
         saveKRs();
@@ -159,6 +162,8 @@ public class GoalDetailActivity extends AppCompatActivity {
 
     private void loadKRs() {
         int defaultNumKRs = 0;
+        int defaultNum = 0;
+        int defaultDen = 100;
         String defaultKRName = "";
         numKRs = sharedPreferences.getInt(getString(R.string.num_krs) + goalName, defaultNumKRs);
         KRNames.clear();
@@ -166,7 +171,10 @@ public class GoalDetailActivity extends AppCompatActivity {
             String KRName = sharedPreferences.getString(getString(R.string.kr) + goalName + i, defaultKRName);
             KRNames.add(KRName);
             KRAdapter.notifyItemInserted(KRNames.size() - 1);
+            KRNums.add(sharedPreferences.getInt(getString(R.string.kr_prog_num) + KRName, defaultNum));
+            KRDens.add(sharedPreferences.getInt(getString(R.string.kr_prog_den) + KRName, defaultDen));
         }
+        KRAdapter.setKRProg(KRNums, KRDens);
     }
 
     private void saveKRProg(int position) {
@@ -177,16 +185,5 @@ public class GoalDetailActivity extends AppCompatActivity {
         editor.putInt(getString(R.string.kr_prog_num) + KRName, v.getProgNum());
         editor.putInt(getString(R.string.kr_prog_den) + KRName, v.getProgDen());
         editor.apply();
-    }
-
-    private void loadKRProg() {
-        for (int position = 0; position < KRNames.size(); ++position) {
-            int defaultNum = 0;
-            int defaultDen = 100;
-            String KRName = KRNames.get(position);
-            KRNums.add(sharedPreferences.getInt(getString(R.string.kr_prog_num) + KRName, defaultNum));
-            KRDens.add(sharedPreferences.getInt(getString(R.string.kr_prog_den) + KRName, defaultDen));
-            KRAdapter.setKRProg(KRNums, KRDens);
-        }
     }
 }
