@@ -37,5 +37,10 @@
     <string name="edit_prog_dialog_positive">Save</string>
     <string name="edit_prog_dialog_negative">Cancel</string>
 
+    <string name="rename_kr_dialog_title">Change Key Result Name</string>
+    <string name="rename_kr_dialog_hint">Enter new key result name</string>
+    <string name="rename_kr_dialog_positive">Save</string>
+    <string name="rename_kr_dialog_negative">Cancel</string>
+
     <string name="prog_save">Edit Progress</string>
 </resources>

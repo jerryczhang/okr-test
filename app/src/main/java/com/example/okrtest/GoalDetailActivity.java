@@ -94,6 +94,18 @@ public class GoalDetailActivity extends AppCompatActivity {
             public void onItemClicked(final int position, int id) {
                 if (id == R.id.deleteKRImageView) {
                     deleteKR(position);
+                } else if (id == R.id.KRNameTextView) {
+                    String title = getString(R.string.rename_kr_dialog_title);
+                    String positiveName = getString(R.string.rename_kr_dialog_positive);
+                    String negativeName = getString(R.string.rename_kr_dialog_negative);
+                    String hint = getString(R.string.rename_kr_dialog_hint);
+                    DialogFragment renameKRDialog = new InputTextDialog(title, positiveName, negativeName, hint, new InputTextDialog.textDialogListener() {
+                        @Override
+                        public void onPositiveInput(String text) {
+                            renameKR(position, text);
+                        }
+                    });
+                    renameKRDialog.show(getSupportFragmentManager(), "rename_kr");
                 } else if (id == R.id.editProgButton) {
                     final KRAdapter.ViewHolder v = (KRAdapter.ViewHolder)KRRecyclerView.findViewHolderForAdapterPosition(position);
                     String title = getString(R.string.edit_prog_dialog_title);
@@ -175,6 +187,13 @@ public class GoalDetailActivity extends AppCompatActivity {
             KRDens.add(sharedPreferences.getInt(getString(R.string.kr_prog_den) + KRName, defaultDen));
         }
         KRAdapter.setKRProg(KRNums, KRDens);
+    }
+
+    private void renameKR(int position, String name) {
+        KRNames.set(position, name);
+        saveKRProg(position);
+        saveKRs();
+        KRAdapter.notifyItemChanged(position);
     }
 
     private void saveKRProg(int position) {

@@ -47,6 +47,7 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
             editProgButton = (Button) view.findViewById(R.id.editProgButton);
 
             view.setOnClickListener(this);
+            KRNameTextView.setOnClickListener(this);
             deleteKR.setOnClickListener(this);
             editProgButton.setOnClickListener(this);
         }
@@ -74,7 +75,10 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == deleteKR.getId() || v.getId() == editProgButton.getId()) {
+            if (v.getId() == deleteKR.getId()
+                    || v.getId() == editProgButton.getId()
+                    || v.getId() == KRNameTextView.getId()
+            ) {
                 listenerRef.get().onItemClicked(getAdapterPosition(), v.getId());
             } else {
                 listenerRef.get().onViewClicked(getAdapterPosition());
