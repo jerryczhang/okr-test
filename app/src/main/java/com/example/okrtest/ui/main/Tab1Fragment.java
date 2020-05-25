@@ -113,6 +113,9 @@ public class Tab1Fragment extends Fragment {
         goalNames.remove(position);
         goalsAdapter.notifyItemRemoved(position);
         --numGoals;
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(getString(R.string.goal) + position);
+        editor.apply();
         saveGoals();
     }
 

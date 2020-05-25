@@ -158,9 +158,14 @@ public class GoalDetailActivity extends AppCompatActivity {
         KRNames.remove(position);
         KRNums.remove(position);
         KRDens.remove(position);
-        KRAdapter.notifyItemRemoved(position);
         --numKRs;
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(getString(R.string.kr) + goalName + position);
+        editor.remove(getString(R.string.kr_prog_num) + goalName + position);
+        editor.remove(getString(R.string.kr_prog_den) + goalName + position);
+        editor.apply();
         saveKRs();
+        KRAdapter.notifyItemRemoved(position);
     }
 
     private void saveKRs() {
@@ -183,8 +188,8 @@ public class GoalDetailActivity extends AppCompatActivity {
             String KRName = sharedPreferences.getString(getString(R.string.kr) + goalName + i, defaultKRName);
             KRNames.add(KRName);
             KRAdapter.notifyItemInserted(KRNames.size() - 1);
-            KRNums.add(sharedPreferences.getInt(getString(R.string.kr_prog_num) + KRName, defaultNum));
-            KRDens.add(sharedPreferences.getInt(getString(R.string.kr_prog_den) + KRName, defaultDen));
+            KRNums.add(sharedPreferences.getInt(getString(R.string.kr_prog_num) + goalName + i, defaultNum));
+            KRDens.add(sharedPreferences.getInt(getString(R.string.kr_prog_den) + goalName + i, defaultDen));
         }
         KRAdapter.setKRProg(KRNums, KRDens);
     }
@@ -199,10 +204,9 @@ public class GoalDetailActivity extends AppCompatActivity {
     private void saveKRProg(int position) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         KRAdapter.ViewHolder v = (KRAdapter.ViewHolder)KRRecyclerView.findViewHolderForAdapterPosition(position);
-        String KRName = KRNames.get(position);
         assert v != null;
-        editor.putInt(getString(R.string.kr_prog_num) + KRName, v.getProgNum());
-        editor.putInt(getString(R.string.kr_prog_den) + KRName, v.getProgDen());
+        editor.putInt(getString(R.string.kr_prog_num) + goalName + position, v.getProgNum());
+        editor.putInt(getString(R.string.kr_prog_den) + goalName + position, v.getProgDen());
         editor.apply();
     }
 }
