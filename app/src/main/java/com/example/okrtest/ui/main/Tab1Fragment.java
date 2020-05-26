@@ -34,6 +34,7 @@ public class Tab1Fragment extends Fragment {
     private SharedPreferences sharedPreferences;
 
     public static final String EXTRA_GOAL_NAME = "com.example.okrtest.GOAL_NAME";
+    public static final String EXTRA_GOAL_POS = "com.example.okrtest.GOAL_POS";
 
     @Override
     public void onStart() {
@@ -63,6 +64,7 @@ public class Tab1Fragment extends Fragment {
             public void onViewClicked(int position) {
                 Intent intent = new Intent(getContext(), GoalDetailActivity.class);
                 intent.putExtra(EXTRA_GOAL_NAME, goalNames.get(position));
+                intent.putExtra(EXTRA_GOAL_POS, position);
                 startActivity(intent);
             }
             @Override

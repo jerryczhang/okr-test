@@ -17,12 +17,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.okrtest.ui.main.Tab1Fragment;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class GoalDetailActivity extends AppCompatActivity {
     private String goalName;
+    private int goalPos;
     private String goalDesc;
     private SharedPreferences sharedPreferences;
     private KRAdapter KRAdapter;
@@ -44,6 +46,7 @@ public class GoalDetailActivity extends AppCompatActivity {
         sharedPreferences = GoalDetailActivity.this.getPreferences(Context.MODE_PRIVATE);
 
         goalName = getIntent().getStringExtra(Tab1Fragment.EXTRA_GOAL_NAME);
+        goalPos = getIntent().getIntExtra(Tab1Fragment.EXTRA_GOAL_POS, 0);
 
         ImageView addKR = (ImageView) findViewById(R.id.addKRImageView);
         addKR.setOnClickListener(new View.OnClickListener() {
@@ -134,14 +137,14 @@ public class GoalDetailActivity extends AppCompatActivity {
     }
 
     private void loadGoalDetails() {
-        goalDesc = sharedPreferences.getString(getString(R.string.goal_desc) + goalName, getString(R.string.default_goal_desc));
+        goalDesc = sharedPreferences.getString(getString(R.string.goal_desc) + goalPos, getString(R.string.default_goal_desc));
     }
 
     private void setGoalDesc(String desc) {
         goalDesc = desc;
         goalDescTextView.setText(desc);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(getString(R.string.goal_desc) + goalName, desc);
+        editor.putString(getString(R.string.goal_desc) + goalPos, desc);
         editor.apply();
     }
 
@@ -160,9 +163,9 @@ public class GoalDetailActivity extends AppCompatActivity {
         KRDens.remove(position);
         --numKRs;
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(getString(R.string.kr) + goalName + position);
-        editor.remove(getString(R.string.kr_prog_num) + goalName + position);
-        editor.remove(getString(R.string.kr_prog_den) + goalName + position);
+        editor.remove(getString(R.string.kr) + goalPos + '.' + position);
+        editor.remove(getString(R.string.kr_prog_num) + goalPos + '.' + position);
+        editor.remove(getString(R.string.kr_prog_den) + goalPos + '.' + position);
         editor.apply();
         saveKRs();
         KRAdapter.notifyItemRemoved(position);
@@ -170,9 +173,9 @@ public class GoalDetailActivity extends AppCompatActivity {
 
     private void saveKRs() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(getString(R.string.num_krs) + goalName, numKRs);
+        editor.putInt(getString(R.string.num_krs) + goalPos, numKRs);
         for (int i = 0; i < numKRs; ++i) {
-            editor.putString(getString(R.string.kr) + goalName + i, KRNames.get(i));
+            editor.putString(getString(R.string.kr) + goalPos + '.' + i, KRNames.get(i));
         }
         editor.apply();
     }
@@ -182,14 +185,14 @@ public class GoalDetailActivity extends AppCompatActivity {
         int defaultNum = 0;
         int defaultDen = 100;
         String defaultKRName = "";
-        numKRs = sharedPreferences.getInt(getString(R.string.num_krs) + goalName, defaultNumKRs);
+        numKRs = sharedPreferences.getInt(getString(R.string.num_krs) + goalPos, defaultNumKRs);
         KRNames.clear();
         for (int i = 0; i < numKRs; ++i) {
-            String KRName = sharedPreferences.getString(getString(R.string.kr) + goalName + i, defaultKRName);
+            String KRName = sharedPreferences.getString(getString(R.string.kr) + goalPos + '.' + i, defaultKRName);
             KRNames.add(KRName);
             KRAdapter.notifyItemInserted(KRNames.size() - 1);
-            KRNums.add(sharedPreferences.getInt(getString(R.string.kr_prog_num) + goalName + i, defaultNum));
-            KRDens.add(sharedPreferences.getInt(getString(R.string.kr_prog_den) + goalName + i, defaultDen));
+            KRNums.add(sharedPreferences.getInt(getString(R.string.kr_prog_num) + goalPos + '.' + i, defaultNum));
+            KRDens.add(sharedPreferences.getInt(getString(R.string.kr_prog_den) + goalPos + '.' + i, defaultDen));
         }
         KRAdapter.setKRProg(KRNums, KRDens);
     }
@@ -205,8 +208,8 @@ public class GoalDetailActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         KRAdapter.ViewHolder v = (KRAdapter.ViewHolder)KRRecyclerView.findViewHolderForAdapterPosition(position);
         assert v != null;
-        editor.putInt(getString(R.string.kr_prog_num) + goalName + position, v.getProgNum());
-        editor.putInt(getString(R.string.kr_prog_den) + goalName + position, v.getProgDen());
+        editor.putInt(getString(R.string.kr_prog_num) + goalPos + '.' + position, v.getProgNum());
+        editor.putInt(getString(R.string.kr_prog_den) + goalPos + '.' + position, v.getProgDen());
         editor.apply();
     }
 }
