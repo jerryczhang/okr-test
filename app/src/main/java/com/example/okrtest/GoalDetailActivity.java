@@ -161,8 +161,8 @@ public class GoalDetailActivity extends AppCompatActivity {
         KRNames.remove(position);
         KRNums.remove(position);
         KRDens.remove(position);
-        String KRName = KRNames.get(position);
         --numKRs;
+        String KRName = KRNames.get(position);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(getString(R.string.kr) + goalName + '.' + KRName);
         editor.remove(getString(R.string.kr_prog_num) + goalName + '.' + KRName);
@@ -192,8 +192,8 @@ public class GoalDetailActivity extends AppCompatActivity {
             String KRName = sharedPreferences.getString(getString(R.string.kr) + goalName + '.' + i, defaultKRName);
             KRNames.add(KRName);
             KRAdapter.notifyItemInserted(KRNames.size() - 1);
-            KRNums.add(sharedPreferences.getInt(getString(R.string.kr_prog_num) + goalName + '.' + i, defaultNum));
-            KRDens.add(sharedPreferences.getInt(getString(R.string.kr_prog_den) + goalName + '.' + i, defaultDen));
+            KRNums.add(sharedPreferences.getInt(getString(R.string.kr_prog_num) + goalName + '.' + KRName, defaultNum));
+            KRDens.add(sharedPreferences.getInt(getString(R.string.kr_prog_den) + goalName + '.' + KRName, defaultDen));
         }
         KRAdapter.setKRProg(KRNums, KRDens);
     }
@@ -209,8 +209,8 @@ public class GoalDetailActivity extends AppCompatActivity {
         KRAdapter.ViewHolder v = (KRAdapter.ViewHolder)KRRecyclerView.findViewHolderForAdapterPosition(position);
         assert v != null;
         String KRName = KRNames.get(position);
-        editor.putInt(getString(R.string.kr_prog_num) + goalPos + '.' + KRName, v.getProgNum());
-        editor.putInt(getString(R.string.kr_prog_den) + goalPos + '.' + KRName, v.getProgDen());
+        editor.putInt(getString(R.string.kr_prog_num) + goalName + '.' + KRName, v.getProgNum());
+        editor.putInt(getString(R.string.kr_prog_den) + goalName + '.' + KRName, v.getProgDen());
         editor.apply();
     }
 }
