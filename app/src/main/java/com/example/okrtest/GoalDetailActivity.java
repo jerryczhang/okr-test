@@ -158,11 +158,11 @@ public class GoalDetailActivity extends AppCompatActivity {
     }
 
     private void deleteKR(int position) {
+        String KRName = KRNames.get(position);
         KRNames.remove(position);
         KRNums.remove(position);
         KRDens.remove(position);
         --numKRs;
-        String KRName = KRNames.get(position);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(getString(R.string.kr) + goalName + '.' + KRName);
         editor.remove(getString(R.string.kr_prog_num) + goalName + '.' + KRName);
