@@ -199,8 +199,14 @@ public class GoalDetailActivity extends AppCompatActivity {
     }
 
     private void renameKR(int position, String name) {
+        String KRName = KRNames.get(position);
         KRNames.set(position, name);
+        saveKRProg(position);
         saveKRs();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(getString(R.string.kr_prog_num) + goalName + '.' + KRName);
+        editor.remove(getString(R.string.kr_prog_den) + goalName + '.' + KRName);
+        editor.apply();
         KRAdapter.notifyItemChanged(position);
     }
 
