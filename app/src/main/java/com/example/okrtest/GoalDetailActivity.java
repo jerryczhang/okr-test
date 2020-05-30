@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -122,6 +123,8 @@ public class GoalDetailActivity extends AppCompatActivity {
                         public void onPositiveInput(int num, int den) {
                             v.setProgress(num, den);
                             v.setKRProgressBar();
+                            KRNums.set(position, num);
+                            KRDens.set(position, den);
                             saveKRProg(position);
                         }
                     });
