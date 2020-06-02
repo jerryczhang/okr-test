@@ -25,7 +25,6 @@ import java.util.Objects;
 
 public class GoalDetailActivity extends AppCompatActivity {
     private String goalName;
-    private int goalPos;
     private String goalDesc;
     private SharedPreferences sharedPreferences;
     private KRAdapter KRAdapter;
@@ -47,7 +46,6 @@ public class GoalDetailActivity extends AppCompatActivity {
         sharedPreferences = GoalDetailActivity.this.getPreferences(Context.MODE_PRIVATE);
 
         goalName = getIntent().getStringExtra(Tab1Fragment.EXTRA_GOAL_NAME);
-        goalPos = getIntent().getIntExtra(Tab1Fragment.EXTRA_GOAL_POS, 0);
 
         ImageView addKR = (ImageView) findViewById(R.id.addKRImageView);
         addKR.setOnClickListener(new View.OnClickListener() {
@@ -228,6 +226,18 @@ public class GoalDetailActivity extends AppCompatActivity {
         String KRName = KRNames.get(position);
         editor.putInt(getString(R.string.kr_prog_num) + goalName + '.' + KRName, v.getProgNum());
         editor.putInt(getString(R.string.kr_prog_den) + goalName + '.' + KRName, v.getProgDen());
+        editor.apply();
+    }
+
+    public void deleteAll() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String KRName;
+        for (int i = 0; i < KRNames.size(); ++i) {
+            KRName = KRNames.get(i);
+            editor.remove(getString(R.string.kr_prog_num) + goalName + '.' + KRName);
+            editor.remove(getString(R.string.kr_prog_den) + goalName + '.' + KRName);
+            editor.remove(getString(R.string.kr) + goalName + '.' + i);
+        }
         editor.apply();
     }
 }
