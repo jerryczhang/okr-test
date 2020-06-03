@@ -23,6 +23,7 @@ import com.example.okrtest.GoalDetailActivity;
 import com.example.okrtest.GoalsAdapter;
 import com.example.okrtest.R;
 import com.example.okrtest.RecyclerClickListener;
+import com.example.okrtest.SaveManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class Tab1Fragment extends Fragment {
     private int numGoals;
     private ArrayList<String> goalNames = new ArrayList<>();
     private GoalsAdapter goalsAdapter;
-    private SharedPreferences sharedPreferences;
+    private SaveManager saveManager;
 
     public static final String EXTRA_GOAL_NAME = "com.example.okrtest.GOAL_NAME";
 
@@ -45,7 +46,7 @@ public class Tab1Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferences = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
+        saveManager = new SaveManager(getContext());
     }
     @Override
     public View onCreateView(
@@ -107,38 +108,24 @@ public class Tab1Fragment extends Fragment {
         goalNames.add(name);
         goalsAdapter.notifyItemInserted(goalNames.size() - 1);
         ++numGoals;
-        saveGoals();
+        saveManager.saveGoals(numGoals, goalNames);
     }
 
     private void deleteGoal(int position) {
         goalNames.remove(position);
         goalsAdapter.notifyItemRemoved(position);
         --numGoals;
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(getString(R.string.goal) + position);
-        editor.apply();
-        saveGoals();
-    }
-
-    private void saveGoals() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(getString(R.string.num_goals), numGoals);
-        for (int i = 0; i < numGoals; ++i) {
-            editor.putString(getString(R.string.goal) + i, goalNames.get(i));
-        }
-        editor.apply();
+        //SharedPreferences.Editor editor = sharedPreferences.edit();
+        //editor.remove(getString(R.string.goal) + position);
+        //editor.apply();
+        saveManager.saveGoals(numGoals, goalNames);
     }
 
     private void loadGoals() {
-        int defaultNumGoals = 0;
-        String defaultGoalName = "";
-        numGoals = sharedPreferences.getInt(getString(R.string.num_goals), defaultNumGoals);
-        goalNames.clear();
-        for (int i = 0; i < numGoals; ++i) {
-            String goalName = sharedPreferences.getString(getString(R.string.goal) + i, defaultGoalName);
-            goalNames.add(goalName);
-            goalsAdapter.notifyItemInserted(goalNames.size() - 1);
-        }
+        SaveManager.SaveData saveData = saveManager.loadGoals();
+        numGoals = saveData.getNumData();
+        goalNames = saveData.getListData();
+        goalsAdapter.notifyItemInserted(0);
     }
 
     private void clearSharedPreferences() {

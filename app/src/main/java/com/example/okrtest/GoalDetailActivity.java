@@ -43,7 +43,7 @@ public class GoalDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_detail);
         goalDescTextView = (TextView) findViewById(R.id.goalDescTextView);
-        sharedPreferences = GoalDetailActivity.this.getPreferences(Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("kr_prog", MODE_PRIVATE);
 
         goalName = getIntent().getStringExtra(Tab1Fragment.EXTRA_GOAL_NAME);
 
@@ -231,6 +231,7 @@ public class GoalDetailActivity extends AppCompatActivity {
 
     public void deleteAll() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(getString(R.string.num_krs) + goalName);
         String KRName;
         for (int i = 0; i < KRNames.size(); ++i) {
             KRName = KRNames.get(i);
