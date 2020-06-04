@@ -11,9 +11,13 @@ public class SaveManager {
     private SharedPreferences sharedPreferences;
     private Context c;
 
+    private int numGoals;
+    private ArrayList<String> goalNames;
+
     public SaveManager(Context context) {
         c = context;
         sharedPreferences = c.getSharedPreferences("save", Context.MODE_PRIVATE);
+        goalNames = new ArrayList<>();
     }
 
     public void saveGoals(int numGoals, ArrayList<String> goalNames) {
@@ -28,13 +32,18 @@ public class SaveManager {
     public SaveData loadGoals() {
         int defaultNumGoals = 0;
         String defaultGoalName = "";
-        int numGoals = sharedPreferences.getInt(c.getString(R.string.num_goals), defaultNumGoals);
-        ArrayList<String> goalNames = new ArrayList<>();
+        numGoals = sharedPreferences.getInt(c.getString(R.string.num_goals), defaultNumGoals);
         for (int i = 0; i < numGoals; ++i) {
             String goalName = sharedPreferences.getString(c.getString(R.string.goal) + i, defaultGoalName);
             goalNames.add(goalName);
         }
         return new SaveData(numGoals, goalNames);
+    }
+
+    public void deleteGoal(int position) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(c.getString(R.string.goal) + position);
+        editor.apply();
     }
 
     public static class SaveData {

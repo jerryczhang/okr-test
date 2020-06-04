@@ -38,15 +38,10 @@ public class Tab1Fragment extends Fragment {
     public static final String EXTRA_GOAL_NAME = "com.example.okrtest.GOAL_NAME";
 
     @Override
-    public void onStart() {
-        super.onStart();
-        loadGoals();
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         saveManager = new SaveManager(getContext());
+        loadGoals();
     }
     @Override
     public View onCreateView(
@@ -115,9 +110,7 @@ public class Tab1Fragment extends Fragment {
         goalNames.remove(position);
         goalsAdapter.notifyItemRemoved(position);
         --numGoals;
-        //SharedPreferences.Editor editor = sharedPreferences.edit();
-        //editor.remove(getString(R.string.goal) + position);
-        //editor.apply();
+        saveManager.deleteGoal(position);
         saveManager.saveGoals(numGoals, goalNames);
     }
 
@@ -125,7 +118,6 @@ public class Tab1Fragment extends Fragment {
         SaveManager.SaveData saveData = saveManager.loadGoals();
         numGoals = saveData.getNumData();
         goalNames = saveData.getListData();
-        goalsAdapter.notifyItemInserted(0);
     }
 
     private void clearSharedPreferences() {
