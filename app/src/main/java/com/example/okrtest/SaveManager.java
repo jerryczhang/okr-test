@@ -30,6 +30,7 @@ public class SaveManager {
     }
 
     public SaveData loadGoals() {
+        ArrayList<ArrayList<?>> listHolder = new ArrayList<>();
         int defaultNumGoals = 0;
         String defaultGoalName = "";
         numGoals = sharedPreferences.getInt(c.getString(R.string.num_goals), defaultNumGoals);
@@ -37,7 +38,8 @@ public class SaveManager {
             String goalName = sharedPreferences.getString(c.getString(R.string.goal) + i, defaultGoalName);
             goalNames.add(goalName);
         }
-        return new SaveData(numGoals, goalNames);
+        listHolder.add(goalNames);
+        return new SaveData(numGoals, listHolder);
     }
 
     public void deleteGoal(int position) {
@@ -46,21 +48,70 @@ public class SaveManager {
         editor.apply();
     }
 
+    public String loadGoalDesc(String goalName) {
+        return sharedPreferences.getString(c.getString(R.string.goal_desc) + goalName, c.getString(R.string.default_goal_desc));
+    }
+
+    public void saveGoalDesc(String goalName, String desc) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(c.getString(R.string.goal_desc) + goalName, desc);
+        editor.apply();
+    }
+
+    public void saveKRNames(String goalName, ArrayList<String> KRNames) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(c.getString(R.string.num_krs) + goalName, KRNames.size());
+        for (int i = 0; i < KRNames.size(); ++i) {
+            editor.putString(c.getString(R.string.kr) + goalName + '.' + i, KRNames.get(i));
+        }
+        editor.apply();
+    }
+
+    public SaveData loadKRs(String goalName) {
+        int defaultNumKRs = 0;
+        int defaultNum = 0;
+        int defaultDen = 100;
+        String defaultKRName = "";
+        int numKRs = sharedPreferences.getInt(c.getString(R.string.num_krs) + goalName, defaultNumKRs);
+        ArrayList<ArrayList<?>> listHolder = new ArrayList<>();
+        ArrayList<String> KRNames = new ArrayList<>();
+        ArrayList<Integer> KRNums = new ArrayList<>();
+        ArrayList<Integer> KRDens = new ArrayList<>();
+        for (int i = 0; i < numKRs; ++i) {
+            String KRName = sharedPreferences.getString(c.getString(R.string.kr) + goalName + '.' + i, defaultKRName);
+            KRNames.add(KRName);
+            KRNums.add(sharedPreferences.getInt(c.getString(R.string.kr_prog_num) + goalName + '.' + KRName, defaultNum));
+            KRDens.add(sharedPreferences.getInt(c.getString(R.string.kr_prog_den) + goalName + '.' + KRName, defaultDen));
+        }
+        listHolder.add(KRNames);
+        listHolder.add(KRNums);
+        listHolder.add(KRDens);
+        return new SaveData(numKRs, listHolder);
+    }
+
+    public void deleteKR(String goalName, String KRName) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(c.getString(R.string.kr) + goalName + '.' + KRName);
+        editor.remove(c.getString(R.string.kr_prog_num) + goalName + '.' + KRName);
+        editor.remove(c.getString(R.string.kr_prog_den) + goalName + '.' + KRName);
+        editor.apply();
+    }
+
     public static class SaveData {
         private int numData;
-        private ArrayList<String> listData;
+        private ArrayList<ArrayList<?>> listHolder;
 
-        SaveData(int num, ArrayList<String> list) {
+        SaveData(int num, ArrayList<ArrayList<?>> list) {
             numData = num;
-            listData = list;
+            listHolder = list;
         }
 
         public int getNumData() {
             return numData;
         }
 
-        public ArrayList<String> getListData() {
-            return listData;
+        public ArrayList<?> getListData(int position) {
+            return listHolder.get(position);
         }
     }
 }

@@ -117,7 +117,7 @@ public class Tab1Fragment extends Fragment {
     private void loadGoals() {
         SaveManager.SaveData saveData = saveManager.loadGoals();
         numGoals = saveData.getNumData();
-        goalNames = saveData.getListData();
+        goalNames = (ArrayList<String>)saveData.getListData(0);
     }
 
     private void clearSharedPreferences() {

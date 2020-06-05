@@ -26,9 +26,9 @@ import java.util.Objects;
 public class GoalDetailActivity extends AppCompatActivity {
     private String goalName;
     private String goalDesc;
-    private SharedPreferences sharedPreferences;
     private KRAdapter KRAdapter;
     private RecyclerView KRRecyclerView;
+    private SaveManager saveManager;
 
     private ArrayList<String> KRNames = new ArrayList<>();
     private ArrayList<Integer> KRNums = new ArrayList<>();
@@ -42,8 +42,8 @@ public class GoalDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_detail);
+        saveManager = new SaveManager(GoalDetailActivity.this);
         goalDescTextView = (TextView) findViewById(R.id.goalDescTextView);
-        sharedPreferences = getSharedPreferences("kr_prog", MODE_PRIVATE);
 
         goalName = getIntent().getStringExtra(Tab1Fragment.EXTRA_GOAL_NAME);
 
@@ -140,21 +140,15 @@ public class GoalDetailActivity extends AppCompatActivity {
         });
         KRRecyclerView.setAdapter(KRAdapter);
         loadKRs();
-        loadGoalDetails();
         setTitle(goalName);
+        goalDesc = saveManager.loadGoalDesc(goalName);
         goalDescTextView.setText(goalDesc);
-    }
-
-    private void loadGoalDetails() {
-        goalDesc = sharedPreferences.getString(getString(R.string.goal_desc) + goalName, getString(R.string.default_goal_desc));
     }
 
     private void setGoalDesc(String desc) {
         goalDesc = desc;
         goalDescTextView.setText(desc);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(getString(R.string.goal_desc) + goalName, desc);
-        editor.apply();
+        saveManager.saveGoalDesc(goalName, desc);
     }
 
     public void addKR(String name) {
@@ -163,7 +157,7 @@ public class GoalDetailActivity extends AppCompatActivity {
         KRDens.add(100);
         KRAdapter.notifyItemInserted(KRNames.size() - 1);
         ++numKRs;
-        saveKRs();
+        saveManager.saveKRNames(goalName, KRNames);
     }
 
     private void deleteKR(int position) {
@@ -172,50 +166,29 @@ public class GoalDetailActivity extends AppCompatActivity {
         KRNums.remove(position);
         KRDens.remove(position);
         --numKRs;
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(getString(R.string.kr) + goalName + '.' + KRName);
-        editor.remove(getString(R.string.kr_prog_num) + goalName + '.' + KRName);
-        editor.remove(getString(R.string.kr_prog_den) + goalName + '.' + KRName);
-        editor.apply();
-        saveKRs();
+        saveManager.deleteKR(goalName, KRName);
+        saveManager.saveKRNames(goalName, KRNames);
         KRAdapter.notifyItemRemoved(position);
     }
 
-    private void saveKRs() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(getString(R.string.num_krs) + goalName, numKRs);
-        for (int i = 0; i < numKRs; ++i) {
-            editor.putString(getString(R.string.kr) + goalName + '.' + i, KRNames.get(i));
-        }
-        editor.apply();
-    }
-
     private void loadKRs() {
-        int defaultNumKRs = 0;
-        int defaultNum = 0;
-        int defaultDen = 100;
-        String defaultKRName = "";
-        numKRs = sharedPreferences.getInt(getString(R.string.num_krs) + goalName, defaultNumKRs);
-        KRNames.clear();
-        for (int i = 0; i < numKRs; ++i) {
-            String KRName = sharedPreferences.getString(getString(R.string.kr) + goalName + '.' + i, defaultKRName);
-            KRNames.add(KRName);
-            KRAdapter.notifyItemInserted(KRNames.size() - 1);
-            KRNums.add(sharedPreferences.getInt(getString(R.string.kr_prog_num) + goalName + '.' + KRName, defaultNum));
-            KRDens.add(sharedPreferences.getInt(getString(R.string.kr_prog_den) + goalName + '.' + KRName, defaultDen));
-        }
+        SaveManager.SaveData saveData = saveManager.loadKRs(goalName);
+        numKRs = saveData.getNumData();
+        KRNames = (ArrayList<String>)saveData.getListData(0);
+        KRNums = (ArrayList<Integer>)saveData.getListData(1);
+        KRDens = (ArrayList<Integer>)saveData.getListData(1);
         KRAdapter.setKRProg(KRNums, KRDens);
+        for (int i = 0; i < numKRs; ++i) {
+            KRAdapter.notifyItemInserted(KRNames.size() - 1);
+        }
     }
 
     private void renameKR(int position, String name) {
         String KRName = KRNames.get(position);
         KRNames.set(position, name);
         saveKRProg(position);
-        saveKRs();
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(getString(R.string.kr_prog_num) + goalName + '.' + KRName);
-        editor.remove(getString(R.string.kr_prog_den) + goalName + '.' + KRName);
-        editor.apply();
+        saveManager.saveKRNames(goalName, KRNames);
+        saveManager.deleteKR(goalName, KRName);
         KRAdapter.notifyItemChanged(position);
     }
 
