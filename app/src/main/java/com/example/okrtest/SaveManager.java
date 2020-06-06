@@ -97,6 +97,13 @@ public class SaveManager {
         editor.apply();
     }
 
+    public void saveKRPRog(String goalName, String KRName, int num, int den) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(c.getString(R.string.kr_prog_num) + goalName + '.' + KRName, num);
+        editor.putInt(c.getString(R.string.kr_prog_den) + goalName + '.' + KRName, den);
+        editor.apply();
+    }
+
     public static class SaveData {
         private int numData;
         private ArrayList<ArrayList<?>> listHolder;

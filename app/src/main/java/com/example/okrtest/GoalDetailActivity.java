@@ -193,25 +193,10 @@ public class GoalDetailActivity extends AppCompatActivity {
     }
 
     private void saveKRProg(int position) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String KRName = KRNames.get(position);
         KRAdapter.ViewHolder v = (KRAdapter.ViewHolder)KRRecyclerView.findViewHolderForAdapterPosition(position);
         assert v != null;
-        String KRName = KRNames.get(position);
-        editor.putInt(getString(R.string.kr_prog_num) + goalName + '.' + KRName, v.getProgNum());
-        editor.putInt(getString(R.string.kr_prog_den) + goalName + '.' + KRName, v.getProgDen());
-        editor.apply();
+        saveManager.saveKRPRog(goalName, KRName, v.getProgNum(), v.getProgDen());
     }
 
-    public void deleteAll() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(getString(R.string.num_krs) + goalName);
-        String KRName;
-        for (int i = 0; i < KRNames.size(); ++i) {
-            KRName = KRNames.get(i);
-            editor.remove(getString(R.string.kr_prog_num) + goalName + '.' + KRName);
-            editor.remove(getString(R.string.kr_prog_den) + goalName + '.' + KRName);
-            editor.remove(getString(R.string.kr) + goalName + '.' + i);
-        }
-        editor.apply();
-    }
 }
