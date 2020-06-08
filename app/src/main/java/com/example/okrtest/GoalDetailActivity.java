@@ -87,6 +87,7 @@ public class GoalDetailActivity extends AppCompatActivity {
         KRRecyclerView.setLayoutManager(new LinearLayoutManager(GoalDetailActivity.this));
         KRRecyclerView.scrollToPosition(0);
 
+        loadKRs();
         KRAdapter = new KRAdapter(GoalDetailActivity.this, KRNames, new RecyclerClickListener() {
             @Override
             public void onViewClicked(int position) {
@@ -139,7 +140,7 @@ public class GoalDetailActivity extends AppCompatActivity {
             }
         });
         KRRecyclerView.setAdapter(KRAdapter);
-        loadKRs();
+        KRAdapter.setKRProg(KRNums, KRDens);
         setTitle(goalName);
         goalDesc = saveManager.loadGoalDesc(goalName);
         goalDescTextView.setText(goalDesc);
@@ -155,9 +156,10 @@ public class GoalDetailActivity extends AppCompatActivity {
         KRNames.add(name);
         KRNums.add(0);
         KRDens.add(100);
-        KRAdapter.notifyItemInserted(KRNames.size() - 1);
+        KRAdapter.setKRProg(KRNums, KRDens);
         ++numKRs;
         saveManager.saveKRNames(goalName, KRNames);
+        KRAdapter.notifyItemInserted(KRNames.size() - 1);
     }
 
     private void deleteKR(int position) {
@@ -176,11 +178,7 @@ public class GoalDetailActivity extends AppCompatActivity {
         numKRs = saveData.getNumData();
         KRNames = (ArrayList<String>)saveData.getListData(0);
         KRNums = (ArrayList<Integer>)saveData.getListData(1);
-        KRDens = (ArrayList<Integer>)saveData.getListData(1);
-        KRAdapter.setKRProg(KRNums, KRDens);
-        for (int i = 0; i < numKRs; ++i) {
-            KRAdapter.notifyItemInserted(KRNames.size() - 1);
-        }
+        KRDens = (ArrayList<Integer>)saveData.getListData(2);
     }
 
     private void renameKR(int position, String name) {
