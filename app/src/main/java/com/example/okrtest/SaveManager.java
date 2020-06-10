@@ -11,13 +11,9 @@ public class SaveManager {
     private SharedPreferences sharedPreferences;
     private Context c;
 
-    private int numGoals;
-    private ArrayList<String> goalNames;
-
     public SaveManager(Context context) {
         c = context;
         sharedPreferences = c.getSharedPreferences("save", Context.MODE_PRIVATE);
-        goalNames = new ArrayList<>();
     }
 
     public void saveGoals(int numGoals, ArrayList<String> goalNames) {
@@ -33,7 +29,8 @@ public class SaveManager {
         ArrayList<ArrayList<?>> listHolder = new ArrayList<>();
         int defaultNumGoals = 0;
         String defaultGoalName = "";
-        numGoals = sharedPreferences.getInt(c.getString(R.string.num_goals), defaultNumGoals);
+        int numGoals = sharedPreferences.getInt(c.getString(R.string.num_goals), defaultNumGoals);
+        ArrayList<String> goalNames = new ArrayList<>();
         for (int i = 0; i < numGoals; ++i) {
             String goalName = sharedPreferences.getString(c.getString(R.string.goal) + i, defaultGoalName);
             goalNames.add(goalName);
@@ -43,9 +40,15 @@ public class SaveManager {
     }
 
     public void deleteGoal(int position) {
+        String goalName = ((ArrayList<String>)loadGoals().getListData(0)).get(position);
+        ArrayList<String> KRNames = (ArrayList<String>)loadKRs(goalName).getListData(0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(c.getString(R.string.goal) + position);
+        editor.remove(c.getString(R.string.num_krs) + goalName);
         editor.apply();
+        for (int i = 0; i < KRNames.size(); ++i) {
+            deleteKR(goalName, i, KRNames.get(i));
+        }
     }
 
     public String loadGoalDesc(String goalName) {
@@ -89,9 +92,9 @@ public class SaveManager {
         return new SaveData(numKRs, listHolder);
     }
 
-    public void deleteKR(String goalName, String KRName) {
+    public void deleteKR(String goalName, int position, String KRName) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(c.getString(R.string.kr) + goalName + '.' + KRName);
+        editor.remove(c.getString(R.string.kr) + goalName + '.' + position);
         editor.remove(c.getString(R.string.kr_prog_num) + goalName + '.' + KRName);
         editor.remove(c.getString(R.string.kr_prog_den) + goalName + '.' + KRName);
         editor.apply();

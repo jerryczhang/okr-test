@@ -168,7 +168,7 @@ public class GoalDetailActivity extends AppCompatActivity {
         KRNums.remove(position);
         KRDens.remove(position);
         --numKRs;
-        saveManager.deleteKR(goalName, KRName);
+        saveManager.deleteKR(goalName, position, KRName);
         saveManager.saveKRNames(goalName, KRNames);
         KRAdapter.notifyItemRemoved(position);
     }
@@ -186,7 +186,7 @@ public class GoalDetailActivity extends AppCompatActivity {
         KRNames.set(position, name);
         saveKRProg(position);
         saveManager.saveKRNames(goalName, KRNames);
-        saveManager.deleteKR(goalName, KRName);
+        saveManager.deleteKR(goalName, position, KRName);
         KRAdapter.notifyItemChanged(position);
     }
 
