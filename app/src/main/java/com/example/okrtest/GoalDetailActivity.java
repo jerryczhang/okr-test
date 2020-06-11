@@ -59,7 +59,16 @@ public class GoalDetailActivity extends AppCompatActivity {
                 DialogFragment addGoalDialog = new InputTextDialog(title, positiveName, negativeName, hint, new InputTextDialog.textDialogListener() {
                     @Override
                     public void onPositiveInput(String text) {
-                        addKR(text);
+                        if (KRNames.contains(text)) {
+                            String title = getString(R.string.kr_exists_dialog_title);
+                            String message = getString(R.string.kr_exists_dialog_text);
+                            String positiveName = getString(R.string.kr_exists_dialog_positive);
+                            OutputTextDialog KRExistsDialog = new OutputTextDialog(title, message, positiveName);
+                            KRExistsDialog.show(getSupportFragmentManager(), "kr_exists");
+                        }
+                        else {
+                            addKR(text);
+                        }
                     }
                 });
                 addGoalDialog.show(getSupportFragmentManager(), "add_goal");

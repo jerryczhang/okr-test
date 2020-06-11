@@ -45,6 +45,7 @@ public class SaveManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(c.getString(R.string.goal) + position);
         editor.remove(c.getString(R.string.num_krs) + goalName);
+        editor.remove(c.getString(R.string.goal_desc) + goalName);
         editor.apply();
         for (int i = 0; i < KRNames.size(); ++i) {
             deleteKR(goalName, i, KRNames.get(i));
