@@ -42,9 +42,18 @@
     <string name="rename_kr_dialog_positive">Save</string>
     <string name="rename_kr_dialog_negative">Cancel</string>
 
+    <string name="rename_goal_dialog_title">Change Goal Name</string>
+    <string name="rename_goal_dialog_hint">Enter new goal name</string>
+    <string name="rename_goal_dialog_positive">Save</string>
+    <string name="rename_goal_dialog_negative">Cancel</string>
+
     <string name="kr_exists_dialog_title"> </string>
     <string name="kr_exists_dialog_text">Key result already exists</string>
     <string name="kr_exists_dialog_positive">OK</string>
+
+    <string name="goal_exists_dialog_title"> </string>
+    <string name="goal_exists_dialog_text">Goal already exists</string>
+    <string name="goal_exists_dialog_positive">OK</string>
 
     <string name="prog_save">Edit Progress</string>
 </resources>

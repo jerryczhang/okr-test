@@ -44,6 +44,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             deleteGoal = (ImageView) view.findViewById(R.id.deleteGoalImageView);
 
             view.setOnClickListener(this);
+            goalNameTextView.setOnClickListener(this);
             deleteGoal.setOnClickListener(this);
         }
 
@@ -57,7 +58,9 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == deleteGoal.getId()) {
+            if (v.getId() == deleteGoal.getId()
+                || v.getId() == goalNameTextView.getId()
+            ) {
                 listenerRef.get().onItemClicked(getAdapterPosition(), v.getId());
             } else {
                 listenerRef.get().onViewClicked(getAdapterPosition());

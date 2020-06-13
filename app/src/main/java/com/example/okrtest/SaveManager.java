@@ -25,6 +25,21 @@ public class SaveManager {
         editor.apply();
     }
 
+    public void renameGoal(int position, String oldName, String newName) {
+        SaveData KRData = loadKRs(oldName);
+        ArrayList<String> KRNames = (ArrayList<String>)KRData.getListData(0);
+        ArrayList<Integer> KRNums = (ArrayList<Integer>)KRData.getListData(1);
+        ArrayList<Integer> KRDens = (ArrayList<Integer>)KRData.getListData(2);
+        String goalDesc = loadGoalDesc(oldName);
+
+        saveKRNames(newName, KRNames);
+        for (int i = 0; i < KRNames.size(); ++i) {
+            saveKRPRog(newName, KRNames.get(i), KRNums.get(i), KRDens.get(i));
+        }
+        saveGoalDesc(newName, goalDesc);
+        deleteGoal(position);
+    }
+
     public SaveData loadGoals() {
         ArrayList<ArrayList<?>> listHolder = new ArrayList<>();
         int defaultNumGoals = 0;
