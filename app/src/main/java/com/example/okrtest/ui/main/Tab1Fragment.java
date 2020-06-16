@@ -104,7 +104,15 @@ public class Tab1Fragment extends Fragment {
                 DialogFragment addGoalDialog = new InputTextDialog(title, positiveName, negativeName, hint, new InputTextDialog.textDialogListener() {
                     @Override
                     public void onPositiveInput(String text) {
-                        addGoal(text);
+                        if (goalNames.contains(text)) {
+                            String title = getString(R.string.goal_exists_dialog_title);
+                            String message = getString(R.string.goal_exists_dialog_text);
+                            String positiveName = getString(R.string.goal_exists_dialog_positive);
+                            OutputTextDialog KRExistsDialog = new OutputTextDialog(title, message, positiveName);
+                            KRExistsDialog.show(getParentFragmentManager(), "goal_exists");
+                        } else {
+                            addGoal(text);
+                        }
                     }
                 });
                 addGoalDialog.show(getParentFragmentManager(), "add_goal");
