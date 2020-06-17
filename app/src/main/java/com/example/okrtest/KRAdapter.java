@@ -33,7 +33,8 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
         private TextView KRNameTextView;
         private ImageView deleteKR;
         private ProgressBar KRProgressBar;
-        private Button editProgButton;
+        private ImageView editProg;
+        private ImageView renameKR;
         private WeakReference<RecyclerClickListener> listenerRef;
         private int num;
         private int den;
@@ -44,12 +45,14 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
             KRNameTextView = (TextView) view.findViewById(R.id.KRNameTextView);
             deleteKR = (ImageView) view.findViewById(R.id.deleteKRImageView);
             KRProgressBar = (ProgressBar) view.findViewById(R.id.KRProgressBar);
-            editProgButton = (Button) view.findViewById(R.id.editProgButton);
+            editProg = (ImageView) view.findViewById(R.id.editProgImageView);
+            renameKR = (ImageView) view.findViewById(R.id.renameKRImageView);
 
             view.setOnClickListener(this);
             KRNameTextView.setOnClickListener(this);
             deleteKR.setOnClickListener(this);
-            editProgButton.setOnClickListener(this);
+            editProg.setOnClickListener(this);
+            renameKR.setOnClickListener(this);
         }
 
         void setKRNameTextView(String text) {
@@ -76,8 +79,8 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
         @Override
         public void onClick(View v) {
             if (v.getId() == deleteKR.getId()
-                    || v.getId() == editProgButton.getId()
-                    || v.getId() == KRNameTextView.getId()
+                    || v.getId() == editProg.getId()
+                    || v.getId() == renameKR.getId()
             ) {
                 listenerRef.get().onItemClicked(getAdapterPosition(), v.getId());
             } else {

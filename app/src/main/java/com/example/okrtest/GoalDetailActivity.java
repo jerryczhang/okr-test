@@ -106,7 +106,7 @@ public class GoalDetailActivity extends AppCompatActivity {
             public void onItemClicked(final int position, int id) {
                 if (id == R.id.deleteKRImageView) {
                     deleteKR(position);
-                } else if (id == R.id.KRNameTextView) {
+                } else if (id == R.id.renameKRImageView) {
                     String title = getString(R.string.rename_kr_dialog_title);
                     String positiveName = getString(R.string.rename_kr_dialog_positive);
                     String negativeName = getString(R.string.rename_kr_dialog_negative);
@@ -126,7 +126,7 @@ public class GoalDetailActivity extends AppCompatActivity {
                         }
                     });
                     renameKRDialog.show(getSupportFragmentManager(), "rename_kr");
-                } else if (id == R.id.editProgButton) {
+                } else if (id == R.id.editProgImageView) {
                     final KRAdapter.ViewHolder v = (KRAdapter.ViewHolder)KRRecyclerView.findViewHolderForAdapterPosition(position);
                     String title = getString(R.string.edit_prog_dialog_title);
                     String positiveName = getString(R.string.edit_prog_dialog_positive);
