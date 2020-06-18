@@ -67,7 +67,17 @@ public class Tab1Fragment extends Fragment {
             @Override
             public void onItemClicked(final int position, int id) {
                 if (id == R.id.deleteGoalImageView) {
-                    deleteGoal(position);
+                    String title = getString(R.string.delete_goal_dialog_title);
+                    String message = getString(R.string.delete_goal_dialog_text);
+                    String positiveName = getString(R.string.delete_goal_dialog_positive);
+                    String negativeName = getString(R.string.delete_goal_dialog_negative);
+                    OutputTextDialog deleteGoalDialog = new OutputTextDialog(title, message, positiveName, negativeName, new OutputTextDialog.OutputTextListener() {
+                        @Override
+                        public void onPositiveInput() {
+                            deleteGoal(position);
+                        }
+                    });
+                    deleteGoalDialog.show(getParentFragmentManager(), "goal_exists");
                 } else if (id == R.id.renameGoalImageView) {
                     String title = getString(R.string.rename_goal_dialog_title);
                     String positiveName = getString(R.string.rename_goal_dialog_positive);
