@@ -55,10 +55,15 @@
     <string name="goal_exists_dialog_text">Goal already exists</string>
     <string name="goal_exists_dialog_positive">OK</string>
 
-    <string name="delete_goal_dialog_title"> </string>
-    <string name="delete_goal_dialog_text">Delete goal?</string>
+    <string name="delete_goal_dialog_title">Delete goal?</string>
+    <string name="delete_goal_dialog_text"> </string>
     <string name="delete_goal_dialog_positive">OK</string>
     <string name="delete_goal_dialog_negative">Cancel</string>
+
+    <string name="delete_kr_dialog_title">Delete key result?</string>
+    <string name="delete_kr_dialog_text"> </string>
+    <string name="delete_kr_dialog_positive">OK</string>
+    <string name="delete_kr_dialog_negative">Cancel</string>
 
     <string name="prog_save">Edit Progress</string>
 </resources>

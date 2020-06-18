@@ -105,7 +105,17 @@ public class GoalDetailActivity extends AppCompatActivity {
             @Override
             public void onItemClicked(final int position, int id) {
                 if (id == R.id.deleteKRImageView) {
-                    deleteKR(position);
+                    String title = getString(R.string.delete_kr_dialog_title);
+                    String message = getString(R.string.delete_kr_dialog_text);
+                    String positiveName = getString(R.string.delete_kr_dialog_positive);
+                    String negativeName = getString(R.string.delete_kr_dialog_negative);
+                    OutputTextDialog deleteKRDialog = new OutputTextDialog(title, message, positiveName, negativeName, new OutputTextDialog.OutputTextListener() {
+                        @Override
+                        public void onPositiveInput() {
+                            deleteKR(position);
+                        }
+                    });
+                    deleteKRDialog.show(getSupportFragmentManager(), "delete_kr");
                 } else if (id == R.id.renameKRImageView) {
                     String title = getString(R.string.rename_kr_dialog_title);
                     String positiveName = getString(R.string.rename_kr_dialog_positive);

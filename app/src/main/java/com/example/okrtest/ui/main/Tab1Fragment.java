@@ -77,7 +77,7 @@ public class Tab1Fragment extends Fragment {
                             deleteGoal(position);
                         }
                     });
-                    deleteGoalDialog.show(getParentFragmentManager(), "goal_exists");
+                    deleteGoalDialog.show(getParentFragmentManager(), "delete_goal");
                 } else if (id == R.id.renameGoalImageView) {
                     String title = getString(R.string.rename_goal_dialog_title);
                     String positiveName = getString(R.string.rename_goal_dialog_positive);
