@@ -132,6 +132,8 @@ public class GoalDetailActivity extends AppCompatActivity {
                                 KRExistsDialog.show(getSupportFragmentManager(), "kr_exists");
                             } else {
                                 renameKR(position, text);
+                                saveManager.saveKRNames(goalName, KRNames);
+                                saveKRProg(position);
                             }
                         }
                     });
