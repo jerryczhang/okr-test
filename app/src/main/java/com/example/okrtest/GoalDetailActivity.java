@@ -132,8 +132,6 @@ public class GoalDetailActivity extends AppCompatActivity {
                                 KRExistsDialog.show(getSupportFragmentManager(), "kr_exists");
                             } else {
                                 renameKR(position, text);
-                                saveManager.saveKRNames(goalName, KRNames);
-                                saveKRProg(position);
                             }
                         }
                     });
@@ -179,7 +177,7 @@ public class GoalDetailActivity extends AppCompatActivity {
         KRDens.add(100);
         KRAdapter.setKRProg(KRNums, KRDens);
         ++numKRs;
-        saveManager.saveKRNames(goalName, KRNames);
+        saveKRs();
         KRAdapter.notifyItemInserted(KRNames.size() - 1);
     }
 
@@ -190,7 +188,7 @@ public class GoalDetailActivity extends AppCompatActivity {
         KRDens.remove(position);
         --numKRs;
         saveManager.deleteKR(goalName, position, KRName);
-        saveManager.saveKRNames(goalName, KRNames);
+        saveKRs();
         KRAdapter.notifyItemRemoved(position);
     }
 
@@ -202,12 +200,16 @@ public class GoalDetailActivity extends AppCompatActivity {
         KRDens = (ArrayList<Integer>)saveData.getListData(2);
     }
 
+    private void saveKRs() {
+        saveManager.saveKRNames(goalName, KRNames);
+    }
+
     private void renameKR(int position, String name) {
         String KRName = KRNames.get(position);
         KRNames.set(position, name);
+        saveManager.deleteKR(goalName, position, KRName);
         saveKRProg(position);
         saveManager.saveKRNames(goalName, KRNames);
-        saveManager.deleteKR(goalName, position, KRName);
         KRAdapter.notifyItemChanged(position);
     }
 
