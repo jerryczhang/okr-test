@@ -68,7 +68,7 @@ public class Tab1Fragment extends Fragment {
             public void onItemClicked(final int position, int id) {
                 if (id == R.id.deleteGoalImageView) {
                     String title = getString(R.string.delete_goal_dialog_title);
-                    String message = getString(R.string.delete_goal_dialog_text);
+                    String message = "Delete \"" + goalNames.get(position) + "\"?";
                     String positiveName = getString(R.string.delete_goal_dialog_positive);
                     String negativeName = getString(R.string.delete_goal_dialog_negative);
                     OutputTextDialog deleteGoalDialog = new OutputTextDialog(title, message, positiveName, negativeName, new OutputTextDialog.OutputTextListener() {
