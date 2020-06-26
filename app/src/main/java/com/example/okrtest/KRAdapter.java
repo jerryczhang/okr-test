@@ -45,13 +45,11 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
             KRNameTextView = (TextView) view.findViewById(R.id.KRNameTextView);
             deleteKR = (ImageView) view.findViewById(R.id.deleteKRImageView);
             KRProgressBar = (ProgressBar) view.findViewById(R.id.KRProgressBar);
-            editProg = (ImageView) view.findViewById(R.id.editProgImageView);
             renameKR = (ImageView) view.findViewById(R.id.renameKRImageView);
 
             view.setOnClickListener(this);
             KRNameTextView.setOnClickListener(this);
             deleteKR.setOnClickListener(this);
-            editProg.setOnClickListener(this);
             renameKR.setOnClickListener(this);
         }
 
@@ -79,7 +77,6 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
         @Override
         public void onClick(View v) {
             if (v.getId() == deleteKR.getId()
-                    || v.getId() == editProg.getId()
                     || v.getId() == renameKR.getId()
             ) {
                 listenerRef.get().onItemClicked(getAdapterPosition(), v.getId());

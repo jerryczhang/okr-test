@@ -6,16 +6,6 @@
     android:layout_height="96dp">
 
     <ImageView
-        android:id="@+id/editProgImageView"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/renameKRImageView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_show_chart_black_48dp" />
-
-    <ImageView
         android:id="@+id/renameKRImageView"
         android:layout_width="36dp"
         android:layout_height="36dp"

@@ -99,9 +99,26 @@ public class GoalDetailActivity extends AppCompatActivity {
         loadKRs();
         KRAdapter = new KRAdapter(GoalDetailActivity.this, KRNames, new RecyclerClickListener() {
             @Override
-            public void onViewClicked(int position) {
+            public void onViewClicked(final int position) {
+                final KRAdapter.ViewHolder v = (KRAdapter.ViewHolder)KRRecyclerView.findViewHolderForAdapterPosition(position);
+                String title = getString(R.string.edit_prog_dialog_title);
+                String positiveName = getString(R.string.edit_prog_dialog_positive);
+                String negativeName = getString(R.string.edit_prog_dialog_negative);
+                assert v != null;
+                int hintNum = v.getProgNum();
+                int hintDen = v.getProgDen();
+                DialogFragment editProgDialog = new InputProgDialog(title, positiveName, negativeName, hintNum, hintDen, new InputProgDialog.progDialogListener() {
+                    @Override
+                    public void onPositiveInput(int num, int den) {
+                        v.setProgress(num, den);
+                        v.setKRProgressBar();
+                        KRNums.set(position, num);
+                        KRDens.set(position, den);
+                        saveKRProg(position);
+                    }
+                });
+                editProgDialog.show(getSupportFragmentManager(), "add_goal");
             }
-
             @Override
             public void onItemClicked(final int position, int id) {
                 if (id == R.id.deleteKRImageView) {
@@ -136,25 +153,6 @@ public class GoalDetailActivity extends AppCompatActivity {
                         }
                     });
                     renameKRDialog.show(getSupportFragmentManager(), "rename_kr");
-                } else if (id == R.id.editProgImageView) {
-                    final KRAdapter.ViewHolder v = (KRAdapter.ViewHolder)KRRecyclerView.findViewHolderForAdapterPosition(position);
-                    String title = getString(R.string.edit_prog_dialog_title);
-                    String positiveName = getString(R.string.edit_prog_dialog_positive);
-                    String negativeName = getString(R.string.edit_prog_dialog_negative);
-                    assert v != null;
-                    int hintNum = v.getProgNum();
-                    int hintDen = v.getProgDen();
-                    DialogFragment editProgDialog = new InputProgDialog(title, positiveName, negativeName, hintNum, hintDen, new InputProgDialog.progDialogListener() {
-                        @Override
-                        public void onPositiveInput(int num, int den) {
-                            v.setProgress(num, den);
-                            v.setKRProgressBar();
-                            KRNums.set(position, num);
-                            KRDens.set(position, den);
-                            saveKRProg(position);
-                        }
-                    });
-                    editProgDialog.show(getSupportFragmentManager(), "add_goal");
                 }
             }
         });
