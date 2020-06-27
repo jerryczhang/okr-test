@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,9 +55,11 @@ public class Tab1Fragment extends Fragment {
 
         RecyclerView goalsRecyclerView = (RecyclerView) root.findViewById(R.id.goalsRecyclerView);
         ImageView addGoal = (ImageView) root.findViewById(R.id.addGoalImageView);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(Objects.requireNonNull(this.getContext()), DividerItemDecoration.VERTICAL);
 
         goalsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         goalsRecyclerView.scrollToPosition(0);
+        goalsRecyclerView.addItemDecoration(dividerItemDecoration);
 
         goalsAdapter = new GoalsAdapter(this.getContext(), goalNames, new RecyclerClickListener() {
             @Override
