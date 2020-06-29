@@ -1,6 +1,7 @@
 package com.example.okrtest.ui.main;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -106,6 +107,38 @@ public class Tab1Fragment extends Fragment {
             }
         });
         goalsRecyclerView.setAdapter(goalsAdapter);
+
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                final int position = viewHolder.getAdapterPosition();
+                switch (direction) {
+                    case ItemTouchHelper.LEFT:
+                        break;
+                    case ItemTouchHelper.RIGHT:
+                        String title = getString(R.string.delete_goal_dialog_title);
+                        String message = "Delete \"" + goalNames.get(position) + "\"?";
+                        String positiveName = getString(R.string.delete_goal_dialog_positive);
+                        String negativeName = getString(R.string.delete_goal_dialog_negative);
+                        OutputTextDialog deleteGoalDialog = new OutputTextDialog(title, message, positiveName, negativeName, new OutputTextDialog.OutputTextListener() {
+                            @Override
+                            public void onPositiveInput() {
+                                deleteGoal(position);
+                            }
+                        });
+                        deleteGoalDialog.show(getParentFragmentManager(), "delete_goal");
+                        break;
+                }
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(goalsRecyclerView);
 
         addGoal.setOnClickListener(new View.OnClickListener() {
             @Override
