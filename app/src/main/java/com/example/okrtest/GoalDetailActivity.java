@@ -1,11 +1,14 @@
 package com.example.okrtest;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -156,6 +159,39 @@ public class GoalDetailActivity extends AppCompatActivity {
                 }
             }
         });
+
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                final int position = viewHolder.getAdapterPosition();
+                switch (direction) {
+                    case ItemTouchHelper.LEFT:
+                        break;
+                    case ItemTouchHelper.RIGHT:
+                        String title = getString(R.string.delete_kr_dialog_title);
+                        String message = "Delete \"" + KRNames.get(position) + "\"?";
+                        String positiveName = getString(R.string.delete_kr_dialog_positive);
+                        String negativeName = getString(R.string.delete_kr_dialog_negative);
+                        OutputTextDialog deleteKRDialog = new OutputTextDialog(title, message, positiveName, negativeName, new OutputTextDialog.OutputTextListener() {
+                                                                                                                               @Override
+                                                                                                                               public void onPositiveInput() {
+                                deleteKR(position);
+                        }
+                        });
+                        deleteKRDialog.show(getSupportFragmentManager(), "delete_kr");
+                        break;
+                }
+            }
+        };
+
+       ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+       itemTouchHelper.attachToRecyclerView(KRRecyclerView);
+
         KRRecyclerView.setAdapter(KRAdapter);
         KRAdapter.setKRProg(KRNums, KRDens);
         setTitle(goalName);
