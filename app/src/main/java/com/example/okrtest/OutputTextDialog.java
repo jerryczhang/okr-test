@@ -33,6 +33,7 @@ public class OutputTextDialog extends DialogFragment {
 
     public interface OutputTextListener {
         void onPositiveInput();
+        void onNegativeInput();
     }
 
     @Override
@@ -50,6 +51,9 @@ public class OutputTextDialog extends DialogFragment {
         builder.setNegativeButton(negativeName, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                if (listenerRef != null) {
+                    listenerRef.get().onNegativeInput();
+                }
             }
         });
         return builder.create();

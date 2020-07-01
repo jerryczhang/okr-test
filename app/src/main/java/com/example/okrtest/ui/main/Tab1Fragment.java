@@ -54,7 +54,7 @@ public class Tab1Fragment extends Fragment {
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_tab1, container, false);
 
-        RecyclerView goalsRecyclerView = (RecyclerView) root.findViewById(R.id.goalsRecyclerView);
+        final RecyclerView goalsRecyclerView = (RecyclerView) root.findViewById(R.id.goalsRecyclerView);
         ImageView addGoal = (ImageView) root.findViewById(R.id.addGoalImageView);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(Objects.requireNonNull(this.getContext()), DividerItemDecoration.VERTICAL);
 
@@ -80,6 +80,10 @@ public class Tab1Fragment extends Fragment {
                         @Override
                         public void onPositiveInput() {
                             deleteGoal(position);
+                        }
+
+                        @Override
+                        public void onNegativeInput() {
                         }
                     });
                     deleteGoalDialog.show(getParentFragmentManager(), "delete_goal");
@@ -129,6 +133,11 @@ public class Tab1Fragment extends Fragment {
                             @Override
                             public void onPositiveInput() {
                                 deleteGoal(position);
+                            }
+
+                            @Override
+                            public void onNegativeInput() {
+                                goalsAdapter.notifyItemChanged(position);
                             }
                         });
                         deleteGoalDialog.show(getParentFragmentManager(), "delete_goal");

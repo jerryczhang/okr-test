@@ -134,6 +134,11 @@ public class GoalDetailActivity extends AppCompatActivity {
                         public void onPositiveInput() {
                             deleteKR(position);
                         }
+
+                        @Override
+                        public void onNegativeInput() {
+
+                        }
                     });
                     deleteKRDialog.show(getSupportFragmentManager(), "delete_kr");
                 } else if (id == R.id.renameKRImageView) {
@@ -178,10 +183,15 @@ public class GoalDetailActivity extends AppCompatActivity {
                         String positiveName = getString(R.string.delete_kr_dialog_positive);
                         String negativeName = getString(R.string.delete_kr_dialog_negative);
                         OutputTextDialog deleteKRDialog = new OutputTextDialog(title, message, positiveName, negativeName, new OutputTextDialog.OutputTextListener() {
-                                                                                                                               @Override
-                                                                                                                               public void onPositiveInput() {
+                           @Override
+                           public void onPositiveInput() {
                                 deleteKR(position);
-                        }
+                            }
+
+                            @Override
+                            public void onNegativeInput() {
+                               KRAdapter.notifyItemChanged(position);
+                            }
                         });
                         deleteKRDialog.show(getSupportFragmentManager(), "delete_kr");
                         break;
