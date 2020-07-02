@@ -2,6 +2,7 @@ package com.example.okrtest;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +13,8 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
 import android.util.Log;
@@ -25,6 +28,8 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class GoalDetailActivity extends AppCompatActivity {
     private String goalName;
@@ -174,28 +179,61 @@ public class GoalDetailActivity extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 final int position = viewHolder.getAdapterPosition();
+                String title, message, positiveName, negativeName, hint;
                 switch (direction) {
                     case ItemTouchHelper.LEFT:
-                        break;
-                    case ItemTouchHelper.RIGHT:
-                        String title = getString(R.string.delete_kr_dialog_title);
-                        String message = "Delete \"" + KRNames.get(position) + "\"?";
-                        String positiveName = getString(R.string.delete_kr_dialog_positive);
-                        String negativeName = getString(R.string.delete_kr_dialog_negative);
+                        title = getString(R.string.delete_kr_dialog_title);
+                        message = "Delete \"" + KRNames.get(position) + "\"?";
+                        positiveName = getString(R.string.delete_kr_dialog_positive);
+                        negativeName = getString(R.string.delete_kr_dialog_negative);
                         OutputTextDialog deleteKRDialog = new OutputTextDialog(title, message, positiveName, negativeName, new OutputTextDialog.OutputTextListener() {
-                           @Override
-                           public void onPositiveInput() {
+                            @Override
+                            public void onPositiveInput() {
                                 deleteKR(position);
                             }
 
                             @Override
                             public void onNegativeInput() {
-                               KRAdapter.notifyItemChanged(position);
+                                KRAdapter.notifyItemChanged(position);
                             }
                         });
                         deleteKRDialog.show(getSupportFragmentManager(), "delete_kr");
                         break;
+                    case ItemTouchHelper.RIGHT:
+                        title = getString(R.string.rename_kr_dialog_title);
+                        positiveName = getString(R.string.rename_kr_dialog_positive);
+                        negativeName = getString(R.string.rename_kr_dialog_negative);
+                        hint = getString(R.string.rename_kr_dialog_hint);
+                        DialogFragment renameKRDialog = new InputTextDialog(title, positiveName, negativeName, hint, new InputTextDialog.textDialogListener() {
+                            @Override
+                            public void onPositiveInput(String text) {
+                                if (KRNames.contains(text)) {
+                                    String title = getString(R.string.kr_exists_dialog_title);
+                                    String message = getString(R.string.kr_exists_dialog_text);
+                                    String positiveName = getString(R.string.kr_exists_dialog_positive);
+                                    OutputTextDialog KRExistsDialog = new OutputTextDialog(title, message, positiveName);
+                                    KRExistsDialog.show(getSupportFragmentManager(), "kr_exists");
+                                } else {
+                                    renameKR(position, text);
+                                }
+                            }
+                        });
+                        renameKRDialog.show(getSupportFragmentManager(), "rename_kr");
+                        KRAdapter.notifyItemChanged(position);
+                        break;
                 }
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addSwipeLeftBackgroundColor(Color.RED)
+                        .addSwipeLeftActionIcon(R.drawable.baseline_delete_black_48dp)
+                        .addSwipeRightBackgroundColor(Color.YELLOW)
+                        .addSwipeRightActionIcon(R.drawable.baseline_create_black_48dp)
+                        .create()
+                        .decorate();
             }
         };
 
