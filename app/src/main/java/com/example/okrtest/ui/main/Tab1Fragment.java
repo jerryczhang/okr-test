@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -33,6 +35,8 @@ import com.example.okrtest.SaveManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class Tab1Fragment extends Fragment {
     private int numGoals;
@@ -121,14 +125,13 @@ public class Tab1Fragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 final int position = viewHolder.getAdapterPosition();
+                String title, message, positiveName, negativeName, hint;
                 switch (direction) {
                     case ItemTouchHelper.LEFT:
-                        break;
-                    case ItemTouchHelper.RIGHT:
-                        String title = getString(R.string.delete_goal_dialog_title);
-                        String message = "Delete \"" + goalNames.get(position) + "\"?";
-                        String positiveName = getString(R.string.delete_goal_dialog_positive);
-                        String negativeName = getString(R.string.delete_goal_dialog_negative);
+                        title = getString(R.string.delete_goal_dialog_title);
+                        message = "Delete \"" + goalNames.get(position) + "\"?";
+                        positiveName = getString(R.string.delete_goal_dialog_positive);
+                        negativeName = getString(R.string.delete_goal_dialog_negative);
                         OutputTextDialog deleteGoalDialog = new OutputTextDialog(title, message, positiveName, negativeName, new OutputTextDialog.OutputTextListener() {
                             @Override
                             public void onPositiveInput() {
@@ -142,7 +145,41 @@ public class Tab1Fragment extends Fragment {
                         });
                         deleteGoalDialog.show(getParentFragmentManager(), "delete_goal");
                         break;
+                    case ItemTouchHelper.RIGHT:
+                        title = getString(R.string.rename_goal_dialog_title);
+                        positiveName = getString(R.string.rename_goal_dialog_positive);
+                        negativeName = getString(R.string.rename_goal_dialog_negative);
+                        hint = getString(R.string.rename_goal_dialog_hint);
+                        DialogFragment renameKRDialog = new InputTextDialog(title, positiveName, negativeName, hint, new InputTextDialog.textDialogListener() {
+                            @Override
+                            public void onPositiveInput(String text) {
+                                if (goalNames.contains(text)) {
+                                    String title = getString(R.string.goal_exists_dialog_title);
+                                    String message = getString(R.string.goal_exists_dialog_text);
+                                    String positiveName = getString(R.string.goal_exists_dialog_positive);
+                                    OutputTextDialog KRExistsDialog = new OutputTextDialog(title, message, positiveName);
+                                    KRExistsDialog.show(getParentFragmentManager(), "goal_exists");
+                                } else {
+                                    renameGoal(position, text);
+                                }
+                            }
+                        });
+                        renameKRDialog.show(getParentFragmentManager(), "rename_goal");
+                        goalsAdapter.notifyItemChanged(position);
+                        break;
                 }
+            }
+            @Override
+
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.TOMATO))
+                        .addSwipeLeftActionIcon(R.drawable.baseline_delete_black_48dp)
+                        .addSwipeRightBackgroundColor(ContextCompat.getColor(getContext(), R.color.KHAKI))
+                        .addSwipeRightActionIcon(R.drawable.baseline_create_black_48dp)
+                        .create()
+                        .decorate();
             }
         };
 

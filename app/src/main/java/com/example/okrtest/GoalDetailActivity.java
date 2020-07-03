@@ -228,9 +228,9 @@ public class GoalDetailActivity extends AppCompatActivity {
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
                 new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                        .addSwipeLeftBackgroundColor(Color.RED)
+                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(GoalDetailActivity.this, R.color.TOMATO))
                         .addSwipeLeftActionIcon(R.drawable.baseline_delete_black_48dp)
-                        .addSwipeRightBackgroundColor(Color.YELLOW)
+                        .addSwipeRightBackgroundColor(ContextCompat.getColor(GoalDetailActivity.this, R.color.KHAKI))
                         .addSwipeRightActionIcon(R.drawable.baseline_create_black_48dp)
                         .create()
                         .decorate();

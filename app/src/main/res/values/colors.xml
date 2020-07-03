@@ -3,4 +3,6 @@
     <color name="colorPrimary">#484848</color>
     <color name="colorPrimaryDark">#242424</color>
     <color name="colorAccent">#00B0FF</color>
+    <color name="TOMATO">#FF6347</color>
+    <color name="KHAKI">#F0E68C</color>
 </resources>
