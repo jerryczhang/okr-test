@@ -31,8 +31,6 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView goalNameTextView;
-        private ImageView deleteGoal;
-        private ImageView renameGoal;
         private WeakReference<RecyclerClickListener> listenerRef;
 
         private String goalName;
@@ -42,13 +40,9 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             super(view);
             listenerRef = new WeakReference<RecyclerClickListener>(listener);
             goalNameTextView = (TextView) view.findViewById(R.id.goalNameTextView);
-            deleteGoal = (ImageView) view.findViewById(R.id.deleteGoalImageView);
-            renameGoal = (ImageView) view.findViewById(R.id.renameGoalImageView);
 
             view.setOnClickListener(this);
             goalNameTextView.setOnClickListener(this);
-            deleteGoal.setOnClickListener(this);
-            renameGoal.setOnClickListener(this);
         }
 
         public void setGoalName(String name) {
@@ -61,13 +55,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == deleteGoal.getId()
-                || v.getId() == renameGoal.getId()
-            ) {
-                listenerRef.get().onItemClicked(getAdapterPosition(), v.getId());
-            } else {
-                listenerRef.get().onViewClicked(getAdapterPosition());
-            }
+            listenerRef.get().onViewClicked(getAdapterPosition());
         }
     }
 

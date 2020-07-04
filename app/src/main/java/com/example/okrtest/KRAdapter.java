@@ -31,10 +31,7 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView KRNameTextView;
-        private ImageView deleteKR;
         private ProgressBar KRProgressBar;
-        private ImageView editProg;
-        private ImageView renameKR;
         private WeakReference<RecyclerClickListener> listenerRef;
         private int num;
         private int den;
@@ -43,14 +40,10 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
             super(view);
             listenerRef = new WeakReference<RecyclerClickListener>(listener);
             KRNameTextView = (TextView) view.findViewById(R.id.KRNameTextView);
-            deleteKR = (ImageView) view.findViewById(R.id.deleteKRImageView);
             KRProgressBar = (ProgressBar) view.findViewById(R.id.KRProgressBar);
-            renameKR = (ImageView) view.findViewById(R.id.renameKRImageView);
 
             view.setOnClickListener(this);
             KRNameTextView.setOnClickListener(this);
-            deleteKR.setOnClickListener(this);
-            renameKR.setOnClickListener(this);
         }
 
         void setKRNameTextView(String text) {
@@ -76,13 +69,7 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == deleteKR.getId()
-                    || v.getId() == renameKR.getId()
-            ) {
-                listenerRef.get().onItemClicked(getAdapterPosition(), v.getId());
-            } else {
-                listenerRef.get().onViewClicked(getAdapterPosition());
-            }
+            listenerRef.get().onViewClicked(getAdapterPosition());
         }
     }
 

@@ -15,24 +15,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/deleteGoalImageView"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/round_remove_circle_outline_black_48dp" />
-
-    <ImageView
-        android:id="@+id/renameGoalImageView"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/deleteGoalImageView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_create_black_48dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

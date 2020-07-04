@@ -75,43 +75,6 @@ public class Tab1Fragment extends Fragment {
             }
             @Override
             public void onItemClicked(final int position, int id) {
-                if (id == R.id.deleteGoalImageView) {
-                    String title = getString(R.string.delete_goal_dialog_title);
-                    String message = "Delete \"" + goalNames.get(position) + "\"?";
-                    String positiveName = getString(R.string.delete_goal_dialog_positive);
-                    String negativeName = getString(R.string.delete_goal_dialog_negative);
-                    OutputTextDialog deleteGoalDialog = new OutputTextDialog(title, message, positiveName, negativeName, new OutputTextDialog.OutputTextListener() {
-                        @Override
-                        public void onPositiveInput() {
-                            deleteGoal(position);
-                        }
-
-                        @Override
-                        public void onNegativeInput() {
-                        }
-                    });
-                    deleteGoalDialog.show(getParentFragmentManager(), "delete_goal");
-                } else if (id == R.id.renameGoalImageView) {
-                    String title = getString(R.string.rename_goal_dialog_title);
-                    String positiveName = getString(R.string.rename_goal_dialog_positive);
-                    String negativeName = getString(R.string.rename_goal_dialog_negative);
-                    String hint = getString(R.string.rename_goal_dialog_hint);
-                    DialogFragment renameKRDialog = new InputTextDialog(title, positiveName, negativeName, hint, new InputTextDialog.textDialogListener() {
-                        @Override
-                        public void onPositiveInput(String text) {
-                            if (goalNames.contains(text)) {
-                                String title = getString(R.string.goal_exists_dialog_title);
-                                String message = getString(R.string.goal_exists_dialog_text);
-                                String positiveName = getString(R.string.goal_exists_dialog_positive);
-                                OutputTextDialog KRExistsDialog = new OutputTextDialog(title, message, positiveName);
-                                KRExistsDialog.show(getParentFragmentManager(), "goal_exists");
-                            } else {
-                                renameGoal(position, text);
-                            }
-                        }
-                    });
-                    renameKRDialog.show(getParentFragmentManager(), "rename_goal");
-                }
             }
         });
         goalsRecyclerView.setAdapter(goalsAdapter);
