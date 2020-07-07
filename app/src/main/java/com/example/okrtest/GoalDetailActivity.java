@@ -15,6 +15,8 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
 import android.util.Log;
@@ -25,6 +27,7 @@ import android.widget.TextView;
 
 import com.example.okrtest.ui.main.Tab1Fragment;
 import com.google.android.material.tabs.TabLayout;
+import com.example.okrtest.SwipeCallback;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -131,8 +134,11 @@ public class GoalDetailActivity extends AppCompatActivity {
             public void onItemClicked(final int position, int id) {
             }
         });
-
+        SwipeCallback swipeCallback = new SwipeCallback(KRAdapter, GoalDetailActivity.this);
+        /*
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            private Drawable icon;
+
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -189,6 +195,7 @@ public class GoalDetailActivity extends AppCompatActivity {
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
                 new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                         .addSwipeLeftBackgroundColor(ContextCompat.getColor(GoalDetailActivity.this, R.color.TOMATO))
                         .addSwipeLeftActionIcon(R.drawable.baseline_delete_black_48dp)
@@ -198,8 +205,8 @@ public class GoalDetailActivity extends AppCompatActivity {
                         .decorate();
             }
         };
-
-       ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        */
+       ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeCallback);
        itemTouchHelper.attachToRecyclerView(KRRecyclerView);
 
         KRRecyclerView.setAdapter(KRAdapter);

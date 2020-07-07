@@ -77,7 +77,6 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.kr_preview, parent, false);
-        view.setClipToOutline(true);
         return new ViewHolder(view, listener);
     }
 
