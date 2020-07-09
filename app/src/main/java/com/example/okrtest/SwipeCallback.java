@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.Icon;
 import android.view.View;
 import android.widget.Adapter;
 
@@ -29,8 +30,8 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
         rightIcon = ContextCompat.getDrawable(context, R.drawable.baseline_delete_black_48dp);
         leftBackground = new GradientDrawable();
         rightBackground = new GradientDrawable();
-        leftBackground.setColor(ContextCompat.getColor(context, R.color.TOMATO));
-        rightBackground.setColor(ContextCompat.getColor(context, R.color.KHAKI));
+        leftBackground.setColor(ContextCompat.getColor(context, R.color.KHAKI));
+        rightBackground.setColor(ContextCompat.getColor(context, R.color.TOMATO));
     }
 
     @Override
@@ -46,20 +47,34 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        View itemView = viewHolder.itemView;
+
+        int iconMargin = (itemView.getHeight() - leftIcon.getIntrinsicHeight()) / 2;
+        int iconTop = itemView.getTop() + iconMargin;
+        int iconBottom = iconTop + leftIcon.getIntrinsicHeight();
 
         int backgroundCornerOffset = 20;
-        View itemView = viewHolder.itemView;
         if (dX > 0) {
             leftBackground.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + ((int) dX) + backgroundCornerOffset, itemView.getBottom());
             rightBackground.setBounds(0, 0, 0, 0);
+
+            int iconLeft = itemView.getLeft() + iconMargin;
+            int iconRight = itemView.getLeft() + iconMargin + leftIcon.getIntrinsicWidth();
+            leftIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
         } else if (dX < 0) {
             rightBackground.setBounds(itemView.getRight() + ((int) dX) - backgroundCornerOffset, itemView.getTop(), itemView.getRight(), itemView.getBottom());
             leftBackground.setBounds(0, 0, 0, 0);
+
+            int iconLeft = itemView.getRight() - iconMargin - rightIcon.getIntrinsicWidth();
+            int iconRight = itemView.getRight() - iconMargin;
+            rightIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
         } else {
             leftBackground.setBounds(0, 0, 0, 0);
             rightBackground.setBounds(0, 0, 0, 0);
         }
         leftBackground.draw(c);
         rightBackground.draw(c);
+        leftIcon.draw(c);
+        rightIcon.draw(c);
     }
 }
