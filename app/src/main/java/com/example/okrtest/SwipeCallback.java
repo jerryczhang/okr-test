@@ -49,28 +49,35 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         View itemView = viewHolder.itemView;
 
-        int iconMargin = (itemView.getHeight() - leftIcon.getIntrinsicHeight()) / 2;
-        int iconTop = itemView.getTop() + iconMargin;
-        int iconBottom = iconTop + leftIcon.getIntrinsicHeight();
+        int iconHeight = leftIcon.getIntrinsicHeight() / 2;
+        int iconWidth = leftIcon.getIntrinsicWidth() / 2;
+        int iconVerticalMargin = (itemView.getHeight() - iconHeight) / 2;
+        int iconHorizontalMargin = iconVerticalMargin / 2;
+        int iconTop = itemView.getTop() + iconVerticalMargin;
+        int iconBottom = iconTop + iconHeight;
 
         int backgroundCornerOffset = 20;
         if (dX > 0) {
             leftBackground.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + ((int) dX) + backgroundCornerOffset, itemView.getBottom());
             rightBackground.setBounds(0, 0, 0, 0);
 
-            int iconLeft = itemView.getLeft() + iconMargin;
-            int iconRight = itemView.getLeft() + iconMargin + leftIcon.getIntrinsicWidth();
+            int iconLeft = itemView.getLeft() + iconHorizontalMargin;
+            int iconRight = iconLeft + iconWidth;
             leftIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+            rightIcon.setBounds(0,0,0,0);
         } else if (dX < 0) {
             rightBackground.setBounds(itemView.getRight() + ((int) dX) - backgroundCornerOffset, itemView.getTop(), itemView.getRight(), itemView.getBottom());
             leftBackground.setBounds(0, 0, 0, 0);
 
-            int iconLeft = itemView.getRight() - iconMargin - rightIcon.getIntrinsicWidth();
-            int iconRight = itemView.getRight() - iconMargin;
+            int iconRight = itemView.getRight() - iconHorizontalMargin;
+            int iconLeft = iconRight - iconWidth;
             rightIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+            leftIcon.setBounds(0,0,0,0);
         } else {
             leftBackground.setBounds(0, 0, 0, 0);
             rightBackground.setBounds(0, 0, 0, 0);
+            leftIcon.setBounds(0,0,0,0);
+            rightIcon.setBounds(0,0,0,0);
         }
         leftBackground.draw(c);
         rightBackground.draw(c);
