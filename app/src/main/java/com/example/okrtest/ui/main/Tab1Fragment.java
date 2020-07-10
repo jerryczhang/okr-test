@@ -31,6 +31,7 @@ import com.example.okrtest.OutputTextDialog;
 import com.example.okrtest.R;
 import com.example.okrtest.RecyclerClickListener;
 import com.example.okrtest.SaveManager;
+import com.example.okrtest.SwipeCallback;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -60,11 +61,9 @@ public class Tab1Fragment extends Fragment {
 
         final RecyclerView goalsRecyclerView = (RecyclerView) root.findViewById(R.id.goalsRecyclerView);
         ImageView addGoal = (ImageView) root.findViewById(R.id.addGoalImageView);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(Objects.requireNonNull(this.getContext()), DividerItemDecoration.VERTICAL);
 
         goalsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         goalsRecyclerView.scrollToPosition(0);
-        goalsRecyclerView.addItemDecoration(dividerItemDecoration);
 
         goalsAdapter = new GoalsAdapter(this.getContext(), goalNames, new RecyclerClickListener() {
             @Override
@@ -79,6 +78,7 @@ public class Tab1Fragment extends Fragment {
         });
         goalsRecyclerView.setAdapter(goalsAdapter);
 
+        /*
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -145,8 +145,9 @@ public class Tab1Fragment extends Fragment {
                         .decorate();
             }
         };
-
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+         */
+        SwipeCallback swipeCallback = new SwipeCallback(goalsAdapter, getContext());
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeCallback);
         itemTouchHelper.attachToRecyclerView(goalsRecyclerView);
 
         addGoal.setOnClickListener(new View.OnClickListener() {
