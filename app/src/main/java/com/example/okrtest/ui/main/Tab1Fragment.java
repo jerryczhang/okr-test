@@ -146,7 +146,17 @@ public class Tab1Fragment extends Fragment {
             }
         };
          */
-        SwipeCallback swipeCallback = new SwipeCallback(goalsAdapter, getContext());
+        SwipeCallback swipeCallback = new SwipeCallback(getContext(), new SwipeCallback.SwipeListener() {
+            @Override
+            public void onSwipeLeft(final int position) {
+
+            }
+
+            @Override
+            public void onSwipeRight(final int position) {
+
+            }
+        });
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeCallback);
         itemTouchHelper.attachToRecyclerView(goalsRecyclerView);
 

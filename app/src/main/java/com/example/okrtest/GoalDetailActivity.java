@@ -134,78 +134,52 @@ public class GoalDetailActivity extends AppCompatActivity {
             public void onItemClicked(final int position, int id) {
             }
         });
-        SwipeCallback swipeCallback = new SwipeCallback(KRAdapter, GoalDetailActivity.this);
-        /*
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            private Drawable icon;
 
+        SwipeCallback swipeCallback = new SwipeCallback(GoalDetailActivity.this, new SwipeCallback.SwipeListener() {
             @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
+            public void onSwipeLeft(final int position) {
+                String title = getString(R.string.delete_kr_dialog_title);
+                String message = "Delete \"" + KRNames.get(position) + "\"?";
+                String positiveName = getString(R.string.delete_kr_dialog_positive);
+                String negativeName = getString(R.string.delete_kr_dialog_negative);
+                OutputTextDialog deleteKRDialog = new OutputTextDialog(title, message, positiveName, negativeName, new OutputTextDialog.OutputTextListener() {
+                    @Override
+                    public void onPositiveInput() {
+                        deleteKR(position);
+                    }
+
+                    @Override
+                    public void onNegativeInput() {
+                    }
+                });
+                deleteKRDialog.show(getSupportFragmentManager(), "delete_kr");
+                KRAdapter.notifyItemChanged(position);
             }
 
             @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                final int position = viewHolder.getAdapterPosition();
-                String title, message, positiveName, negativeName, hint;
-                switch (direction) {
-                    case ItemTouchHelper.LEFT:
-                        title = getString(R.string.delete_kr_dialog_title);
-                        message = "Delete \"" + KRNames.get(position) + "\"?";
-                        positiveName = getString(R.string.delete_kr_dialog_positive);
-                        negativeName = getString(R.string.delete_kr_dialog_negative);
-                        OutputTextDialog deleteKRDialog = new OutputTextDialog(title, message, positiveName, negativeName, new OutputTextDialog.OutputTextListener() {
-                            @Override
-                            public void onPositiveInput() {
-                                deleteKR(position);
-                            }
-
-                            @Override
-                            public void onNegativeInput() {
-                                KRAdapter.notifyItemChanged(position);
-                            }
-                        });
-                        deleteKRDialog.show(getSupportFragmentManager(), "delete_kr");
-                        break;
-                    case ItemTouchHelper.RIGHT:
-                        title = getString(R.string.rename_kr_dialog_title);
-                        positiveName = getString(R.string.rename_kr_dialog_positive);
-                        negativeName = getString(R.string.rename_kr_dialog_negative);
-                        hint = getString(R.string.rename_kr_dialog_hint);
-                        DialogFragment renameKRDialog = new InputTextDialog(title, positiveName, negativeName, hint, new InputTextDialog.textDialogListener() {
-                            @Override
-                            public void onPositiveInput(String text) {
-                                if (KRNames.contains(text)) {
-                                    String title = getString(R.string.kr_exists_dialog_title);
-                                    String message = getString(R.string.kr_exists_dialog_text);
-                                    String positiveName = getString(R.string.kr_exists_dialog_positive);
-                                    OutputTextDialog KRExistsDialog = new OutputTextDialog(title, message, positiveName);
-                                    KRExistsDialog.show(getSupportFragmentManager(), "kr_exists");
-                                } else {
-                                    renameKR(position, text);
-                                }
-                            }
-                        });
-                        renameKRDialog.show(getSupportFragmentManager(), "rename_kr");
-                        KRAdapter.notifyItemChanged(position);
-                        break;
-                }
+            public void onSwipeRight(final int position) {
+                String title = getString(R.string.rename_kr_dialog_title);
+                String positiveName = getString(R.string.rename_kr_dialog_positive);
+                String negativeName = getString(R.string.rename_kr_dialog_negative);
+                String hint = getString(R.string.rename_kr_dialog_hint);
+                DialogFragment renameKRDialog = new InputTextDialog(title, positiveName, negativeName, hint, new InputTextDialog.textDialogListener() {
+                    @Override
+                    public void onPositiveInput(String text) {
+                        if (KRNames.contains(text)) {
+                            String title = getString(R.string.kr_exists_dialog_title);
+                            String message = getString(R.string.kr_exists_dialog_text);
+                            String positiveName = getString(R.string.kr_exists_dialog_positive);
+                            OutputTextDialog KRExistsDialog = new OutputTextDialog(title, message, positiveName);
+                            KRExistsDialog.show(getSupportFragmentManager(), "kr_exists");
+                        } else {
+                            renameKR(position, text);
+                        }
+                    }
+                });
+                KRAdapter.notifyItemChanged(position);
+                renameKRDialog.show(getSupportFragmentManager(), "rename_kr");
             }
-
-            @Override
-            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-
-                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(GoalDetailActivity.this, R.color.TOMATO))
-                        .addSwipeLeftActionIcon(R.drawable.baseline_delete_black_48dp)
-                        .addSwipeRightBackgroundColor(ContextCompat.getColor(GoalDetailActivity.this, R.color.KHAKI))
-                        .addSwipeRightActionIcon(R.drawable.baseline_create_black_48dp)
-                        .create()
-                        .decorate();
-            }
-        };
-        */
+        });
        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeCallback);
        itemTouchHelper.attachToRecyclerView(KRRecyclerView);
 
@@ -270,5 +244,4 @@ public class GoalDetailActivity extends AppCompatActivity {
         assert v != null;
         saveManager.saveKRPRog(goalName, KRName, v.getProgNum(), v.getProgDen());
     }
-
 }

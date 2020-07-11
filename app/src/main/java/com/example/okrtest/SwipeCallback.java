@@ -17,15 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.okrtest.R;
 
 public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
-    private RecyclerView.Adapter adapter;
+    private Context context;
+    private SwipeListener listener;
     private Drawable leftIcon;
     private Drawable rightIcon;
     private GradientDrawable leftBackground;
     private GradientDrawable rightBackground;
 
-    public SwipeCallback(RecyclerView.Adapter adapter, Context context) {
+    public SwipeCallback(Context context, SwipeListener listener) {
         super(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-        this.adapter = adapter;
+        this.listener = listener;
         leftIcon = ContextCompat.getDrawable(context, R.drawable.baseline_create_black_48dp);
         rightIcon = ContextCompat.getDrawable(context, R.drawable.baseline_delete_black_48dp);
         leftBackground = new GradientDrawable();
@@ -41,7 +42,14 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
+        switch (direction) {
+            case ItemTouchHelper.LEFT:
+                listener.onSwipeLeft(viewHolder.getAdapterPosition());
+                break;
+            case ItemTouchHelper.RIGHT:
+                listener.onSwipeRight(viewHolder.getAdapterPosition());
+                break;
+        }
     }
 
     @Override
@@ -83,5 +91,10 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
         rightBackground.draw(c);
         leftIcon.draw(c);
         rightIcon.draw(c);
+    }
+
+    public interface SwipeListener {
+        void onSwipeLeft(final int position);
+        void onSwipeRight(final int position);
     }
 }
