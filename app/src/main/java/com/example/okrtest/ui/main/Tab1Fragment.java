@@ -80,6 +80,19 @@ public class Tab1Fragment extends Fragment {
 
         SwipeCallback swipeCallback = new SwipeCallback(getContext(), new SwipeCallback.SwipeListener() {
             @Override
+            public void onMove(int fromPosition, int toPosition) {
+                String goalName = goalNames.get(fromPosition);
+                goalNames.add(toPosition, goalName);
+                if (toPosition < fromPosition) {
+                    goalNames.remove(fromPosition + 1);
+                } else {
+                    goalNames.remove(fromPosition);
+                }
+                saveManager.saveGoals(numGoals, goalNames);
+                goalsAdapter.notifyItemMoved(fromPosition, toPosition);
+            }
+
+            @Override
             public void onSwipeLeft(final int position) {
                 String title = getString(R.string.delete_goal_dialog_title);
                 String message = "Delete \"" + goalNames.get(position) + "\"?";

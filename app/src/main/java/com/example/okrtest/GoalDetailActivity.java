@@ -137,6 +137,11 @@ public class GoalDetailActivity extends AppCompatActivity {
 
         SwipeCallback swipeCallback = new SwipeCallback(GoalDetailActivity.this, new SwipeCallback.SwipeListener() {
             @Override
+            public void onMove(int fromPosition, int toPosition) {
+
+            }
+
+            @Override
             public void onSwipeLeft(final int position) {
                 String title = getString(R.string.delete_kr_dialog_title);
                 String message = "Delete \"" + KRNames.get(position) + "\"?";
