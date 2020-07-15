@@ -138,7 +138,16 @@ public class GoalDetailActivity extends AppCompatActivity {
         SwipeCallback swipeCallback = new SwipeCallback(GoalDetailActivity.this, new SwipeCallback.SwipeListener() {
             @Override
             public void onMove(int fromPosition, int toPosition) {
-
+                String KRName = KRNames.get(fromPosition);
+                if (toPosition < fromPosition) {
+                    KRNames.add(toPosition, KRName);
+                    KRNames.remove(fromPosition + 1);
+                } else {
+                    KRNames.add(toPosition + 1, KRName);
+                    KRNames.remove(fromPosition);
+                }
+                saveManager.saveKRNames(goalName, KRNames);
+                KRAdapter.notifyItemMoved(fromPosition, toPosition);
             }
 
             @Override

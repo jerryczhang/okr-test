@@ -53,6 +53,7 @@ public class Tab1Fragment extends Fragment {
         saveManager = new SaveManager(getContext());
         loadGoals();
     }
+
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
@@ -82,10 +83,11 @@ public class Tab1Fragment extends Fragment {
             @Override
             public void onMove(int fromPosition, int toPosition) {
                 String goalName = goalNames.get(fromPosition);
-                goalNames.add(toPosition, goalName);
                 if (toPosition < fromPosition) {
+                    goalNames.add(toPosition, goalName);
                     goalNames.remove(fromPosition + 1);
                 } else {
+                    goalNames.add(toPosition + 1, goalName);
                     goalNames.remove(fromPosition);
                 }
                 saveManager.saveGoals(numGoals, goalNames);
@@ -111,6 +113,7 @@ public class Tab1Fragment extends Fragment {
                 deleteGoalDialog.show(getParentFragmentManager(), "delete_goal");
                 goalsAdapter.notifyItemChanged(position);
             }
+
             @Override
             public void onSwipeRight(final int position) {
                 String title = getString(R.string.rename_goal_dialog_title);
