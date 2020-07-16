@@ -61,7 +61,7 @@ public class Tab1Fragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_tab1, container, false);
 
         final RecyclerView goalsRecyclerView = (RecyclerView) root.findViewById(R.id.goalsRecyclerView);
-        ImageView addGoal = (ImageView) root.findViewById(R.id.addGoalImageView);
+        Button addGoal = (Button) root.findViewById(R.id.addGoalButton);
 
         goalsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         goalsRecyclerView.scrollToPosition(0);
