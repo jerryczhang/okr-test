@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -58,8 +59,8 @@ public class GoalDetailActivity extends AppCompatActivity {
 
         goalName = getIntent().getStringExtra(Tab1Fragment.EXTRA_GOAL_NAME);
 
-        ImageView addKR = (ImageView) findViewById(R.id.addKRImageView);
-        addKR.setOnClickListener(new View.OnClickListener() {
+        Button addKRButton = (Button) findViewById(R.id.addKRButton);
+        addKRButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Resources res = getResources();

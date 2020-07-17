@@ -6,11 +6,13 @@
 
     <string name="delete_goal_button">Delete</string>
 
+    <string name="add_goal_button">New Goal</string>
     <string name="add_goal_dialog_title">Add New Goal</string>
     <string name="add_goal_dialog_hint">Enter new goal name</string>
     <string name="add_goal_dialog_positive">Add</string>
     <string name="add_goal_dialog_negative">Cancel</string>
 
+    <string name="add_kr_button">New Key Result</string>
     <string name="add_kr_dialog_title">Add New Key Result</string>
     <string name="add_kr_dialog_hint">Enter new key result name</string>
     <string name="add_kr_dialog_positive">Add</string>
