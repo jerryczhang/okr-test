@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.media.tv.TvContract;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -45,6 +47,9 @@ public class Tab1Fragment extends Fragment {
     private GoalsAdapter goalsAdapter;
     private SaveManager saveManager;
 
+    private int progNum;
+    private int progDen;
+
     public static final String EXTRA_GOAL_NAME = "com.example.okrtest.GOAL_NAME";
 
     @Override
@@ -62,6 +67,7 @@ public class Tab1Fragment extends Fragment {
 
         final RecyclerView goalsRecyclerView = (RecyclerView) root.findViewById(R.id.goalsRecyclerView);
         Button addGoal = (Button) root.findViewById(R.id.addGoalButton);
+        ProgressBar progressBar = (ProgressBar) root.findViewById(R.id.goalProgressBar);
 
         goalsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         goalsRecyclerView.scrollToPosition(0);
@@ -205,6 +211,12 @@ public class Tab1Fragment extends Fragment {
         numGoals = saveData.getNumData();
         goalNames = (ArrayList<String>)saveData.getListData(0);
     }
+
+     private void loadProg(int position) {
+        SaveManager.SaveData saveData = saveManager.loadKRs(goalNames.get(position));
+        saveData.getListData(1);
+        saveData.getListData(2);
+     }
 
     private void clearSharedPreferences() {
         File sharedPreferenceFile = new File("/data/data/com.example.okrtest/shared_prefs/");

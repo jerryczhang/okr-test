@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,13 +17,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.okrtest.ui.main.Tab1Fragment;
 
+import org.w3c.dom.Text;
+
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> {
 
     private final RecyclerClickListener listener;
     private ArrayList<String> goalNames;
+    private ArrayList<Integer> goalNums;
+    private ArrayList<Integer> goalDens;
 
     public GoalsAdapter(Context context, ArrayList<String> goalNames, RecyclerClickListener listener) {
         this.goalNames = goalNames;
@@ -30,19 +36,20 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private ProgressBar goalProgressBar;
         private TextView goalNameTextView;
         private WeakReference<RecyclerClickListener> listenerRef;
 
         private String goalName;
-
+        private int num;
+        private int den;
 
         public ViewHolder(View view, RecyclerClickListener listener) {
             super(view);
+            goalProgressBar = view.findViewById(R.id.goalProgressBar);
+            goalNameTextView = view.findViewById(R.id.goalNameTextView);
             listenerRef = new WeakReference<RecyclerClickListener>(listener);
-            goalNameTextView = (TextView) view.findViewById(R.id.goalNameTextView);
-
             view.setOnClickListener(this);
-            goalNameTextView.setOnClickListener(this);
         }
 
         public void setGoalName(String name) {
@@ -51,6 +58,15 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
 
         public void setGoalNameTextView(String text) {
             goalNameTextView.setText(text);
+        }
+
+        public void setProgress(int num, int den) {
+            this.num = num;
+            this.den = den;
+        }
+
+        public void setGoalProgressBar() {
+            goalProgressBar.setProgress(num * 100 / den);
         }
 
         @Override
@@ -71,10 +87,17 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         String goalName = goalNames.get(position);
         holder.setGoalName(goalName);
         holder.setGoalNameTextView(goalName);
+        holder.setProgress(goalNums.get(position), goalDens.get(position));
+        holder.setGoalProgressBar();
     }
 
     @Override
     public int getItemCount() {
         return goalNames.size();
+    }
+
+    public void setGoalProg(ArrayList<Integer> nums, ArrayList<Integer> dens) {
+        goalNums = nums;
+        goalDens = dens;
     }
 }
