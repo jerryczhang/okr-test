@@ -47,8 +47,8 @@ public class Tab1Fragment extends Fragment {
     private GoalsAdapter goalsAdapter;
     private SaveManager saveManager;
 
-    private int progNum;
-    private int progDen;
+    private ArrayList<Integer> nums = new ArrayList<>();
+    private ArrayList<Integer> dens = new ArrayList<>();
 
     public static final String EXTRA_GOAL_NAME = "com.example.okrtest.GOAL_NAME";
 
@@ -84,6 +84,8 @@ public class Tab1Fragment extends Fragment {
             }
         });
         goalsRecyclerView.setAdapter(goalsAdapter);
+        loadProg();
+        goalsAdapter.setGoalProg(nums, dens);
 
         SwipeCallback swipeCallback = new SwipeCallback(getContext(), new SwipeCallback.SwipeListener() {
             @Override
@@ -212,10 +214,22 @@ public class Tab1Fragment extends Fragment {
         goalNames = (ArrayList<String>)saveData.getListData(0);
     }
 
-     private void loadProg(int position) {
-        SaveManager.SaveData saveData = saveManager.loadKRs(goalNames.get(position));
-        saveData.getListData(1);
-        saveData.getListData(2);
+     private void loadProg() {
+        for (String goalName : goalNames) {
+            SaveManager.SaveData saveData = saveManager.loadKRs(goalName);
+            ArrayList<Integer> KRNums = (ArrayList<Integer>) saveData.getListData(1);
+            ArrayList<Integer> KRDens = (ArrayList<Integer>) saveData.getListData(2);
+            nums.add(sum(KRNums));
+            dens.add(sum(KRDens));
+        }
+     }
+
+     private int sum(ArrayList<Integer> list) {
+        int sum = 0;
+        for (int i : list) {
+            sum += i;
+        }
+        return sum;
      }
 
     private void clearSharedPreferences() {
