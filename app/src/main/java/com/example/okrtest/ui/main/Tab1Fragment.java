@@ -187,6 +187,9 @@ public class Tab1Fragment extends Fragment {
 
     public void addGoal(String name) {
         goalNames.add(name);
+        nums.add(0);
+        dens.add(1);
+        goalsAdapter.setGoalProg(nums, dens);
         goalsAdapter.notifyItemInserted(goalNames.size() - 1);
         ++numGoals;
         saveManager.saveGoals(numGoals, goalNames);
@@ -219,8 +222,14 @@ public class Tab1Fragment extends Fragment {
             SaveManager.SaveData saveData = saveManager.loadKRs(goalName);
             ArrayList<Integer> KRNums = (ArrayList<Integer>) saveData.getListData(1);
             ArrayList<Integer> KRDens = (ArrayList<Integer>) saveData.getListData(2);
-            nums.add(sum(KRNums));
-            dens.add(sum(KRDens));
+            if (KRNums.size() == 0) {
+                nums.add(0);
+                dens.add(1);
+            }
+            else {
+                nums.add(sum(KRNums));
+                dens.add(sum(KRDens));
+            }
         }
      }
 
