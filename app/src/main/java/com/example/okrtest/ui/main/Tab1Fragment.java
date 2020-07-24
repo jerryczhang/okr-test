@@ -197,6 +197,8 @@ public class Tab1Fragment extends Fragment {
 
     private void deleteGoal(int position) {
         goalNames.remove(position);
+        nums.remove(position);
+        dens.remove(position);
         goalsAdapter.notifyItemRemoved(position);
         --numGoals;
         saveManager.deleteGoal(position);
