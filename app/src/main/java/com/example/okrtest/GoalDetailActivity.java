@@ -26,7 +26,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.okrtest.ui.main.Tab1Fragment;
 import com.google.android.material.tabs.TabLayout;
 import com.example.okrtest.SwipeCallback;
 
@@ -57,7 +56,7 @@ public class GoalDetailActivity extends AppCompatActivity {
         saveManager = new SaveManager(GoalDetailActivity.this);
         goalDescTextView = (TextView) findViewById(R.id.goalDescTextView);
 
-        goalName = getIntent().getStringExtra(Tab1Fragment.EXTRA_GOAL_NAME);
+        goalName = getIntent().getStringExtra(MainActivity.EXTRA_GOAL_NAME);
 
         Button addKRButton = (Button) findViewById(R.id.addKRButton);
         addKRButton.setOnClickListener(new View.OnClickListener() {

@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.okrtest.ui.main.Tab1Fragment;
 
 import org.w3c.dom.Text;
 

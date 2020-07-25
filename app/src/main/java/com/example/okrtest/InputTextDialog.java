@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.okrtest.ui.main.Tab1Fragment;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;
