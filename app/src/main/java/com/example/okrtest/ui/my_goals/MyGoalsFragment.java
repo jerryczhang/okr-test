@@ -1,4 +1,4 @@
-package com.example.okrtest.ui.home;
+package com.example.okrtest.ui.my_goals;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -29,7 +29,7 @@ import com.example.okrtest.SwipeCallback;
 import java.io.File;
 import java.util.ArrayList;
 
-public class MyFragment extends Fragment {
+public class MyGoalsFragment extends Fragment {
     private int numGoals;
     private ArrayList<String> goalNames = new ArrayList<>();
     private GoalsAdapter goalsAdapter;
@@ -43,7 +43,7 @@ public class MyFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_tab1, container, false);
+        View root = inflater.inflate(R.layout.fragment_my_goals, container, false);
         saveManager = new SaveManager(getContext());
         loadGoals();
 
