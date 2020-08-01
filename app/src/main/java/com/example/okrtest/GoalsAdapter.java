@@ -37,6 +37,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ProgressBar goalProgressBar;
         private TextView goalNameTextView;
+        private ImageView renameGoalImageView;
         private WeakReference<RecyclerClickListener> listenerRef;
 
         private String goalName;
@@ -47,8 +48,10 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             super(view);
             goalProgressBar = view.findViewById(R.id.goalProgressBar);
             goalNameTextView = view.findViewById(R.id.goalNameTextView);
+            renameGoalImageView = view.findViewById(R.id.renameGoalImageView);
             listenerRef = new WeakReference<RecyclerClickListener>(listener);
             view.setOnClickListener(this);
+            renameGoalImageView.setOnClickListener(this);
         }
 
         public void setGoalName(String name) {
@@ -70,7 +73,11 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            listenerRef.get().onViewClicked(getAdapterPosition());
+            if (v.getId() == renameGoalImageView.getId()) {
+                listenerRef.get().onItemClicked(getAdapterPosition(), renameGoalImageView.getId());
+            } else {
+                listenerRef.get().onViewClicked(getAdapterPosition());
+            }
         }
     }
 

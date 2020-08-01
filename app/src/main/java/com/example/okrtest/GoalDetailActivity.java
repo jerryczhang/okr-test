@@ -114,6 +114,28 @@ public class GoalDetailActivity extends AppCompatActivity {
             }
             @Override
             public void onItemClicked(final int position, int id) {
+                if (id == R.id.renameKRImageView) {
+                    String title = getString(R.string.rename_kr_dialog_title);
+                    String positiveName = getString(R.string.rename_kr_dialog_positive);
+                    String negativeName = getString(R.string.rename_kr_dialog_negative);
+                    String hint = getString(R.string.rename_kr_dialog_hint);
+                    DialogFragment renameKRDialog = new InputTextDialog(title, positiveName, negativeName, hint, new InputTextDialog.textDialogListener() {
+                        @Override
+                        public void onPositiveInput(String text) {
+                            if (KRNames.contains(text)) {
+                                String title = getString(R.string.kr_exists_dialog_title);
+                                String message = getString(R.string.kr_exists_dialog_text);
+                                String positiveName = getString(R.string.kr_exists_dialog_positive);
+                                OutputTextDialog KRExistsDialog = new OutputTextDialog(title, message, positiveName);
+                                KRExistsDialog.show(getSupportFragmentManager(), "kr_exists");
+                            } else {
+                                renameKR(position, text);
+                            }
+                        }
+                    });
+                    KRAdapter.notifyItemChanged(position);
+                    renameKRDialog.show(getSupportFragmentManager(), "rename_kr");
+                }
             }
         });
 
@@ -154,26 +176,7 @@ public class GoalDetailActivity extends AppCompatActivity {
 
             @Override
             public void onSwipeRight(final int position) {
-                String title = getString(R.string.rename_kr_dialog_title);
-                String positiveName = getString(R.string.rename_kr_dialog_positive);
-                String negativeName = getString(R.string.rename_kr_dialog_negative);
-                String hint = getString(R.string.rename_kr_dialog_hint);
-                DialogFragment renameKRDialog = new InputTextDialog(title, positiveName, negativeName, hint, new InputTextDialog.textDialogListener() {
-                    @Override
-                    public void onPositiveInput(String text) {
-                        if (KRNames.contains(text)) {
-                            String title = getString(R.string.kr_exists_dialog_title);
-                            String message = getString(R.string.kr_exists_dialog_text);
-                            String positiveName = getString(R.string.kr_exists_dialog_positive);
-                            OutputTextDialog KRExistsDialog = new OutputTextDialog(title, message, positiveName);
-                            KRExistsDialog.show(getSupportFragmentManager(), "kr_exists");
-                        } else {
-                            renameKR(position, text);
-                        }
-                    }
-                });
                 KRAdapter.notifyItemChanged(position);
-                renameKRDialog.show(getSupportFragmentManager(), "rename_kr");
             }
         });
        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeCallback);

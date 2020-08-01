@@ -32,6 +32,7 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView KRNameTextView;
         private ProgressBar KRProgressBar;
+        private ImageView renameKRImageView;
         private WeakReference<RecyclerClickListener> listenerRef;
         private int num;
         private int den;
@@ -41,9 +42,10 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
             listenerRef = new WeakReference<RecyclerClickListener>(listener);
             KRNameTextView = (TextView) view.findViewById(R.id.KRNameTextView);
             KRProgressBar = (ProgressBar) view.findViewById(R.id.KRProgressBar);
+            renameKRImageView = (ImageView) view.findViewById(R.id.renameKRImageView);
 
+            renameKRImageView.setOnClickListener(this);
             view.setOnClickListener(this);
-            KRNameTextView.setOnClickListener(this);
         }
 
         void setKRNameTextView(String text) {
@@ -69,7 +71,11 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            listenerRef.get().onViewClicked(getAdapterPosition());
+            if (v.getId() == renameKRImageView.getId()) {
+                listenerRef.get().onItemClicked(getAdapterPosition(), renameKRImageView.getId());
+            } else {
+                listenerRef.get().onViewClicked(getAdapterPosition());
+            }
         }
     }
 
