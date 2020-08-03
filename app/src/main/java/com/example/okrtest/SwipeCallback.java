@@ -28,11 +28,11 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
     public SwipeCallback(Context context, SwipeListener listener) {
         super(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.listener = listener;
-        leftIcon = ContextCompat.getDrawable(context, R.drawable.baseline_create_black_48dp);
+        leftIcon = ContextCompat.getDrawable(context, R.drawable.baseline_archive_black_48dp);
         rightIcon = ContextCompat.getDrawable(context, R.drawable.baseline_delete_black_48dp);
         leftBackground = new GradientDrawable();
         rightBackground = new GradientDrawable();
-        leftBackground.setColor(ContextCompat.getColor(context, R.color.KHAKI));
+        leftBackground.setColor(ContextCompat.getColor(context, R.color.MEDIUMSEAGREEN));
         rightBackground.setColor(ContextCompat.getColor(context, R.color.TOMATO));
     }
 
