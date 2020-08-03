@@ -3,6 +3,7 @@ package com.example.okrtest.ui.my_goals;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,9 @@ public class MyGoalsFragment extends Fragment {
     private GoalsAdapter goalsAdapter;
     private SaveManager saveManager;
 
+    private int numArchived;
+    private ArrayList<String> archivedNames = new ArrayList<>();
+
     private ArrayList<Integer> nums = new ArrayList<>();
     private ArrayList<Integer> dens = new ArrayList<>();
 
@@ -46,6 +50,7 @@ public class MyGoalsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_my_goals, container, false);
         saveManager = new SaveManager(getContext());
         loadGoals();
+        loadArchived();
 
         final RecyclerView goalsRecyclerView = (RecyclerView) root.findViewById(R.id.goalsRecyclerView);
         Button addGoal = (Button) root.findViewById(R.id.addGoalButton);
@@ -102,7 +107,7 @@ public class MyGoalsFragment extends Fragment {
                     goalNames.add(toPosition + 1, goalName);
                     goalNames.remove(fromPosition);
                 }
-                saveManager.saveGoals(numGoals, goalNames);
+                saveManager.saveGoals(numGoals, goalNames, false);
                 goalsAdapter.notifyItemMoved(fromPosition, toPosition);
             }
 
@@ -128,6 +133,21 @@ public class MyGoalsFragment extends Fragment {
 
             @Override
             public void onSwipeRight(final int position) {
+                String title = getString(R.string.archive_goal_dialog_title);
+                String message = "Archive \"" + goalNames.get(position) + "\"?";
+                String positiveName = getString(R.string.archive_goal_dialog_positive);
+                String negativeName = getString(R.string.archive_goal_dialog_negative);
+                OutputTextDialog archiveGoalDialog = new OutputTextDialog(title, message, positiveName, negativeName, new OutputTextDialog.OutputTextListener() {
+                    @Override
+                    public void onPositiveInput() {
+                        archive(position);
+                    }
+
+                    @Override
+                    public void onNegativeInput() {
+                    }
+                });
+                archiveGoalDialog.show(getParentFragmentManager(), "archive_goal");
                 goalsAdapter.notifyItemChanged(position);
             }
         });
@@ -177,7 +197,20 @@ public class MyGoalsFragment extends Fragment {
         goalsAdapter.setGoalProg(nums, dens);
         goalsAdapter.notifyItemInserted(goalNames.size() - 1);
         ++numGoals;
-        saveManager.saveGoals(numGoals, goalNames);
+        saveManager.saveGoals(numGoals, goalNames, false);
+    }
+
+    private void archive(int position) {
+        String name = goalNames.get(position);
+        archivedNames.add(name);
+        ++numArchived;
+        goalNames.remove(position);
+        nums.remove(position);
+        dens.remove(position);
+        goalsAdapter.notifyItemRemoved(position);
+        --numGoals;
+        saveManager.saveGoals(numGoals, goalNames, false);
+        saveManager.saveGoals(numArchived, archivedNames, true);
     }
 
     private void deleteGoal(int position) {
@@ -187,21 +220,28 @@ public class MyGoalsFragment extends Fragment {
         goalsAdapter.notifyItemRemoved(position);
         --numGoals;
         saveManager.deleteGoal(position);
-        saveManager.saveGoals(numGoals, goalNames);
+        saveManager.saveGoals(numGoals, goalNames, false);
     }
 
     private void renameGoal(int position, String name) {
         String oldName = goalNames.get(position);
         goalNames.set(position, name);
         saveManager.renameGoal(position, oldName, name);
-        saveManager.saveGoals(numGoals, goalNames);
+        saveManager.saveGoals(numGoals, goalNames, false);
         goalsAdapter.notifyItemChanged(position);
     }
 
     private void loadGoals() {
-        SaveManager.SaveData saveData = saveManager.loadGoals();
+        SaveManager.SaveData saveData = saveManager.loadGoals(false);
         numGoals = saveData.getNumData();
         goalNames = (ArrayList<String>)saveData.getListData(0);
+    }
+
+    private void loadArchived() {
+        SaveManager.SaveData saveData = saveManager.loadGoals(true);
+        numArchived = saveData.getNumData();
+        archivedNames = (ArrayList<String>)saveData.getListData(0);
+        Log.d("test_archive", archivedNames.toString());
     }
 
     private void loadProg() {

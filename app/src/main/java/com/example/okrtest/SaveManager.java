@@ -2,10 +2,8 @@ package com.example.okrtest;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
-import java.util.prefs.Preferences;
 
 public class SaveManager {
     private SharedPreferences sharedPreferences;
@@ -16,11 +14,20 @@ public class SaveManager {
         sharedPreferences = c.getSharedPreferences("save", Context.MODE_PRIVATE);
     }
 
-    public void saveGoals(int numGoals, ArrayList<String> goalNames) {
+    public void saveGoals(int numGoals, ArrayList<String> goalNames, boolean archived) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(c.getString(R.string.num_goals), numGoals);
+        String numString;
+        String nameString;
+        if (archived) {
+            numString = c.getString(R.string.num_archived);
+            nameString = c.getString(R.string.archive);
+        } else {
+            numString = c.getString(R.string.num_goals);
+            nameString = c.getString(R.string.goal);
+        }
+        editor.putInt(numString, numGoals);
         for (int i = 0; i < numGoals; ++i) {
-            editor.putString(c.getString(R.string.goal) + i, goalNames.get(i));
+            editor.putString(nameString + i, goalNames.get(i));
         }
         editor.apply();
     }
@@ -40,14 +47,23 @@ public class SaveManager {
         deleteGoal(position);
     }
 
-    public SaveData loadGoals() {
+    public SaveData loadGoals(boolean archived) {
         ArrayList<ArrayList<?>> listHolder = new ArrayList<>();
         int defaultNumGoals = 0;
         String defaultGoalName = "";
-        int numGoals = sharedPreferences.getInt(c.getString(R.string.num_goals), defaultNumGoals);
+        String numString;
+        String nameString;
+        if (archived) {
+            numString = c.getString(R.string.num_archived);
+            nameString = c.getString(R.string.archive);
+        } else {
+            numString = c.getString(R.string.num_goals);
+            nameString = c.getString(R.string.goal);
+        }
+        int numGoals = sharedPreferences.getInt(numString, defaultNumGoals);
         ArrayList<String> goalNames = new ArrayList<>();
         for (int i = 0; i < numGoals; ++i) {
-            String goalName = sharedPreferences.getString(c.getString(R.string.goal) + i, defaultGoalName);
+            String goalName = sharedPreferences.getString(nameString + i, defaultGoalName);
             goalNames.add(goalName);
         }
         listHolder.add(goalNames);
@@ -55,7 +71,7 @@ public class SaveManager {
     }
 
     public void deleteGoal(int position) {
-        String goalName = ((ArrayList<String>)loadGoals().getListData(0)).get(position);
+        String goalName = ((ArrayList<String>)loadGoals(false).getListData(0)).get(position);
         ArrayList<String> KRNames = (ArrayList<String>)loadKRs(goalName).getListData(0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(c.getString(R.string.goal) + position);
