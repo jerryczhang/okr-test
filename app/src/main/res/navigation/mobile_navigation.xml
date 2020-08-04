@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_my_goals">
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_my_goals"
         android:name="com.example.okrtest.ui.my_goals.MyGoalsFragment"
         android:label="@string/menu_my_goals"
         tools:layout="@layout/fragment_my_goals" />
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_friends"
         android:name="com.example.okrtest.ui.friends.FriendsFragment"
         android:label="@string/menu_friends"
         tools:layout="@layout/fragment_friends" />
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.okrtest.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_archive"
+        android:name="com.example.okrtest.ui.archive.ArchiveFragment"
+        android:label="@string/menu_archive"
+        tools:layout="@layout/fragment_archive" />
 </navigation>
