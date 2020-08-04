@@ -54,7 +54,6 @@ public class MyGoalsFragment extends Fragment {
 
         final RecyclerView goalsRecyclerView = (RecyclerView) root.findViewById(R.id.goalsRecyclerView);
         Button addGoal = (Button) root.findViewById(R.id.addGoalButton);
-        ProgressBar progressBar = (ProgressBar) root.findViewById(R.id.goalProgressBar);
 
         goalsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         goalsRecyclerView.scrollToPosition(0);
