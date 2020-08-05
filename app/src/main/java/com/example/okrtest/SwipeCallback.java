@@ -25,6 +25,9 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
     private GradientDrawable leftBackground;
     private GradientDrawable rightBackground;
 
+    public final String DEFAULT = "default";
+    public final String ARCHIVED = "archived";
+
     public SwipeCallback(Context context, SwipeListener listener) {
         super(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.listener = listener;

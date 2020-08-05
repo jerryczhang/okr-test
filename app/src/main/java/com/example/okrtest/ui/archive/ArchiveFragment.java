@@ -59,6 +59,7 @@ public class ArchiveFragment extends Fragment {
             }
         });
         goalsAdapter.setGoalProg(nums, dens);
+        goalsAdapter.setHideRename(true);
         archivedRecyclerView.setAdapter(goalsAdapter);
 
         SwipeCallback swipeCallback = new SwipeCallback(getContext(), new SwipeCallback.SwipeListener() {

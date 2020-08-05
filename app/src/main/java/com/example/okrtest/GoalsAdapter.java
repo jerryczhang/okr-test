@@ -28,6 +28,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     private ArrayList<String> goalNames;
     private ArrayList<Integer> goalNums;
     private ArrayList<Integer> goalDens;
+    private boolean hideRename = false;
 
     public GoalsAdapter(Context context, ArrayList<String> goalNames, RecyclerClickListener listener) {
         this.goalNames = goalNames;
@@ -44,7 +45,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         private int num;
         private int den;
 
-        public ViewHolder(View view, RecyclerClickListener listener) {
+        public ViewHolder(View view, RecyclerClickListener listener, boolean hideRename) {
             super(view);
             goalProgressBar = view.findViewById(R.id.goalProgressBar);
             goalNameTextView = view.findViewById(R.id.goalNameTextView);
@@ -52,6 +53,9 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             listenerRef = new WeakReference<RecyclerClickListener>(listener);
             view.setOnClickListener(this);
             renameGoalImageView.setOnClickListener(this);
+            if (hideRename) {
+                renameGoalImageView.setVisibility(View.GONE);
+            }
         }
 
         public void setGoalName(String name) {
@@ -85,7 +89,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.goal_preview, parent, false);
-        return new ViewHolder(view, listener);
+        return new ViewHolder(view, listener, hideRename);
     }
 
     @Override
@@ -102,8 +106,13 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         return goalNames.size();
     }
 
+    public void setHideRename(boolean hideRename) {
+        this.hideRename = hideRename;
+    }
+
     public void setGoalProg(ArrayList<Integer> nums, ArrayList<Integer> dens) {
         goalNums = nums;
         goalDens = dens;
     }
+
 }
