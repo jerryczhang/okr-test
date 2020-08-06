@@ -73,7 +73,7 @@ public class ArchiveFragment extends Fragment {
                     archivedNames.add(toPosition + 1, goalName);
                     archivedNames.remove(fromPosition);
                 }
-                saveManager.saveGoals(numArchived, archivedNames, false);
+                saveManager.saveGoals(numArchived, archivedNames, true);
                 goalsAdapter.notifyItemMoved(fromPosition, toPosition);
             }
 
