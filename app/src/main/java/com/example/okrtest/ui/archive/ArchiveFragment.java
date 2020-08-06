@@ -86,6 +86,7 @@ public class ArchiveFragment extends Fragment {
                 OutputTextDialog deleteGoalDialog = new OutputTextDialog(title, message, positiveName, negativeName, new OutputTextDialog.OutputTextListener() {
                     @Override
                     public void onPositiveInput() {
+                        deleteGoal(position);
                     }
 
                     @Override
@@ -125,6 +126,16 @@ public class ArchiveFragment extends Fragment {
         SaveManager.SaveData saveData = saveManager.loadGoals(true);
         numArchived = saveData.getNumData();
         archivedNames = (ArrayList<String>)saveData.getListData(0);
+    }
+
+    private void deleteGoal(int position) {
+        archivedNames.remove(position);
+        nums.remove(position);
+        dens.remove(position);
+        goalsAdapter.notifyItemRemoved(position);
+        --numArchived;
+        saveManager.deleteGoal(position, true);
+        saveManager.saveGoals(numArchived, archivedNames, true);
     }
 
     private void loadProg() {

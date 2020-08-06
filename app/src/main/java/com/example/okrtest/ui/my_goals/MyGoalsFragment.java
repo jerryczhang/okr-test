@@ -218,7 +218,7 @@ public class MyGoalsFragment extends Fragment {
         dens.remove(position);
         goalsAdapter.notifyItemRemoved(position);
         --numGoals;
-        saveManager.deleteGoal(position);
+        saveManager.deleteGoal(position, false);
         saveManager.saveGoals(numGoals, goalNames, false);
     }
 

@@ -44,7 +44,7 @@ public class SaveManager {
             saveKRPRog(newName, KRNames.get(i), KRNums.get(i), KRDens.get(i));
         }
         saveGoalDesc(newName, goalDesc);
-        deleteGoal(position);
+        deleteGoal(position, false);
     }
 
     public SaveData loadGoals(boolean archived) {
@@ -70,8 +70,13 @@ public class SaveManager {
         return new SaveData(numGoals, listHolder);
     }
 
-    public void deleteGoal(int position) {
-        String goalName = ((ArrayList<String>)loadGoals(false).getListData(0)).get(position);
+    public void deleteGoal(int position, boolean archived) {
+        String goalName;
+        if (archived) {
+            goalName = ((ArrayList<String>)loadGoals(true).getListData(0)).get(position);
+        } else {
+            goalName = ((ArrayList<String>)loadGoals(false).getListData(0)).get(position);
+        }
         ArrayList<String> KRNames = (ArrayList<String>)loadKRs(goalName).getListData(0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(c.getString(R.string.goal) + position);
