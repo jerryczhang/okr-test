@@ -139,7 +139,7 @@ public class GoalDetailActivity extends AppCompatActivity {
             }
         });
 
-        SwipeCallback swipeCallback = new SwipeCallback(GoalDetailActivity.this, new SwipeCallback.SwipeListener() {
+        SwipeCallback swipeCallback = new SwipeCallback(GoalDetailActivity.this, SwipeCallback.DEFAULT, new SwipeCallback.SwipeListener() {
             @Override
             public void onMove(int fromPosition, int toPosition) {
                 String KRName = KRNames.get(fromPosition);
@@ -178,7 +178,7 @@ public class GoalDetailActivity extends AppCompatActivity {
             public void onSwipeRight(final int position) {
                 KRAdapter.notifyItemChanged(position);
             }
-        });
+        } );
        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeCallback);
        itemTouchHelper.attachToRecyclerView(KRRecyclerView);
 

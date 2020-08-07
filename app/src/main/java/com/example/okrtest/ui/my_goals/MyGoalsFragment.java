@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -95,7 +94,7 @@ public class MyGoalsFragment extends Fragment {
         loadProg();
         goalsAdapter.setGoalProg(nums, dens);
 
-        SwipeCallback swipeCallback = new SwipeCallback(getContext(), new SwipeCallback.SwipeListener() {
+        SwipeCallback swipeCallback = new SwipeCallback(getContext(), SwipeCallback.DEFAULT , new SwipeCallback.SwipeListener() {
             @Override
             public void onMove(int fromPosition, int toPosition) {
                 String goalName = goalNames.get(fromPosition);
@@ -149,7 +148,7 @@ public class MyGoalsFragment extends Fragment {
                 archiveGoalDialog.show(getParentFragmentManager(), "archive_goal");
                 goalsAdapter.notifyItemChanged(position);
             }
-        });
+        } );
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeCallback);
         itemTouchHelper.attachToRecyclerView(goalsRecyclerView);
 
@@ -189,7 +188,7 @@ public class MyGoalsFragment extends Fragment {
         return root;
     }
 
-    public void addGoal(String name) {
+    private void addGoal(String name) {
         goalNames.add(name);
         nums.add(0);
         dens.add(1);

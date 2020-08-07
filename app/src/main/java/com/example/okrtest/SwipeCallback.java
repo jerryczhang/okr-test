@@ -1,21 +1,15 @@
 package com.example.okrtest;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.Icon;
 import android.view.View;
-import android.widget.Adapter;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.okrtest.R;
 
 public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
     private Context context;
@@ -25,13 +19,20 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
     private GradientDrawable leftBackground;
     private GradientDrawable rightBackground;
 
-    public final String DEFAULT = "default";
-    public final String ARCHIVED = "archived";
+    public static final String DEFAULT = "default";
+    public static final String ARCHIVED = "archived";
 
-    public SwipeCallback(Context context, SwipeListener listener) {
+    public SwipeCallback(Context context, String layout, SwipeListener listener) {
         super(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.listener = listener;
-        leftIcon = ContextCompat.getDrawable(context, R.drawable.baseline_archive_black_48dp);
+        switch (layout) {
+            case DEFAULT:
+                leftIcon = ContextCompat.getDrawable(context, R.drawable.baseline_archive_black_48dp);
+                break;
+            case ARCHIVED:
+                leftIcon = ContextCompat.getDrawable(context, R.drawable.baseline_unarchive_black_48dp);
+                break;
+        }
         rightIcon = ContextCompat.getDrawable(context, R.drawable.baseline_delete_black_48dp);
         leftBackground = new GradientDrawable();
         rightBackground = new GradientDrawable();

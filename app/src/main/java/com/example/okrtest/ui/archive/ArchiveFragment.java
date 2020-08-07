@@ -1,32 +1,23 @@
 package com.example.okrtest.ui.archive;
 
-import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.okrtest.GoalDetailActivity;
 import com.example.okrtest.GoalsAdapter;
-import com.example.okrtest.InputTextDialog;
 import com.example.okrtest.OutputTextDialog;
 import com.example.okrtest.R;
 import com.example.okrtest.RecyclerClickListener;
 import com.example.okrtest.SaveManager;
 import com.example.okrtest.SwipeCallback;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ArchiveFragment extends Fragment {
@@ -62,7 +53,7 @@ public class ArchiveFragment extends Fragment {
         goalsAdapter.setHideRename(true);
         archivedRecyclerView.setAdapter(goalsAdapter);
 
-        SwipeCallback swipeCallback = new SwipeCallback(getContext(), new SwipeCallback.SwipeListener() {
+        SwipeCallback swipeCallback = new SwipeCallback(getContext(), SwipeCallback.ARCHIVED, new SwipeCallback.SwipeListener() {
             @Override
             public void onMove(int fromPosition, int toPosition) {
                 String goalName = archivedNames.get(fromPosition);
@@ -99,13 +90,14 @@ public class ArchiveFragment extends Fragment {
 
             @Override
             public void onSwipeRight(final int position) {
-                String title = getString(R.string.archive_goal_dialog_title);
-                String message = "Archive \"" + archivedNames.get(position) + "\"?";
-                String positiveName = getString(R.string.archive_goal_dialog_positive);
-                String negativeName = getString(R.string.archive_goal_dialog_negative);
+                String title = getString(R.string.unarchive_goal_dialog_title);
+                String message = "Unarchive \"" + archivedNames.get(position) + "\"?";
+                String positiveName = getString(R.string.unarchive_goal_dialog_positive);
+                String negativeName = getString(R.string.unarchive_goal_dialog_negative);
                 OutputTextDialog archiveGoalDialog = new OutputTextDialog(title, message, positiveName, negativeName, new OutputTextDialog.OutputTextListener() {
                     @Override
                     public void onPositiveInput() {
+                        unarchive(position);
                     }
 
                     @Override
@@ -115,7 +107,7 @@ public class ArchiveFragment extends Fragment {
                 archiveGoalDialog.show(getParentFragmentManager(), "archive_goal");
                 goalsAdapter.notifyItemChanged(position);
             }
-        });
+        } );
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeCallback);
         itemTouchHelper.attachToRecyclerView(archivedRecyclerView);
 
@@ -160,5 +152,20 @@ public class ArchiveFragment extends Fragment {
             sum += i;
         }
         return sum;
+    }
+
+    private void unarchive(int position) {
+        SaveManager.SaveData saveData = saveManager.loadGoals(false);
+        int numGoals = saveData.getNumData();
+        ArrayList<String> goalNames = (ArrayList<String>) saveData.getListData(0);
+        goalNames.add(archivedNames.get(position));
+        archivedNames.remove(position);
+        nums.remove(position);
+        dens.remove(position);
+        ++numGoals;
+        --numArchived;
+        saveManager.saveGoals(numGoals, goalNames, false);
+        saveManager.saveGoals(numArchived, archivedNames, true);
+        goalsAdapter.notifyItemRemoved(position);
     }
 }
