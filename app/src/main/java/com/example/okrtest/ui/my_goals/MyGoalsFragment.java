@@ -169,6 +169,12 @@ public class MyGoalsFragment extends Fragment {
                             String positiveName = getString(R.string.goal_exists_dialog_positive);
                             OutputTextDialog KRExistsDialog = new OutputTextDialog(title, message, positiveName);
                             KRExistsDialog.show(getParentFragmentManager(), "goal_exists");
+                        } else if (archivedNames.contains(text)) {
+                            String title = getString(R.string.goal_exists_dialog_title);
+                            String message = getString(R.string.goal_exists_archive_dialog_text);
+                            String positiveName = getString(R.string.goal_exists_dialog_positive);
+                            OutputTextDialog KRExistsDialog = new OutputTextDialog(title, message, positiveName);
+                            KRExistsDialog.show(getParentFragmentManager(), "goal_exists");
                         } else {
                             addGoal(text);
                         }

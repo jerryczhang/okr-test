@@ -65,6 +65,7 @@
     <string name="kr_exists_dialog_positive">OK</string>
 
     <string name="goal_exists_dialog_title"> </string>
+    <string name="goal_exists_archive_dialog_text">Goal already exists (in archive)</string>
     <string name="goal_exists_dialog_text">Goal already exists</string>
     <string name="goal_exists_dialog_positive">OK</string>
 
