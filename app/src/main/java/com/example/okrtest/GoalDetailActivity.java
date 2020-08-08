@@ -139,7 +139,7 @@ public class GoalDetailActivity extends AppCompatActivity {
             }
         });
 
-        SwipeCallback swipeCallback = new SwipeCallback(GoalDetailActivity.this, SwipeCallback.DEFAULT, new SwipeCallback.SwipeListener() {
+        SwipeCallback swipeCallback = new SwipeCallback(GoalDetailActivity.this, SwipeCallback.KR, new SwipeCallback.SwipeListener() {
             @Override
             public void onMove(int fromPosition, int toPosition) {
                 String KRName = KRNames.get(fromPosition);

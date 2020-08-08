@@ -18,15 +18,19 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
     private Drawable rightIcon;
     private GradientDrawable leftBackground;
     private GradientDrawable rightBackground;
+    private String layout;
 
     public static final String DEFAULT = "default";
     public static final String ARCHIVED = "archived";
+    public static final String KR = "kr";
 
     public SwipeCallback(Context context, String layout, SwipeListener listener) {
-        super(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+        super(0,0);
         this.listener = listener;
+        this.layout = layout;
         switch (layout) {
             case DEFAULT:
+            case KR:
                 leftIcon = ContextCompat.getDrawable(context, R.drawable.baseline_archive_black_48dp);
                 break;
             case ARCHIVED:
@@ -101,8 +105,18 @@ public class SwipeCallback extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-        int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-        int swipeFlags = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
+        int swipeFlags = 0;
+        int dragFlags = 0;
+        switch (layout) {
+            case DEFAULT:
+            case ARCHIVED:
+                swipeFlags = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
+                break;
+            case KR:
+                swipeFlags = ItemTouchHelper.LEFT;
+                break;
+        }
+        dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
         return makeMovementFlags(dragFlags, swipeFlags);
     }
 
