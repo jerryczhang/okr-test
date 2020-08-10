@@ -20,4 +20,9 @@
         android:name="com.example.okrtest.ui.archive.ArchiveFragment"
         android:label="@string/menu_archive"
         tools:layout="@layout/fragment_archive" />
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.example.okrtest.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
