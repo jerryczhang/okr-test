@@ -184,13 +184,6 @@ public class MyGoalsFragment extends Fragment {
             }
         });
 
-        Button clearSharedPrefButton = (Button) root.findViewById(R.id.clearSharedPrefButton);
-        clearSharedPrefButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clearSharedPreferences();
-            }
-        });
         return root;
     }
 
@@ -272,13 +265,4 @@ public class MyGoalsFragment extends Fragment {
         return sum;
     }
 
-    private void clearSharedPreferences() {
-        File sharedPreferenceFile = new File("/data/data/com.example.okrtest/shared_prefs/");
-        File[] listFiles = sharedPreferenceFile.listFiles();
-        for (File file : listFiles) {
-            file.delete();
-        }
-        Intent intent = new Intent(getContext(), MainActivity.class);
-        startActivity(intent);
-    }
 }

@@ -90,21 +90,17 @@
     <string name="delete_kr_dialog_positive">OK</string>
     <string name="delete_kr_dialog_negative">Cancel</string>
 
+    <string name="delete_save_data_dialog_title">Delete save data</string>
+    <string name="delete_save_data_dialog_text">Are you sure you want to delete all of your goals and key results?</string>
+    <string name="delete_save_data_dialog_positive">OK</string>
+    <string name="delete_save_data_dialog_negative">cancel</string>
+
     <string name="prog_save">Edit Progress</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
+    <string name="save_data_header">Save Data</string>
 
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <!-- Save Data -->
+    <string name="clear_sp_key">clearSPButton</string>
 </resources>
