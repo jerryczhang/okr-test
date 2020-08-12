@@ -14,6 +14,10 @@ public class SaveManager {
         sharedPreferences = c.getSharedPreferences("save", Context.MODE_PRIVATE);
     }
 
+    private void refreshSharedPreferences() {
+        sharedPreferences = c.getSharedPreferences("save", Context.MODE_PRIVATE);
+    }
+
     public void saveGoals(int numGoals, ArrayList<String> goalNames, boolean archived) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         String numString;
@@ -48,6 +52,7 @@ public class SaveManager {
     }
 
     public SaveData loadGoals(boolean archived) {
+        refreshSharedPreferences();
         ArrayList<ArrayList<?>> listHolder = new ArrayList<>();
         int defaultNumGoals = 0;
         String defaultGoalName = "";

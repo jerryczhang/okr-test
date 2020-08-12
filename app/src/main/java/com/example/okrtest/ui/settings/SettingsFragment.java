@@ -28,45 +28,52 @@ public class SettingsFragment extends Fragment {
                     .beginTransaction()
                     .replace(R.id.settings, prefFragment)
                 .commit();
-        Preference button = prefFragment.findPreference(getString(R.string.clear_sp_key));
-        assert button != null;
-        button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                String title = getString(R.string.delete_save_data_dialog_title);
-                String message = getString(R.string.delete_goal_dialog_text);
-                String positiveName = getString(R.string.delete_save_data_dialog_positive);
-                String negativeName = getString(R.string.delete_save_data_dialog_negative);
-                OutputTextDialog deleteSaveDataDialog = new OutputTextDialog(title, message, positiveName, negativeName, new OutputTextDialog.OutputTextListener() {
-                    @Override
-                    public void onPositiveInput() {
-                        clearSharedPreferences();
-                    }
-
-                    @Override
-                    public void onNegativeInput() {
-                    }
-                });
-                deleteSaveDataDialog.show(getParentFragmentManager(), "delete_save_data");
-                return true;
-            }
-        });
         return root;
     }
 
     public static class PrefFragment extends PreferenceFragmentCompat {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            Preference button = findPreference(getString(R.string.clear_sp_key));
+            assert button != null;
+            button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    String title = getString(R.string.delete_save_data_dialog_title);
+                    String message = getString(R.string.delete_save_data_dialog_text);
+                    String positiveName = getString(R.string.delete_save_data_dialog_positive);
+                    String negativeName = getString(R.string.delete_save_data_dialog_negative);
+                    OutputTextDialog deleteSaveDataDialog = new OutputTextDialog(title, message, positiveName, negativeName, new OutputTextDialog.OutputTextListener() {
+                        @Override
+                        public void onPositiveInput() {
+                            clearSharedPreferences();
+                        }
+
+                        @Override
+                        public void onNegativeInput() {
+                        }
+                    });
+                    deleteSaveDataDialog.show(getParentFragmentManager(), "delete_save_data");
+                    return true;
+                }
+            });
+        }
+
+        private void clearSharedPreferences() {
+            File sharedPreferenceFile = new File("/data/data/com.example.okrtest/shared_prefs/");
+            File[] listFiles = sharedPreferenceFile.listFiles();
+            for (File file : listFiles) {
+                file.delete();
+            }
+        }
+
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
         }
     }
 
-    private void clearSharedPreferences() {
-        File sharedPreferenceFile = new File("/data/data/com.example.okrtest/shared_prefs/");
-        File[] listFiles = sharedPreferenceFile.listFiles();
-        for (File file : listFiles) {
-            file.delete();
-        }
-    }
 }
 
