@@ -3,6 +3,7 @@ package com.example.okrtest;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class SaveManager {
@@ -11,10 +12,6 @@ public class SaveManager {
 
     public SaveManager(Context context) {
         c = context;
-        sharedPreferences = c.getSharedPreferences("save", Context.MODE_PRIVATE);
-    }
-
-    private void refreshSharedPreferences() {
         sharedPreferences = c.getSharedPreferences("save", Context.MODE_PRIVATE);
     }
 
@@ -52,7 +49,6 @@ public class SaveManager {
     }
 
     public SaveData loadGoals(boolean archived) {
-        refreshSharedPreferences();
         ArrayList<ArrayList<?>> listHolder = new ArrayList<>();
         int defaultNumGoals = 0;
         String defaultGoalName = "";
@@ -146,6 +142,12 @@ public class SaveManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(c.getString(R.string.kr_prog_num) + goalName + '.' + KRName, num);
         editor.putInt(c.getString(R.string.kr_prog_den) + goalName + '.' + KRName, den);
+        editor.apply();
+    }
+
+    public void clear() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
         editor.apply();
     }
 
