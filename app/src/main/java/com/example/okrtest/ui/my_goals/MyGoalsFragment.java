@@ -1,6 +1,8 @@
 package com.example.okrtest.ui.my_goals;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +31,7 @@ import com.example.okrtest.SwipeCallback;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MyGoalsFragment extends Fragment {
     private int numGoals;
@@ -43,13 +47,19 @@ public class MyGoalsFragment extends Fragment {
 
     public static final String EXTRA_GOAL_NAME = "com.example.okrtest.GOAL_NAME";
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_my_goals, container, false);
         saveManager = new SaveManager(getContext());
         loadGoals();
         loadArchived();
+
+        Context c = getContext();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        boolean isDark = prefs.getBoolean(c.getString(R.string.dark_mode_key), false);
+        if (isDark) {
+            root.setBackgroundColor(c.getColor(R.color.DARK));
+        }
 
         final RecyclerView goalsRecyclerView = (RecyclerView) root.findViewById(R.id.goalsRecyclerView);
         Button addGoal = (Button) root.findViewById(R.id.addGoalButton);

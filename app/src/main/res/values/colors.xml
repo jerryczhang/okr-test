@@ -6,4 +6,6 @@
     <color name="TOMATO">#FF6347</color>
     <color name="KHAKI">#F0E68C</color>
     <color name="MEDIUMSEAGREEN">#3CB371</color>
+    <color name="DARK">#606060</color>
+    <color name="WHITE">#FFFFFF</color>
 </resources>

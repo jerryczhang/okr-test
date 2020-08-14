@@ -2,6 +2,7 @@ package com.example.okrtest;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -29,10 +33,13 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     private ArrayList<Integer> goalNums;
     private ArrayList<Integer> goalDens;
     private boolean hideRename = false;
+    private boolean isDark;
 
     public GoalsAdapter(Context context, ArrayList<String> goalNames, RecyclerClickListener listener) {
         this.goalNames = goalNames;
         this.listener = listener;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        isDark = prefs.getBoolean(context.getString(R.string.dark_mode_key), false);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -45,7 +52,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         private int num;
         private int den;
 
-        public ViewHolder(View view, RecyclerClickListener listener, boolean hideRename) {
+        public ViewHolder(View view, RecyclerClickListener listener, boolean hideRename, boolean isDark) {
             super(view);
             goalProgressBar = view.findViewById(R.id.goalProgressBar);
             goalNameTextView = view.findViewById(R.id.goalNameTextView);
@@ -55,6 +62,9 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             renameGoalImageView.setOnClickListener(this);
             if (hideRename) {
                 renameGoalImageView.setVisibility(View.GONE);
+            }
+            if (isDark) {
+                goalNameTextView.setTextColor(view.getContext().getColor(R.color.WHITE));
             }
         }
 
@@ -89,7 +99,10 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.goal_preview, parent, false);
-        return new ViewHolder(view, listener, hideRename);
+        if (isDark) {
+            view.setBackground(parent.getContext().getDrawable(R.drawable.background_dark));
+        }
+        return new ViewHolder(view, listener, hideRename, isDark);
     }
 
     @Override
