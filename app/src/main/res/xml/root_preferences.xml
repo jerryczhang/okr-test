@@ -1,9 +1,19 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory android:title="Appearance">
+
+        <SwitchPreference
+            android:id="@+id/DarkModePreference"
+            android:defaultValue="false"
+            android:key="@string/dark_mode_key"
+            android:title="Dark mode" />
+    </PreferenceCategory>
     <PreferenceCategory app:title="@string/save_data_header" />
 
-    <Preference android:title="Clear all save data"
-        android:key="@string/clear_sp_key"/>
+    <Preference
+        android:id="@+id/ClearPreference"
+        android:key="@string/clear_sp_key"
+        android:title="Clear all save data" />
 
 </PreferenceScreen>

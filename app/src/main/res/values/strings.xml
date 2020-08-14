@@ -100,7 +100,9 @@
 
     <!-- Preference Titles -->
     <string name="save_data_header">Save Data</string>
+    <string name="appearance">Appearance</string>
 
-    <!-- Save Data -->
+    <!-- Preference Keys -->
     <string name="clear_sp_key">clearSPButton</string>
+    <string name="dark_mode_key">darkModeSwitch</string>
 </resources>
