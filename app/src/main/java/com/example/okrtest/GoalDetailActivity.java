@@ -2,10 +2,13 @@ package com.example.okrtest;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +34,8 @@ public class GoalDetailActivity extends AppCompatActivity {
 
     private TextView goalDescTextView;
 
+    private boolean isDark;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +44,13 @@ public class GoalDetailActivity extends AppCompatActivity {
         goalDescTextView = (TextView) findViewById(R.id.goalDescTextView);
 
         goalName = getIntent().getStringExtra(MyGoalsFragment.EXTRA_GOAL_NAME);
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        isDark = pref.getBoolean(getString(R.string.dark_mode_key), false);
+        if (isDark) {
+            goalDescTextView.setTextColor(getColor(R.color.WHITE));
+            getWindow().getDecorView().setBackgroundColor(getColor(R.color.DARK));
+        }
 
         Button addKRButton = (Button) findViewById(R.id.addKRButton);
         addKRButton.setOnClickListener(new View.OnClickListener() {

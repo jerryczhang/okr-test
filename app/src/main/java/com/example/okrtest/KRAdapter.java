@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
@@ -24,9 +25,13 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
     private ArrayList<Integer> KRNums;
     private ArrayList<Integer> KRDens;
 
+    private boolean isDark;
+
     KRAdapter(@NonNull Context context, ArrayList<String> KRNames, RecyclerClickListener listener) {
         this.KRNames = KRNames;
         this.listener = listener;
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        isDark = pref.getBoolean(context.getString(R.string.dark_mode_key), false);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -37,7 +42,7 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
         private int num;
         private int den;
 
-        ViewHolder(View view, RecyclerClickListener listener) {
+        ViewHolder(View view, RecyclerClickListener listener, boolean isDark) {
             super(view);
             listenerRef = new WeakReference<RecyclerClickListener>(listener);
             KRNameTextView = (TextView) view.findViewById(R.id.KRNameTextView);
@@ -46,6 +51,9 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
 
             renameKRImageView.setOnClickListener(this);
             view.setOnClickListener(this);
+            if (isDark) {
+                KRNameTextView.setTextColor(view.getContext().getColor(R.color.WHITE));
+            }
         }
 
         void setKRNameTextView(String text) {
@@ -83,7 +91,10 @@ public class KRAdapter extends RecyclerView.Adapter<KRAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.kr_preview, parent, false);
-        return new ViewHolder(view, listener);
+        if (isDark) {
+            view.setBackground(parent.getContext().getDrawable(R.drawable.background_dark));
+        }
+        return new ViewHolder(view, listener, isDark);
     }
 
     @Override
