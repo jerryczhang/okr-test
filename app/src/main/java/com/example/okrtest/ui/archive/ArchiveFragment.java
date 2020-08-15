@@ -1,12 +1,15 @@
 package com.example.okrtest.ui.archive;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +22,7 @@ import com.example.okrtest.SaveManager;
 import com.example.okrtest.SwipeCallback;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ArchiveFragment extends Fragment {
     private SaveManager saveManager;
@@ -35,6 +39,12 @@ public class ArchiveFragment extends Fragment {
         saveManager = new SaveManager(getContext());
         loadArchived();
         loadProg();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getContext()));
+        boolean isDark = prefs.getBoolean(getString(R.string.dark_mode_key), false);
+        if (isDark) {
+            root.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.DARK));
+        }
 
         final RecyclerView archivedRecyclerView = (RecyclerView) root.findViewById(R.id.archivedRecyclerView);
 

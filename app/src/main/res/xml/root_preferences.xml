@@ -14,6 +14,6 @@
     <Preference
         android:id="@+id/ClearPreference"
         android:key="@string/clear_sp_key"
-        android:title="Clear all save data" />
+        android:title="Clear all save data"/>
 
 </PreferenceScreen>

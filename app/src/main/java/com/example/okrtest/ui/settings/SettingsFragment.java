@@ -1,15 +1,18 @@
 package com.example.okrtest.ui.settings;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 
 import com.example.okrtest.MainActivity;
 import com.example.okrtest.OutputTextDialog;
@@ -17,6 +20,7 @@ import com.example.okrtest.R;
 import com.example.okrtest.SaveManager;
 
 import java.io.File;
+import java.util.Objects;
 
 public class SettingsFragment extends Fragment {
     private SaveManager saveManager;
@@ -26,6 +30,7 @@ public class SettingsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         saveManager = new SaveManager(getContext());
 
+
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
         super.onCreate(savedInstanceState);
         PrefFragment prefFragment = new SettingsFragment.PrefFragment();
@@ -34,6 +39,12 @@ public class SettingsFragment extends Fragment {
                     .beginTransaction()
                     .replace(R.id.settings, prefFragment)
                 .commit();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getContext()));
+        boolean isDark = prefs.getBoolean(getString(R.string.dark_mode_key), false);
+        if (isDark) {
+            root.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.DARK));
+        }
 
         return root;
     }
