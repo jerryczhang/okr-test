@@ -3,11 +3,15 @@ package com.example.okrtest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
+import androidx.preference.PreferenceManager;
 
 import java.lang.ref.WeakReference;
+import java.util.Objects;
 
 public class OutputTextDialog extends DialogFragment {
     private String title;
@@ -36,9 +40,17 @@ public class OutputTextDialog extends DialogFragment {
         void onNegativeInput();
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getContext()));
+        boolean isDark = prefs.getBoolean(getString(R.string.dark_mode_key), false);
+        AlertDialog.Builder builder;
+        if (isDark) {
+            builder = new AlertDialog.Builder(getActivity(), R.style.DarkDialog);
+        } else {
+            builder = new AlertDialog.Builder(getActivity());
+        }
         builder.setTitle(title).setMessage(text);
         builder.setPositiveButton(positiveName, new DialogInterface.OnClickListener() {
             @Override
